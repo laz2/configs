@@ -1,0 +1,21 @@
+<opml version="1.1">
+  <head>
+    <title>FeedDemon Subscriptions</title>
+    <dateModified>Fri, 13 Sep 2013 17:02:08 GMT</dateModified>
+  </head>
+  <body>
+    <outline text="Хабрахабр / Захабренные / Тематические / Посты" title="Хабрахабр / Захабренные / Тематические / Посты" type="rss" xmlUrl="http://habrahabr.ru/rss/hubs/" htmlUrl="http://habrahabr.ru/rss/hubs/"/>
+    <outline text="Иван Пирог в режиме Online" title="Иван Пирог в режиме Online" type="rss" xmlUrl="http://feeds.feedburner.com/ivanpirogcom?format=xml" htmlUrl="http://www.ivanpirog.com"/>
+    <outline text="Eyal Lupu Java Blog New" title="Eyal Lupu Java Blog New" type="rss" xmlUrl="http://feeds.feedburner.com/EyalLupuJavaBlog" htmlUrl="http://blog.eyallupu.com/" category="jse,hibernate,nio,jee,django,java,python,jpa,ejb3,spring,persistency"/>
+    <outline text="Hibernate Blog" title="Hibernate Blog" type="rss" xmlUrl="http://in.relation.to/service/Feed/atom/Area/Bloggers/Comments/exclude" htmlUrl="/Bloggers"/>
+    <outline text="Ninth Avenue" title="Ninth Avenue" type="rss" xmlUrl="http://www.ninthavenue.com.au/ox/cms/content/Feed.xhtml" htmlUrl="http://www.NinthAvenue.com.au/"/>
+    <outline text="The BalusC Code" title="The BalusC Code" type="rss" xmlUrl="http://balusc.blogspot.com/feeds/posts/default" htmlUrl="http://balusc.blogspot.com/" category="JSF,JSF2,Servlet,Managed Bean,JSP,OmniFaces,Dutch,StackOverflow,Facelets,Validator,DTO,Filter,Performance,Tutorial,Upload File,Ajax,Eclipse,JavaScript,MySQL,PhaseListener,Tomcat,Utility,Communication,DataTable,Download File,JDBC,Rant,Renderer,SelectOneMenu,ZEEF,Converter,Custom Component,DAO,Design Patterns,EJB,Immediate,POST-Redirect-GET,Tomahawk,Unicode,ValueChangeListener,ViewScoped,ActionListener,Authentication,CDI,CSS,CSV,Composite Component,Exception-Handling,Focus,Glassfish,HTML5,Highlight,Include,JPA,Messages,PrimeFaces,SelectBooleanCheckbox,Shiro,TabbedPanel,UseBean,Vdldoc,Whitespace,i18n"/>
+    <outline text="Eyal Lupu Java Blog" title="Eyal Lupu Java Blog" type="rss" xmlUrl="http://www.jroller.com/eyallupu/feed/entries/atom" htmlUrl="http://www.jroller.com/eyallupu/"/>
+    <outline text="Google Web Toolkit Blog" title="Google Web Toolkit Blog" type="rss" xmlUrl="http://feeds.feedburner.com/blogspot/NWLT" htmlUrl="http://googlewebtoolkit.blogspot.com/" category="crash,gwt,IE,googlenew,accessibility,dev mode,internet explorer"/>
+    <outline text="MySQL Performance Blog" title="MySQL Performance Blog" type="rss" xmlUrl="http://www.mysqlperformanceblog.com/feed/" htmlUrl="http://www.mysqlperformanceblog.com"/>
+    <outline text="Primefaces Blog" title="Primefaces Blog" type="rss" xmlUrl="http://blog.primefaces.org/?feed=rss2" htmlUrl="http://blog.primefaces.org"/>
+    <outline text="Размышления вслух" title="Размышления вслух" type="rss" xmlUrl="http://tonalli.livejournal.com/data/rss" htmlUrl="http://tonalli.livejournal.com/"/>
+    <outline text="Ясный журнал Олега Матвеева" title="Ясный журнал Олега Матвеева" type="rss" xmlUrl="http://olegmatveev.livejournal.com/data/rss/" htmlUrl="http://olegmatv.livejournal.com/"/>
+    <outline text="«Прикладная культурно-историческая этнопсихология»" title="«Прикладная культурно-историческая этнопсихология»" type="rss" xmlUrl="http://www.razvitie.by/node/598/feed" htmlUrl="http://www.razvitie.by/not_used/80"/>
+  </body>
+</opml>
