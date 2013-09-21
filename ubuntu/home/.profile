@@ -22,8 +22,8 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 # add to PATH scripts from git configs repository
-if [ -d "$HOME/configs/ubuntu/scripts" ]; then
-   PATH="$HOME/configs/ubuntu/scripts:$PATH"
+if [ -d "$HOME/configs/ubuntu/bin" ]; then
+   PATH="$HOME/configs/ubuntu/bin:$PATH"
 fi
 
 export SUDO_ASKPASS=/usr/bin/gksudo
