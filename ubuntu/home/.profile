@@ -8,6 +8,10 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+export CFG_ROOT=$HOME/cfg
+export UBUNTU_CFG_ROOT=$CFG_ROOT/ubuntu
+export HOME_CFG_ROOT=$UBUNTU_CFG_ROOT/home
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -22,8 +26,8 @@ if [ -d "$HOME/bin" ] ; then
 fi
 
 # add to PATH scripts from git configs repository
-if [ -d "$HOME/configs/ubuntu/bin" ]; then
-   PATH="$HOME/configs/ubuntu/bin:$PATH"
+if [ -d "$UBUNTU_CFG_ROOT/bin" ]; then
+   PATH="$UBUNTU_CFG_ROOT/bin:$PATH"
 fi
 
 export SUDO_ASKPASS=/usr/bin/gksudo
