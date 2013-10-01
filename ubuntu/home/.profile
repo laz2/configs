@@ -31,3 +31,8 @@ if [ -d "$UBUNTU_CFG_ROOT/bin" ]; then
 fi
 
 export SUDO_ASKPASS=/usr/bin/gksudo
+
+if [ -f "$HOME/.profile_private" ]; then
+    chmod u=rw,g=,o= ~/.profile_private
+    . ~/.profile_private	
+fi

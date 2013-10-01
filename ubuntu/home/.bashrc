@@ -103,7 +103,7 @@ if [ -f ~/.bash_aliases ]; then
 fi
 
 if [ -f ~/.bash_aliases_private ]; then
-	chmod u=rw,g=,o= ~/.bash_aliases_private
+    chmod u=rw,g=,o= ~/.bash_aliases_private
     . ~/.bash_aliases_private
 fi
 
