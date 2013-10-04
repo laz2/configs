@@ -33,6 +33,6 @@ fi
 export SUDO_ASKPASS=/usr/bin/gksudo
 
 if [ -f "$HOME/.profile_private" ]; then
-    chmod u=rw,g=,o= ~/.profile_private
-    . ~/.profile_private	
+    chmod u=rw,g=,o= $HOME/.profile_private
+    . "$HOME/.profile_private"	
 fi
