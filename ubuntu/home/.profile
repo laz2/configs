@@ -36,3 +36,7 @@ if [ -f "$HOME/.profile_private" ]; then
     chmod u=rw,g=,o= $HOME/.profile_private
     . "$HOME/.profile_private"	
 fi
+
+export EDITOR=/usr/bin/nano
+
+PATH="$HOME/tools/sbt/bin:$PATH"
