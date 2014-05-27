@@ -39,4 +39,6 @@ fi
 
 export EDITOR=/usr/bin/nano
 
-PATH="$HOME/tools/sbt/bin:$PATH"
+export GROOVY_HOME=$HOME/tools/groovy
+
+PATH="$HOME/tools/sbt/bin:$GROOVY_HOME/bin:$PATH"
