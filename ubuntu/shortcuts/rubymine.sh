@@ -3,4 +3,4 @@
 SCRIPT=$(readlink -f $0)
 SCRIPT_ROOT_PATH=$(dirname $SCRIPT)
 
-$SCRIPT_ROOT_PATH/run_or_active.sh "JetBrains RubyMine" $HOME/tools/RubyMine/bin/rubymine.sh
+$SCRIPT_ROOT_PATH/run_or_active.sh "RubyMine" $HOME/tools/RubyMine/bin/rubymine.sh
