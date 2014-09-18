@@ -1,2 +1,5 @@
 alias ai='sudo aptitude install'
 alias af='sudo aptitude search'
+alias free='free --human --lohi'
+alias df='df --human-readable'
+alias ll='ls -lav --classify --human-readable --group-directories-first'

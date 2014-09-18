@@ -1,0 +1,1 @@
+svn status | grep '^[?I]' |  sed "s/^[?I] //" | xargs -I{} svn add "{}"
