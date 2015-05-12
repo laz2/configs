@@ -42,3 +42,10 @@ export EDITOR=/usr/bin/nano
 export GROOVY_HOME=$HOME/tools/groovy
 
 PATH="$HOME/tools/sbt/bin:$GROOVY_HOME/bin:$PATH"
+
+# For activate: sudo pip install virtualenvwrapper
+if [ -f "/usr/local/bin/virtualenvwrapper.sh" ] ; then
+	export WORKON_HOME="$HOME/.virtualenvs"
+	mkdir -p $WORKON_HOME
+	. "/usr/local/bin/virtualenvwrapper.sh"
+fi

@@ -1,13 +1,10 @@
-
 ;;; Add my emacs directory to load-path
 ;;; and all its subdirs
 (let ((default-directory "~/emacs/"))
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
-(setq package-archives '(("ELPA" . "http://tromey.com/elpa/")
-                          ("gnu" . "http://elpa.gnu.org/packages/")
-                          ("marmalade" . "http://marmalade-repo.org/packages/")))
+(require 'prelude-packages)
 
 (defun my/load-rc (name)
   (let ((rc-name (concat "rc-" name)))
@@ -61,7 +58,8 @@
 (line-number-mode t)
 (column-number-mode t)
 
-(set-default-font "-outline-DejaVu Sans Mono-normal-normal-normal-mono-15-*-*-*-c-*-windows-1258")
+;(set-default-font "-outline-DejaVu Sans Mono-normal-normal-normal-mono-15-*-*-*-c-*-windows-1258")
+(set-default-font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")
 (tool-bar-mode -1)
 
 (setq redisplay-dont-pause t)
@@ -70,7 +68,7 @@
 ;; Auto-complete
 ;;
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/emacs/modules/auto-complete/dict")
+(add-to-list 'ac-dictionary-directories "~/.emacs.d/modules/auto-complete/dict")
 (ac-config-default)
 (add-to-list 'ac-sources ac-source-semantic)
 
@@ -89,9 +87,7 @@
 (require 'ibuffer)
 (setq ibuffer-saved-filter-groups
       (quote (("default"
-               ("sc-core"
-                (filename . "dev/ostis_trunk/kpm/sc-core/"))
-               ("IRC" (mode . erc-mode))))))
+               ))))
 
 (add-hook 'ibuffer-mode-hook
           (lambda ()
@@ -115,17 +111,10 @@
 (set-default-coding-systems 'utf-8)
 (prefer-coding-system 'utf-8)
 
-;;
-;; Color
-;;
-(require 'color-theme)
-(eval-after-load "color-theme"
-  '(progn
-     (color-theme-initialize)
-     (color-theme-sitaramv-nt)))
-
 (my/load-rc "prog-common")
 (my/load-rc "rst")
+(my/load-rc "js")
+(my/load-rc "markdown")
 
 ;;
 ;; Compile
@@ -140,6 +129,48 @@
 (put 'narrow-to-region 'disabled nil)
 
 (my/load-rc "tex")
+
+(require 'helm)
+(require 'helm-config)
+
+;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+(global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-unset-key (kbd "C-x c"))
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-x b") 'helm-mini)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
+(define-key helm-map (kbd "C-z") 'helm-select-action) ; list actions using C-z
+
+(when (executable-find "curl")
+  (setq helm-google-suggest-use-curl-p t))
+
+;; open helm buffer inside current window, not occupy whole other window
+(setq helm-split-window-in-side-p t)
+;; move to end or beginning of source when reaching top or bottom of source.
+(setq helm-move-to-line-cycle-in-source t)
+;; search for library in `require' and `declare-function' sexp.
+(setq helm-ff-search-library-in-sexp t)
+;; scroll 8 lines other window using M-<next>/M-<prior>
+(setq helm-scroll-amount 8)
+(setq helm-ff-file-name-history-use-recentf t)
+
+(helm-mode 1)
+
+(projectile-global-mode)
+(helm-projectile-on)
+(setq projectile-switch-project-action 'projectile-dired)
+(setq projectile-completion-system 'helm)
+(setq projectile-enable-caching t)
+
+(global-set-key (kbd "C-<f8>") 'project-explorer-toggle)
+(global-set-key (kbd "<f8>") 'project-explorer-open)
+(global-set-key (kbd "C-M-g") 'grunt-exec)
 
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)

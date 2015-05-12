@@ -9,9 +9,11 @@
 (show-paren-mode t)                 ; turn paren-mode on
 (setq show-paren-style 'parenthesis) ; alternatives are 'parenthesis' and 'mixed'
 
-;(set-face-background 'show-paren-match-face
-;                    (face-attribute 'show-paren-match-face :foreground))
-;(set-face-foreground 'show-paren-match-face nil)
+(setq-default indent-tabs-mode nil)
+
+                                        ;(set-face-background 'show-paren-match-face
+                                        ;                    (face-attribute 'show-paren-match-face :foreground))
+                                        ;(set-face-foreground 'show-paren-match-face nil)
 (set-face-attribute 'show-paren-match-face nil
                     :weight 'bold :underline nil :overline nil :slant 'normal)
 
@@ -24,7 +26,9 @@
 (setq whitespace-display-mappings (assq-delete-all 'newline-mark
                                                    whitespace-display-mappings))
 (push (list 'space-mark ?\  [?.]) whitespace-display-mappings)
-(set-face-background whitespace-space "white")
+(set-face-attribute 'whitespace-space nil :background nil :foreground "gray40")
+(set-face-attribute 'whitespace-indentation nil :background nil :foreground "gray40")
+(set-face-attribute 'whitespace-line nil :background nil :foreground nil)
 (setq whitespace-style (remove 'newline whitespace-style))
 
 (defun my/common-hook ()
@@ -44,8 +48,8 @@
 
 ;; clean trailing whitespaces automatically
 (setq my/trailing-whitespace-modes '(c++-mode c-mode haskell-mode
-                                     emacs-lisp-mode lisp-mode
-                                     scheme-mode erlang-mode))
+                                              emacs-lisp-mode lisp-mode
+                                              scheme-mode erlang-mode))
 (defun my/trailing-whitespace-hook ()
   (when (member major-mode my/trailing-whitespace-modes)
     (delete-trailing-whitespace)))
@@ -53,8 +57,17 @@
 
 ;; untabify some modes
 (setq my/untabify-modes '(haskell-mode emacs-lisp-mode lisp-mode
-                          scheme-mode erlang-mode clojure-mode))
+                                       scheme-mode erlang-mode clojure-mode))
 (defun my/untabify-hook ()
   (when (member major-mode my/untabify-modes)
     (untabify (point-min) (point-max))))
 (add-hook 'before-save-hook 'my/untabify-hook)
+
+(defun indent-region-or-buffer ()
+  (interactive)
+  (delete-trailing-whitespace)
+  (if (use-region-p)
+      (indent-region (region-beginning) (region-end))
+    (save-excursion
+      (indent-region (point-min) (point-max)))))
+(global-set-key "\C-\M-\\" 'indent-region-or-buffer)
