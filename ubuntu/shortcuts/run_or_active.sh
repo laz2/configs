@@ -1,9 +1,12 @@
 #!/bin/bash
 
-wmctrl -a $1
+name=$1
+
+wmctrl -a $name
 if [ $? -eq 0 ]; then
     exit 0
 fi
 
-$2 &
-wmctrl -a $1
+shift
+$@ &
+wmctrl -a $name

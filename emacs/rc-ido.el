@@ -45,8 +45,6 @@
 
 (autoload 'idomenu "idomenu" nil t)
 
-(global-set-key (kbd "C-S-o") 'idomenu)
-
 ;; Display ido results vertically, rather than horizontally
 (setq ido-decorations
       (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))

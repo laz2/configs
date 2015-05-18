@@ -26,8 +26,10 @@
 (defun my/global-swap-keys (l r)
   (global-set-key r (my/global-move-key l r)))
 
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
 
-;(server-start)
+                                        ;(server-start)
 
 ;;; Backup settings
 (setq backup-by-copying t               ; don't clobber symlinks
@@ -58,7 +60,8 @@
 (line-number-mode t)
 (column-number-mode t)
 
-;(set-default-font "-outline-DejaVu Sans Mono-normal-normal-normal-mono-15-*-*-*-c-*-windows-1258")
+(scroll-bar-mode -1)
+                                        ;(set-default-font "-outline-DejaVu Sans Mono-normal-normal-normal-mono-15-*-*-*-c-*-windows-1258")
 (set-default-font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")
 (tool-bar-mode -1)
 
@@ -168,9 +171,39 @@
 (setq projectile-completion-system 'helm)
 (setq projectile-enable-caching t)
 
+(global-set-key (kbd "C-S-n") 'helm-projectile-find-file)
+(global-set-key (kbd "C-S-o") 'helm-imenu)
 (global-set-key (kbd "C-<f8>") 'project-explorer-toggle)
 (global-set-key (kbd "<f8>") 'project-explorer-open)
 (global-set-key (kbd "C-M-g") 'grunt-exec)
+
+(setq pe/directory-tree-function 'pe/get-directory-tree-external)
+;;(setq pe/cache-enabled nil)
+(setq pe/omit-enabled nil)
+;; (setq pe/get-directory-tree-external-command
+;;       "find . -maxdepth 1 \\( -type d -printf \"%p/\\n\" , -type f -print \\) ")
+
+(golden-ratio-mode 1)
+(setq golden-ratio-exclude-modes '("ediff-mode"
+                                   "eshell-mode"
+                                   "dired-mode"))
+(setq split-width-threshold nil)
+
+(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
+(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+
+(defun my/scroll-other-window-up ()
+  (interactive)
+  (scroll-other-window -1))
+(defun my/scroll-other-window-down ()
+  (interactive)
+  (scroll-other-window 1))
+(global-set-key (kbd "M-P") 'my/scroll-other-window-up)
+(global-set-key (kbd "M-N") 'my/scroll-other-window-down)
+
+(global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+
+(my/load-rc "kstation")
 
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)

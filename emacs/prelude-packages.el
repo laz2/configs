@@ -12,9 +12,12 @@
            multi-term idomenu markdown-mode zenburn-theme
            js2-mode coffee-mode
            helm helm-projectile helm-ag projectile
-           project-explorer ace-jump-mode
+           project-explorer ace-jump-mode ace-jump-buffer
            nginx-mode
-           ggtags)
+           ggtags
+           golden-ratio
+           python-mode
+           s)
   "A list of packages to ensure are installed at launch.")
 
 (defun prelude-packages-installed-p ()

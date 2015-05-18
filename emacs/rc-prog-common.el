@@ -11,6 +11,8 @@
 
 (setq-default indent-tabs-mode nil)
 
+(global-subword-mode)
+
                                         ;(set-face-background 'show-paren-match-face
                                         ;                    (face-attribute 'show-paren-match-face :foreground))
                                         ;(set-face-foreground 'show-paren-match-face nil)
@@ -49,7 +51,8 @@
 ;; clean trailing whitespaces automatically
 (setq my/trailing-whitespace-modes '(c++-mode c-mode haskell-mode
                                               emacs-lisp-mode lisp-mode
-                                              scheme-mode erlang-mode))
+                                              scheme-mode erlang-mode
+                                              python-mode))
 (defun my/trailing-whitespace-hook ()
   (when (member major-mode my/trailing-whitespace-modes)
     (delete-trailing-whitespace)))
@@ -63,11 +66,18 @@
     (untabify (point-min) (point-max))))
 (add-hook 'before-save-hook 'my/untabify-hook)
 
-(defun indent-region-or-buffer ()
+(defun my/indent-region-or-buffer ()
   (interactive)
   (delete-trailing-whitespace)
   (if (use-region-p)
       (indent-region (region-beginning) (region-end))
     (save-excursion
       (indent-region (point-min) (point-max)))))
-(global-set-key "\C-\M-\\" 'indent-region-or-buffer)
+(global-set-key "\C-\M-\\" 'my/indent-region-or-buffer)
+
+(defun my/beginning-of-line-or-indentation ()
+  (interactive)
+  (if (bolp)
+      (back-to-indentation)
+    (beginning-of-line)))
+(global-set-key (kbd "C-a") 'my/beginning-of-line-or-indentation)
