@@ -29,7 +29,7 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-                                        ;(server-start)
+;;(server-start)
 
 ;;; Backup settings
 (setq backup-by-copying t               ; don't clobber symlinks
@@ -61,9 +61,11 @@
 (column-number-mode t)
 
 (scroll-bar-mode -1)
-                                        ;(set-default-font "-outline-DejaVu Sans Mono-normal-normal-normal-mono-15-*-*-*-c-*-windows-1258")
-(set-default-font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")
+(menu-bar-mode -1)
 (tool-bar-mode -1)
+
+;;(set-default-font "-outline-DejaVu Sans Mono-normal-normal-normal-mono-15-*-*-*-c-*-windows-1258")
+(set-default-font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")
 
 (setq redisplay-dont-pause t)
 
@@ -204,6 +206,73 @@
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
 (my/load-rc "kstation")
+
+(add-to-list 'auto-mode-alist
+             '("nginx\.conf$"  . nginx-mode)
+             '("/etc/nginx/.*" . nginx-mode))
+
+(setq show-trailing-whitespace t)
+
+(electric-pair-mode 1)
+
+(defun smart-open-line ()
+  (interactive)
+  (move-end-of-line nil)
+  (newline-and-indent))
+(global-set-key (kbd "M-o") 'smart-open-line)
+
+(defun smart-open-line-above ()
+  (interactive)
+  (move-beginning-of-line nil)
+  (newline-and-indent)
+  (forward-line -1)
+  (indent-according-to-mode))
+
+(global-set-key (kbd "M-O") 'smart-open-line-above)
+
+(global-set-key (kbd "C-c j") 'just-one-space)
+(global-set-key (kbd "C-x O") (lambda ()
+                                (interactive)
+                                (other-window -1)))
+
+(defun smart-kill-whole-line (&optional arg)
+  (interactive "P")
+  (kill-whole-line arg)
+  (back-to-indentation))
+(global-set-key [remap kill-whole-line] 'smart-kill-whole-line)
+
+(defun find-user-init-file ()
+  (interactive)
+  (find-file-other-window user-init-file))
+(global-set-key (kbd "C-c I") 'find-user-init-file)
+
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (local-set-key (kbd "<f5>") 'eval-buffer)))
+
+(require 'web-mode)
+(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(setq web-mode-markup-indent-offset 2)
+(setq web-mode-enable-current-element-highlight t)
+(setq web-mode-enable-current-column-highlight t)
+
+(global-set-key (kbd "C-x C-v") 'find-alternate-file)
+
+(my/load-rc "dired")
+
+(defun my/close-help-buffer-window ()
+  (interactive)
+  (delete-window (get-buffer-window "*Help*"))
+  (kill-buffer "*Help*"))
+(global-set-key (kbd "C-h q") 'my/close-help-buffer-window)
+(global-set-key (kbd "s-k") 'kill-this-buffer)
 
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)

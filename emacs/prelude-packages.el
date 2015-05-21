@@ -8,16 +8,35 @@
       '(("melpa" . "http://melpa.org/packages/")))
 
 (defvar prelude-packages
-  '(auctex paredit auto-complete cmake-mode color-theme desktop
-           multi-term idomenu markdown-mode zenburn-theme
-           js2-mode coffee-mode
-           helm helm-projectile helm-ag projectile
-           project-explorer ace-jump-mode ace-jump-buffer
-           nginx-mode
-           ggtags
-           golden-ratio
-           python-mode
-           s)
+  '(dired+
+    auctex
+    paredit
+    auto-complete
+    color-theme
+    desktop
+    multi-term
+    idomenu
+    zenburn-theme
+    helm
+    helm-projectile
+    helm-ag
+    projectile
+    project-explorer
+    ace-jump-mode
+    ace-jump-buffer
+    ggtags
+    golden-ratio
+    yasnippet
+    s
+    markdown-mode
+    js2-mode
+    coffee-mode
+    nginx-mode
+    python-mode
+    cmake-mode
+    web-mode
+    yaml-mode
+    tern tern-auto-complete)
   "A list of packages to ensure are installed at launch.")
 
 (defun prelude-packages-installed-p ()

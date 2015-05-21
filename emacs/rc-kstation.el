@@ -1,3 +1,4 @@
+(require 's)
 
 (defun kstation/django-test-app ()
   (interactive)

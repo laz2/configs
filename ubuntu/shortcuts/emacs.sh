@@ -1,6 +1,9 @@
 #!/bin/bash
 
-SCRIPT=$(readlink -f $0)
-SCRIPT_ROOT_PATH=$(dirname $SCRIPT)
+function activate {
+    wmctrl -l | grep emacs | grep -v Chrome | grep -v Firefox | cut -d' ' -f5,6,7 | xargs wmctrl -a
+}
 
-$SCRIPT_ROOT_PATH/run_or_active.sh "emacs" emacs --maximized
+activate && exit 0
+emacs --maximized &
+activate
