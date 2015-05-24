@@ -5,7 +5,8 @@
 (package-initialize)
 
 (setq package-archives
-      '(("melpa" . "http://melpa.org/packages/")))
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("melpa" . "http://melpa.org/packages/")))
 
 (defvar prelude-packages
   '(dired+
@@ -36,7 +37,10 @@
     cmake-mode
     web-mode
     yaml-mode
-    tern tern-auto-complete)
+    tern tern-auto-complete
+    json-reformat json-mode json-snatcher
+    flycheck
+    py-autopep8)
   "A list of packages to ensure are installed at launch.")
 
 (defun prelude-packages-installed-p ()

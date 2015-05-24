@@ -59,8 +59,14 @@
 (add-hook 'before-save-hook 'my/trailing-whitespace-hook)
 
 ;; untabify some modes
-(setq my/untabify-modes '(haskell-mode emacs-lisp-mode lisp-mode
-                                       scheme-mode erlang-mode clojure-mode))
+(setq my/untabify-modes '(haskell-mode
+                          emacs-lisp-mode
+                          lisp-mode
+                          scheme-mode
+                          erlang-mode
+                          clojure-mode
+                          python-mode
+                          stylus-mode))
 (defun my/untabify-hook ()
   (when (member major-mode my/untabify-modes)
     (untabify (point-min) (point-max))))

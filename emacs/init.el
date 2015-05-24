@@ -274,5 +274,15 @@
 (global-set-key (kbd "C-h q") 'my/close-help-buffer-window)
 (global-set-key (kbd "s-k") 'kill-this-buffer)
 
+(defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
+  (interactive)
+  (let ((window (get-buffer-window "*Flycheck errors*")))
+        (if window
+            (delete-window window)
+            (call-interactively (ad-get-orig-definition 'flycheck-list-errors)))))
+
+(add-hook 'python-mode-hook (lambda ()
+                              (flycheck-mode t)))
+
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
