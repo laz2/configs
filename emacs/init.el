@@ -1,6 +1,6 @@
 ;;; Add my emacs directory to load-path
 ;;; and all its subdirs
-(let ((default-directory "~/emacs/"))
+(let ((default-directory "~/cfg/emacs/"))
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -63,9 +63,6 @@
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
-
-;;(set-default-font "-outline-DejaVu Sans Mono-normal-normal-normal-mono-15-*-*-*-c-*-windows-1258")
-(set-default-font "-unknown-DejaVu Sans Mono-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1")
 
 (setq redisplay-dont-pause t)
 

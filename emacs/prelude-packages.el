@@ -13,34 +13,27 @@
     auctex
     paredit
     auto-complete
-    color-theme
+    color-theme zenburn-theme
     desktop
     multi-term
     idomenu
-    zenburn-theme
-    helm
-    helm-projectile
-    helm-ag
-    projectile
-    project-explorer
-    ace-jump-mode
-    ace-jump-buffer
+    helm helm-ag
+    projectile helm-projectile
+    ace-jump-mode ace-jump-buffer
     ggtags
     golden-ratio
     yasnippet
     s
     markdown-mode
-    js2-mode
+    js2-mode tern tern-auto-complete
     coffee-mode
     nginx-mode
-    python-mode
+    python-mode py-autopep8
     cmake-mode
     web-mode
     yaml-mode
-    tern tern-auto-complete
     json-reformat json-mode json-snatcher
-    flycheck
-    py-autopep8)
+    flycheck)
   "A list of packages to ensure are installed at launch.")
 
 (defun prelude-packages-installed-p ()
