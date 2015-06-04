@@ -49,10 +49,16 @@
   (my/show-prog-keywords))
 
 ;; clean trailing whitespaces automatically
-(setq my/trailing-whitespace-modes '(c++-mode c-mode haskell-mode
-                                              emacs-lisp-mode lisp-mode
-                                              scheme-mode erlang-mode
-                                              python-mode))
+(setq my/trailing-whitespace-modes '(c++-mode
+                                     c-mode
+                                     haskell-mode
+                                     emacs-lisp-mode
+                                     lisp-mode
+                                     scheme-mode
+                                     erlang-mode
+                                     python-mode
+                                     js-mode js2-mode
+                                     stylus-mode))
 (defun my/trailing-whitespace-hook ()
   (when (member major-mode my/trailing-whitespace-modes)
     (delete-trailing-whitespace)))
@@ -66,7 +72,8 @@
                           erlang-mode
                           clojure-mode
                           python-mode
-                          stylus-mode))
+                          stylus-mode
+                          js-mode js2-mode))
 (defun my/untabify-hook ()
   (when (member major-mode my/untabify-modes)
     (untabify (point-min) (point-max))))

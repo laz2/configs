@@ -257,7 +257,7 @@
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (setq web-mode-markup-indent-offset 2)
-(setq web-mode-enable-current-element-highlight t)
+(setq web-mode-enable-current-element-highlight nil)
 (setq web-mode-enable-current-column-highlight t)
 
 (global-set-key (kbd "C-x C-v") 'find-alternate-file)
@@ -274,12 +274,15 @@
 (defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
   (interactive)
   (let ((window (get-buffer-window "*Flycheck errors*")))
-        (if window
-            (delete-window window)
-            (call-interactively (ad-get-orig-definition 'flycheck-list-errors)))))
+    (if window
+        (delete-window window)
+      (call-interactively (ad-get-orig-definition 'flycheck-list-errors)))))
 
 (add-hook 'python-mode-hook (lambda ()
                               (flycheck-mode t)))
 
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
+
+(color-theme-initialize)
+(color-theme-sitaramv-nt)

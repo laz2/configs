@@ -33,6 +33,7 @@
     web-mode
     yaml-mode
     json-reformat json-mode json-snatcher
+    erlang
     flycheck)
   "A list of packages to ensure are installed at launch.")
 

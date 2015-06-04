@@ -21,5 +21,6 @@
                            (tern-mode t)))
 
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
-(add-hook 'js2-mode-hook (lambda ()
+(add-hook 'json'-mode-hook (lambda ()
                            (flycheck-mode t)))
+(setq json-reformat:pretty-string? t)
