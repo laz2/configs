@@ -285,4 +285,4 @@
 (load custom-file t)
 
 (color-theme-initialize)
-(color-theme-sitaramv-nt)
+(color-theme-deep-blue)
