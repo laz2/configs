@@ -24,3 +24,5 @@
 (add-hook 'json'-mode-hook (lambda ()
                            (flycheck-mode t)))
 (setq json-reformat:pretty-string? t)
+
+(setq coffee-tab-width 2)

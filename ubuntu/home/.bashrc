@@ -117,3 +117,10 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
+# For activate: sudo pip install virtualenvwrapper
+if [ -f "/usr/local/bin/virtualenvwrapper.sh" ] ; then
+	export WORKON_HOME="$HOME/.virtualenvs"
+	mkdir -p $WORKON_HOME
+	. "/usr/local/bin/virtualenvwrapper.sh"
+fi

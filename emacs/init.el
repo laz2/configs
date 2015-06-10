@@ -186,6 +186,10 @@
 (setq golden-ratio-exclude-modes '("ediff-mode"
                                    "eshell-mode"
                                    "dired-mode"))
+(add-to-list 'golden-ratio-exclude-buffer-names "*Help*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*Occur*")
+
 (setq split-width-threshold nil)
 
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
@@ -281,8 +285,38 @@
 (add-hook 'python-mode-hook (lambda ()
                               (flycheck-mode t)))
 
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*Flycheck errors*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*Occur*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*Help*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+
+(defun my/quit-bottom-side-windows ()
+  "Quit side windows of the current frame."
+  (interactive)
+  (dolist (window (window-at-side-list))
+    (quit-window nil window)))
+
+(global-set-key (kbd "C-c q") 'my/quit-bottom-side-windows)
+
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
 
 (color-theme-initialize)
-(color-theme-deep-blue)
+(color-theme-sitaramv-nt)

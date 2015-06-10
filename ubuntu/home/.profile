@@ -20,15 +20,7 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/bin" ] ; then
-    PATH="$HOME/bin:$PATH"
-fi
-
-# add to PATH scripts from git configs repository
-if [ -d "$UBUNTU_CFG_ROOT/bin" ]; then
-   PATH="$UBUNTU_CFG_ROOT/bin:$PATH"
-fi
+PATH="$HOME/bin:$UBUNTU_CFG_ROOT/bin:$PATH"
 
 export SUDO_ASKPASS=/usr/bin/gksudo
 
@@ -42,10 +34,3 @@ export EDITOR=/usr/bin/nano
 export GROOVY_HOME=$HOME/tools/groovy
 
 PATH="$HOME/tools/sbt/bin:$GROOVY_HOME/bin:$PATH"
-
-# For activate: sudo pip install virtualenvwrapper
-if [ -f "/usr/local/bin/virtualenvwrapper.sh" ] ; then
-	export WORKON_HOME="$HOME/.virtualenvs"
-	mkdir -p $WORKON_HOME
-	. "/usr/local/bin/virtualenvwrapper.sh"
-fi
