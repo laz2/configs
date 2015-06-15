@@ -66,13 +66,7 @@
 
 (setq redisplay-dont-pause t)
 
-;;
-;; Auto-complete
-;;
-(require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "~/.emacs.d/modules/auto-complete/dict")
 (ac-config-default)
-(add-to-list 'ac-sources ac-source-semantic)
 
 ;;
 ;; saveplace
@@ -169,6 +163,7 @@
 (setq projectile-switch-project-action 'projectile-dired)
 (setq projectile-completion-system 'helm)
 (setq projectile-enable-caching t)
+(setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name))))
 
 (global-set-key (kbd "C-S-n") 'helm-projectile-find-file)
 (global-set-key (kbd "C-S-o") 'helm-imenu)
@@ -189,6 +184,15 @@
 (add-to-list 'golden-ratio-exclude-buffer-names "*Help*")
 (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
 (add-to-list 'golden-ratio-exclude-buffer-names "*Occur*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*compilation*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*jedi:doc*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*helm jedi:related-names*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*helm projectile*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*helm-ag*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*helm grep*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*helm imenu*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*helm M-x*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
 
 (setq split-width-threshold nil)
 
@@ -293,6 +297,13 @@
                (side            . bottom)
                (window-height   . 0.4)))
 (add-to-list 'display-buffer-alist
+             `(,(rx bos "*Compilation*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
              `(,(rx bos "*Occur*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
@@ -301,6 +312,41 @@
                (window-height   . 0.4)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*Help*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*helm projectile*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*jedi:doc*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*helm jedi:related-names*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*helm-ag*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*helm grep*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
@@ -315,8 +361,14 @@
 
 (global-set-key (kbd "C-c q") 'my/quit-bottom-side-windows)
 
+(setq python-environment-directory "~/.virtualenvs")
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+(setq jedi:use-shortcuts t)
+
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
 
-(color-theme-initialize)
-(color-theme-sitaramv-nt)
+;; (color-theme-initialize)
+;; (color-theme-sitaramv-nt)

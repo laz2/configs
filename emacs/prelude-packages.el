@@ -25,10 +25,10 @@
     yasnippet
     s
     markdown-mode
-    js2-mode tern tern-auto-complete
+    js2-mode ac-js2 tern tern-auto-complete
     coffee-mode
     nginx-mode
-    python-mode py-autopep8
+    python-mode py-autopep8 jedi
     cmake-mode
     web-mode
     yaml-mode

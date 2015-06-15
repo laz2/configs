@@ -51,3 +51,5 @@
 
 (dir-locals-set-directory-class
  (expand-file-name "~/dev/kstation") 'kstation-project)
+
+(setq jedi:environment-root "ks")

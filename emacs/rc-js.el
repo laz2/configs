@@ -18,7 +18,8 @@
 
 (add-hook 'js2-mode-hook (lambda ()
                            (flycheck-mode t)
-                           (tern-mode t)))
+                           (tern-mode t)
+                           (js2-imenu-extras-mode t)))
 
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-hook 'json'-mode-hook (lambda ()
