@@ -124,3 +124,6 @@ if [ -f "/usr/local/bin/virtualenvwrapper.sh" ] ; then
 	mkdir -p $WORKON_HOME
 	. "/usr/local/bin/virtualenvwrapper.sh"
 fi
+
+export NVM_DIR="/home/laz2/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

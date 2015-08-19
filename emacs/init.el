@@ -193,6 +193,7 @@
 (add-to-list 'golden-ratio-exclude-buffer-names "*helm imenu*")
 (add-to-list 'golden-ratio-exclude-buffer-names "*helm M-x*")
 (add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
+(add-to-list 'golden-ratio-exclude-buffer-names "*helm kill ring*")
 
 (setq split-width-threshold nil)
 
@@ -318,13 +319,6 @@
                (side            . bottom)
                (window-height   . 0.4)))
 (add-to-list 'display-buffer-alist
-             `(,(rx bos "*helm projectile*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.4)))
-(add-to-list 'display-buffer-alist
              `(,(rx bos "*jedi:doc*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
@@ -352,6 +346,13 @@
                (reusable-frames . visible)
                (side            . bottom)
                (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*grep*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
 
 (defun my/quit-bottom-side-windows ()
   "Quit side windows of the current frame."
@@ -366,6 +367,8 @@
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 (setq jedi:use-shortcuts t)
+
+(add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
