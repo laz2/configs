@@ -19,6 +19,7 @@ install htop
 install thunderbird
 install firefox
 install network-manager-openconnect
+install workrave
 
 remove unity-scope-video-remote
 remove unity-scope-musicstores
