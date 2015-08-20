@@ -10,8 +10,15 @@ function remove {
 
 install tmux
 install emacs
-install krusader konsole
+install krusader
+install konsole
 install tilda
 install liferea
+install cmake
+install htop
+install thunderbird
+install firefox
+install network-manager-openconnect
 
-remove unity-lens-shopping unity-scope-video-remote unity-scope-musicstores
+remove unity-scope-video-remote
+remove unity-scope-musicstores
