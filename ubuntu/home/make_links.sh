@@ -9,3 +9,6 @@ ln -f -s $SCRIPT_ROOT_PATH/.bash_aliases ~/.bash_aliases
 ln -f -s $SCRIPT_ROOT_PATH/.bash_logout ~/.bash_logout
 ln -f -s $SCRIPT_ROOT_PATH/.tmux.conf ~/.tmux.conf
 ln -f -s $SCRIPT_ROOT_PATH/.gitconfig ~/.gitconfig
+
+ln -f -s ~/cfg/emacs ~/emacs
+ln -f -s ~/cfg/emacs/init.el ~/.emacs
