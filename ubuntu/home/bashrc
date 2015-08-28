@@ -56,10 +56,22 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+parse_svn_branch() {
+  parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | awk '{print " (svn::"$1")" }'
+}
+parse_svn_url() {
+  svn info 2>/dev/null | sed -ne 's#^URL: ##p'
+}
+parse_svn_repository_root() {
+  svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p'
+}
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    NO_COLOR="\[\033[00m\]"
+    YELLOW="\[\033[0;33m\]"
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w$YELLOW$(__git_ps1)$NO_COLOR\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u:\w\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u:\w$(__git_ps1)$(parse_svn_branch)\$ '
 fi
 unset color_prompt force_color_prompt
 
@@ -125,5 +137,5 @@ if [ -f "/usr/local/bin/virtualenvwrapper.sh" ] ; then
 	. "/usr/local/bin/virtualenvwrapper.sh"
 fi
 
-export NVM_DIR="/home/laz2/.nvm"
+export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

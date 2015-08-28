@@ -9,7 +9,7 @@ function remove {
 }
 
 install tmux
-install emacs
+install emacs emacs-goodies-el
 install krusader
 install konsole
 install tilda
@@ -20,6 +20,11 @@ install thunderbird
 install firefox
 install network-manager-openconnect
 install workrave
+install virtualbox
+install git
+install subversion
+install filezilla
+install dconf-cli
 
 remove unity-scope-video-remote
 remove unity-scope-musicstores

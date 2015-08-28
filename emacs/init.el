@@ -373,5 +373,5 @@
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
 
-;; (color-theme-initialize)
-;; (color-theme-sitaramv-nt)
+(color-theme-initialize)
+(color-theme-sitaramv-nt)

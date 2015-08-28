@@ -9,7 +9,7 @@
                            "source ~/.virtualenvs/ks/bin/activate && "
                            "source backend/os/env/development.sh && "
                            "cd backend/s7 && "
-                           "./manage.py test --failfast")
+                           "./manage.py test --failfast --noinput")
                    (projectile-project-root)) t))
 
 (defun kstation/django-test-file ()
@@ -18,7 +18,7 @@
                            "source ~/.virtualenvs/ks/bin/activate && "
                            "source backend/os/env/development.sh && "
                            "cd backend/s7 && "
-                           "./manage.py test --failfast %s")
+                           "./manage.py test --failfast --noinput %s")
                    (projectile-project-root)
                    (s-replace "/" "."
                               (s-chop-suffix ".py"

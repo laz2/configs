@@ -31,6 +31,7 @@
     python-mode py-autopep8 jedi
     cmake-mode
     web-mode
+    stylus-mode
     yaml-mode
     json-reformat json-mode json-snatcher
     erlang
