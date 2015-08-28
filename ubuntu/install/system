@@ -23,5 +23,6 @@ install virtualbox
 install git subversion meld
 install filezilla
 install dconf-cli
+install wmctrl
 
 remove unity-scope-video-remote unity-scope-musicstores
