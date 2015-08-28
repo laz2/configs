@@ -153,6 +153,7 @@ alias af='aptitude search'
 alias free='free --human --lohi'
 alias df='df --human-readable'
 alias ll='ls -lav --classify --human-readable --group-directories-first'
+alias sreload='source ~/.bashrc'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
