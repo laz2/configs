@@ -10,7 +10,6 @@ function make_link {
 
 make_link $SCRIPT_ROOT_PATH/profile ~/.profile
 make_link $SCRIPT_ROOT_PATH/bashrc ~/.bashrc
-make_link $SCRIPT_ROOT_PATH/bash_aliases ~/.bash_aliases
 make_link $SCRIPT_ROOT_PATH/bash_logout ~/.bash_logout
 make_link $SCRIPT_ROOT_PATH/tmux.conf ~/.tmux.conf
 make_link $SCRIPT_ROOT_PATH/gitconfig ~/.gitconfig

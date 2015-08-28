@@ -106,19 +106,11 @@ alias l='ls -CF'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
-
-if [ -f ~/.bash_aliases_private ]; then
-    chmod u=rw,g=,o= ~/.bash_aliases_private
-    . ~/.bash_aliases_private
-fi
+alias ai='sudo aptitude install'
+alias af='aptitude search'
+alias free='free --human --lohi'
+alias df='df --human-readable'
+alias ll='ls -lav --classify --human-readable --group-directories-first'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -129,6 +121,8 @@ if ! shopt -oq posix; then
   elif [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
   fi
+
+  [ -s "$HOME_CFG_ROOT/django_bash_completion" ] && source "$HOME_CFG_ROOT/django_bash_completion"
 fi
 
 # For activate: sudo pip install virtualenvwrapper
@@ -139,6 +133,9 @@ if [ -f "/usr/local/bin/virtualenvwrapper.sh" ] ; then
 fi
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
-[ -s "$HOME_CFG_ROOT/django_bash_completion" ] && source "$HOME_CFG_ROOT/django_bash_completion"
+if [ -f ~/.bashrc_private ]; then
+    chmod u=rw,g=,o= ~/.bashrc_private
+    . ~/.bashrc_private
+fi
