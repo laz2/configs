@@ -1,17 +1,16 @@
 #!/bin/bash
 
 function install {
-    sudo apt-get install -y $1
+    sudo apt-get install -y $@
 }
 
 function remove {
-    sudo apt-get purge $1
+    sudo apt-get purge $@
 }
 
-install tmux
-install emacs emacs-goodies-el
-install krusader
-install konsole
+install tmux xclip
+install emacs emacs-goodies-el silversearcher-ag
+install krusader konsole
 install tilda
 install liferea
 install cmake
@@ -21,12 +20,8 @@ install firefox
 install network-manager-openconnect
 install workrave
 install virtualbox
-install git
-install subversion
+install git subversion meld
 install filezilla
 install dconf-cli
-install meld
-install silversearcher-ag
 
-remove unity-scope-video-remote
-remove unity-scope-musicstores
+remove unity-scope-video-remote unity-scope-musicstores
