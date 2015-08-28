@@ -1,3 +1,4 @@
+# -*- mode: shell-script; -*-
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -139,3 +140,5 @@ fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+[ -s "$HOME_CFG_ROOT/django_bash_completion" ] && source "$HOME_CFG_ROOT/django_bash_completion"

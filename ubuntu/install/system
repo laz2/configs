@@ -25,6 +25,7 @@ install git
 install subversion
 install filezilla
 install dconf-cli
+install meld
 
 remove unity-scope-video-remote
 remove unity-scope-musicstores
