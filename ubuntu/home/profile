@@ -30,7 +30,7 @@ if [ -f "$HOME/.profile_private" ]; then
     . "$HOME/.profile_private"	
 fi
 
-export EDITOR=/usr/bin/nano
+export EDITOR=/usr/bin/emacsclient
 
 export GROOVY_HOME=$HOME/tools/groovy
 

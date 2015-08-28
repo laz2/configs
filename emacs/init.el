@@ -29,8 +29,6 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-;;(server-start)
-
 ;;; Backup settings
 (setq backup-by-copying t               ; don't clobber symlinks
       backup-directory-alist
@@ -375,3 +373,5 @@
 
 (color-theme-initialize)
 (color-theme-sitaramv-nt)
+
+(server-start)
