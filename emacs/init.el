@@ -108,6 +108,7 @@
 (my/load-rc "prog-common")
 (my/load-rc "rst")
 (my/load-rc "js")
+(my/load-rc "sh")
 (my/load-rc "markdown")
 
 ;;

@@ -24,5 +24,10 @@ install git subversion meld
 install filezilla
 install dconf-cli
 install wmctrl
+install sshpass
+
+install wireshark
+sudo dpkg-reconfigure wireshark-common
+sudo usermod -a -G wireshark $USER
 
 remove unity-scope-video-remote unity-scope-musicstores
