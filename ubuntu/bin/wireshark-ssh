@@ -1,0 +1,48 @@
+#!/bin/bash -l
+# -*- mode: shell-script; -*-
+set -e
+
+function usage {
+  echo "$0 [-s=password] [-i=interface] user@host"
+  exit 1
+}
+
+sudo_password=""
+ifaces=()
+
+while getopts ":i:s:h" opt; do
+  case $opt in
+    s)
+      sudo_password="$OPTARG"
+      ;;
+    i)
+	  ifaces[${#ifaces[@]}]="$OPTARG"
+      ;;
+    h)
+      usage
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+if [ -z "$1" ] ; then
+  usage
+  exit 1
+fi
+
+cmd=""
+if [ ! -z "$sudo_password" ] ; then
+  cmd="$cmd echo $sudo_password | sudo"
+fi
+
+cmd="$cmd tcpdump -U -s0"
+for iface in "${ifaces[@]}"; do
+  cmd="$cmd -i $iface"
+done
+
+cmd="$cmd -w - 'not port 22'"
+echo $cmd
+ssh $1 "$cmd" | wireshark -k -i -
