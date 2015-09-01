@@ -5,8 +5,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-    *) return;;
+  *i*) ;;
+  *) return;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -33,12 +33,12 @@ shopt -s checkwinsize
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+  debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "$TERM" in
-    xterm-color) color_prompt=yes;;
+  xterm-color) color_prompt=yes;;
 esac
 
 # uncomment for a colored prompt, if the terminal has the capability; turned
@@ -47,93 +47,93 @@ esac
 #force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	    # We have color support; assume it's compliant with Ecma-48
-	    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	    # a case would tend to support setf rather than setaf.)
-	    color_prompt=yes
-    else
-	    color_prompt=
-    fi
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+  else
+	color_prompt=
+  fi
 fi
 
 # Syntax: prepend_to_function <name> [statements...]
 function prepend_to_function() {
-    local name=$1
-    shift
-    local body="$@"
-    eval "$(echo "${name}(){"; echo ${body}; declare -f ${name} | tail -n +3)"
+  local name=$1
+  shift
+  local body="$@"
+  eval "$(echo "${name}(){"; echo ${body}; declare -f ${name} | tail -n +3)"
 }
 
 # Syntax: append_to_function <name> [statements...]
 function append_to_function() {
-    local name=$1
-    shift
-    local body="$@"
-    eval "$(declare -f ${name} | head -n -1; echo ${body}; echo '}')"
+  local name=$1
+  shift
+  local body="$@"
+  eval "$(declare -f ${name} | head -n -1; echo ${body}; echo '}')"
 }
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 ps_py_virtual_env() {
-    if [ ! -z "$VIRTUAL_ENV" ] ; then
-        local env=`basename $VIRTUAL_ENV`
-        echo "$env" | awk '{print "("$1")" }'
-    fi
+  if [ ! -z "$VIRTUAL_ENV" ] ; then
+    local env=`basename $VIRTUAL_ENV`
+    echo "$env" | awk '{print "("$1")" }'
+  fi
 }
 
 ps_svn() {
-    parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | awk '{print "["$1"]" }'
+  parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | awk '{print "["$1"]" }'
 }
 parse_svn_url() {
-    svn info 2>/dev/null | sed -ne 's#^URL: ##p'
+  svn info 2>/dev/null | sed -ne 's#^URL: ##p'
 }
 parse_svn_repository_root() {
-    svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p'
+  svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p'
 }
 
 ps_user() {
-    if [ "$USER" != "user" ]; then
-        echo "$USER:"
-    fi
+  if [ "$USER" != "user" ]; then
+    echo "$USER:"
+  fi
 }
 
 ps_git() {
-    if ! git rev-parse --git-dir > /dev/null 2>&1; then
-        return 0
-    fi
+  if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    return 0
+  fi
 
-    local git_branch=$(git branch 2>/dev/null| sed -n '/^\*/s/^\* //p')
+  local git_branch=$(git branch 2>/dev/null| sed -n '/^\*/s/^\* //p')
 
-    if [ ! -z "$git_branch" ] ; then
-        echo "$git_branch" | awk '{print "["$1"]" }'
-    fi
+  if [ ! -z "$git_branch" ] ; then
+    echo "$git_branch" | awk '{print "["$1"]" }'
+  fi
 }
 
 if [ "$color_prompt" = yes ]; then
-    NO_COLOR="\[\033[00m\]"
-    YELLOW="\[\033[0;33m\]"
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w$YELLOW$(__git_ps1)$NO_COLOR\$ '
+  NO_COLOR="\[\033[00m\]"
+  YELLOW="\[\033[0;33m\]"
+  PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u\[\033[00m\]:\[\033[01;34m\]\w$YELLOW$(__git_ps1)$NO_COLOR\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}$(ps_user)\w $(ps_py_virtual_env)$(ps_git)$(ps_svn)\$ '
+  PS1='${debian_chroot:+($debian_chroot)}$(ps_user)\w $(ps_py_virtual_env)$(ps_git)$(ps_svn) \$ '
 fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
-    xterm*|rxvt*)
-        PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u: \w\a\]$PS1"
-        ;;
-    *)
-        ;;
+  xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u: \w\a\]$PS1"
+    ;;
+  *)
+    ;;
 esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
@@ -148,29 +148,29 @@ alias sreload='source ~/.bashrc'
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-    if [ -f /usr/share/bash-completion/bash_completion ]; then
-        . /usr/share/bash-completion/bash_completion
-    elif [ -f /etc/bash_completion ]; then
-        . /etc/bash_completion
-    fi
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
 
-    if [ -s "$HOME_CFG_ROOT/django_bash_completion" ]; then
-        . "$HOME_CFG_ROOT/django_bash_completion"
-        prepend_to_function _django_completion export PYTHONWARNINGS="ignore"
-        append_to_function _django_completion unset PYTHONWARNINGS
-    fi
+  if [ -s "$HOME_CFG_ROOT/django_bash_completion" ]; then
+    . "$HOME_CFG_ROOT/django_bash_completion"
+    prepend_to_function _django_completion export PYTHONWARNINGS="ignore"
+    append_to_function _django_completion unset PYTHONWARNINGS
+  fi
 fi
 
 # For activate: sudo pip install virtualenvwrapper
 if [ -f "/usr/local/bin/virtualenvwrapper.sh" ] ; then
-	export WORKON_HOME="$HOME/.virtualenvs"
-	mkdir -p $WORKON_HOME
-	. "/usr/local/bin/virtualenvwrapper.sh"
+  export WORKON_HOME="$HOME/.virtualenvs"
+  mkdir -p $WORKON_HOME
+  . "/usr/local/bin/virtualenvwrapper.sh"
 fi
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 if [ -f ~/.bashrc_private ]; then
-    . ~/.bashrc_private
+  . ~/.bashrc_private
 fi
