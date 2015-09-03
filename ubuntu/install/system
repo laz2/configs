@@ -26,6 +26,7 @@ install filezilla
 install dconf-cli
 install wmctrl
 install sshpass
+install unetbootin
 
 install wireshark
 sudo dpkg-reconfigure wireshark-common
