@@ -17,6 +17,7 @@
     desktop
     multi-term
     idomenu
+    ag
     helm helm-ag
     projectile helm-projectile
     ace-jump-mode ace-jump-buffer

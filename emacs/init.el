@@ -194,6 +194,8 @@
 (add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
 (add-to-list 'golden-ratio-exclude-buffer-names "*helm kill ring*")
 
+(add-to-list 'golden-ratio-exclude-buffer-regexp "*ag search")
+
 (setq split-width-threshold nil)
 
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
@@ -347,6 +349,13 @@
                (window-height   . 0.4)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*grep*" eos)
+               (display-buffer-reuse-window
+                display-buffer-in-side-window)
+               (reusable-frames . visible)
+               (side            . bottom)
+               (window-height   . 0.4)))
+(add-to-list 'display-buffer-alist
+             `(,(rx bos "*ag search")
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)

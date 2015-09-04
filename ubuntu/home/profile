@@ -21,8 +21,6 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-PATH="$HOME/bin:$UBUNTU_CFG_ROOT/bin:$PATH"
-
 export SUDO_ASKPASS=/usr/bin/gksudo
 
 if [ -f "$HOME/.profile_private" ]; then
@@ -34,4 +32,3 @@ export EDITOR=/usr/bin/emacsclient
 
 export GROOVY_HOME=$HOME/tools/groovy
 
-PATH="$HOME/tools/sbt/bin:$GROOVY_HOME/bin:$PATH"
