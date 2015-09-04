@@ -186,3 +186,5 @@ add_to_path "$UBUNTU_CFG_ROOT/bin"
 add_to_path "$HOME/.cask/bin"
 add_to_path "$HOME/tools/sbt/bin"
 add_to_path "$GROOVY_HOME/bin"
+
+eval "$(thefuck --alias re)"

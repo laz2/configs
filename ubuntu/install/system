@@ -32,4 +32,7 @@ install wireshark
 sudo dpkg-reconfigure wireshark-common
 sudo usermod -a -G wireshark $USER
 
+install python-pip
+sudo pip install thefuck --upgrade
+
 remove unity-scope-video-remote unity-scope-musicstores
