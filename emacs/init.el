@@ -43,7 +43,7 @@
 (setq auto-save-default         nil) ; Don't want any auto saving
 
 (blink-cursor-mode t)                ; Enable cursor from blinking
-(setq-default cursor-type 'bar)
+(setq-default cursor-type 'box)
 
 (setq search-highlight           t) ; Highlight search object
 (setq query-replace-highlight    t) ; Highlight query object
