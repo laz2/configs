@@ -5,20 +5,22 @@
 
 (defun kstation/django-test-app ()
   (interactive)
-  (compile (format (concat "cd %s && "
-                           "source ~/.virtualenvs/ks/bin/activate && "
-                           "source backend/os/env/development.sh && "
-                           "cd backend/s7 && "
-                           "./manage.py test --failfast --noinput")
+  (compile (format (concat
+                    "cd %s && "
+                    "source ~/.virtualenvs/ks/bin/activate && "
+                    "source backend/os/env/development.sh && "
+                    "cd backend/s7 && "
+                    "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test --noinput")
                    (projectile-project-root)) t))
 
 (defun kstation/django-test-file ()
   (interactive)
-  (compile (format (concat "cd %s && "
-                           "source ~/.virtualenvs/ks/bin/activate && "
-                           "source backend/os/env/development.sh && "
-                           "cd backend/s7 && "
-                           "./manage.py test --failfast --noinput %s")
+  (compile (format (concat
+                    "cd %s && "
+                    "source ~/.virtualenvs/ks/bin/activate && "
+                    "source backend/os/env/development.sh && "
+                    "cd backend/s7 && "
+                    "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test --failfast --noinput %s")
                    (projectile-project-root)
                    (s-replace "/" "."
                               (s-chop-suffix ".py"
