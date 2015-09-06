@@ -9,6 +9,7 @@ function remove {
     sudo apt-get purge $@
 }
 
+install aptitude
 install tmux xclip
 install emacs emacs-goodies-el silversearcher-ag
 install krusader konsole
@@ -19,20 +20,24 @@ install htop
 install thunderbird
 install firefox
 install network-manager-openconnect
-install workrave
+# install workrave
 install virtualbox
 install git subversion meld
 install filezilla
 install dconf-cli
+install dconf-editor
 install wmctrl
 install sshpass
 install unetbootin
 
 install wireshark
-sudo dpkg-reconfigure wireshark-common
+echo 'wireshark-common wireshark-common/install-setuid select true' | sudo debconf-set-selections
+sudo dpkg-reconfigure --unseen-only wireshark-common 
 sudo usermod -a -G wireshark $USER
 
 install python-pip
+install python-dev
 sudo pip install thefuck --upgrade
 
-remove unity-scope-video-remote unity-scope-musicstores
+remove unity-scope-video-remote
+remove unity-scope-musicstores

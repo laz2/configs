@@ -4,6 +4,7 @@
     co  = checkout
     di  = diff
     dic = diff --cached
+    lo  = log --stat
     br  = branch
     ssave = stash save
     spop  = stash pop
