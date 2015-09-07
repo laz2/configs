@@ -1,0 +1,23 @@
+#!/bin/bash -l
+# -*- mode: shell-script; -*-
+
+function usage {
+  echo "$0 email [name]"
+  exit 1
+}
+
+if [ -z "$1" ] ; then
+  usage
+  exit 1
+fi
+
+git config user.email $1
+
+if [ ! -z "$2" ] ; then
+  user_name=$2
+else
+  git config --unset user.name
+  user_name=$(git config --get user.name)
+fi
+
+git config user.name "$user_name"

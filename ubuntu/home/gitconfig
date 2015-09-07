@@ -1,11 +1,12 @@
 [alias]
     st = status -s
     pr = pull --rebase
+    pu = push
     ci = commit
     co = checkout
     di = diff
     dic = diff --cached
-    ls = log --stat
+    l = log --stat
     br = branch
     ssave = stash save
     spop = stash pop
