@@ -1,13 +1,14 @@
 [alias]
-    st  = status -s
-    ci  = commit
-    co  = checkout
-    di  = diff
+    st = status -s
+    pr = pull --rebase
+    ci = commit
+    co = checkout
+    di = diff
     dic = diff --cached
-    lo  = log --stat
-    br  = branch
+    ls = log --stat
+    br = branch
     ssave = stash save
-    spop  = stash pop
+    spop = stash pop
     slist = stash list
 [color]
     ui = auto
