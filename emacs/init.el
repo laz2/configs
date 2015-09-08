@@ -363,12 +363,13 @@
                (window-height   . 0.4)))
 
 (defun my/quit-bottom-side-windows ()
-  "Quit side windows of the current frame."
+  "Quit bottom side windows of the current frame."
   (interactive)
-  (dolist (window (window-at-side-list))
-    (quit-window nil window)))
+  (dolist (window (window-at-side-list nil 'bottom))
+    (if (eq (window-parameter window 'window-side) 'bottom)
+        (quit-window 'kill window))))
 
-(global-set-key (kbd "C-c q") 'my/quit-bottom-side-windows)
+(global-set-key (kbd "s-q") 'my/quit-bottom-side-windows)
 
 (setq python-environment-directory "~/.virtualenvs")
 
