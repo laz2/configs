@@ -22,8 +22,8 @@
                            (js2-imenu-extras-mode t)))
 
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
-(add-hook 'json'-mode-hook (lambda ()
-                           (flycheck-mode t)))
+(add-hook 'json-mode-hook (lambda ()
+                             (flycheck-mode t)))
 (setq json-reformat:pretty-string? t)
 
 (setq coffee-tab-width 2)

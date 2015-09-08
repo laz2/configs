@@ -385,3 +385,5 @@
 (color-theme-sitaramv-nt)
 
 (server-start)
+
+(set-cursor-color "black")
