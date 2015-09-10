@@ -274,13 +274,6 @@
 
 (my/load-rc "dired")
 
-(defun my/close-help-buffer-window ()
-  (interactive)
-  (delete-window (get-buffer-window "*Help*"))
-  (kill-buffer "*Help*"))
-(global-set-key (kbd "C-h q") 'my/close-help-buffer-window)
-(global-set-key (kbd "s-k") 'kill-this-buffer)
-
 (defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
   (interactive)
   (let ((window (get-buffer-window "*Flycheck errors*")))
@@ -370,6 +363,12 @@
         (quit-window 'kill window))))
 
 (global-set-key (kbd "s-q") 'my/quit-bottom-side-windows)
+(global-set-key (kbd "s-k") 'kill-this-buffer)
+
+(global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
+(add-to-list 'golden-ratio-extra-commands 'avy-goto-word-or-subword-1)
+(global-set-key (kbd "s-o") 'ace-window)
+(add-to-list 'golden-ratio-extra-commands 'ace-window)
 
 (setq python-environment-directory "~/.virtualenvs")
 
