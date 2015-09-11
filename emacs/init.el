@@ -166,6 +166,7 @@
 
 (global-set-key (kbd "C-S-n") 'helm-projectile-find-file)
 (global-set-key (kbd "C-S-o") 'helm-imenu)
+(global-set-key (kbd "C-S-p") 'helm-projectile-switch-project)
 (global-set-key (kbd "C-<f8>") 'project-explorer-toggle)
 (global-set-key (kbd "<f8>") 'project-explorer-open)
 (global-set-key (kbd "C-M-g") 'grunt-exec)
