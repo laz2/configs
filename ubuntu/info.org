@@ -1,0 +1,4 @@
+Turn off monitor power saving in console:
+setterm -blank 0 -powersave off -powerdown 0
+Reset:
+setterm -reset 

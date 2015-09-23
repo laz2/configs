@@ -19,7 +19,8 @@
 (add-hook 'js2-mode-hook (lambda ()
                            (flycheck-mode t)
                            (tern-mode t)
-                           (js2-imenu-extras-mode t)))
+                           (js2-imenu-extras-mode t)
+                           (local-set-key (kbd "M-.") 'tern-find-definition)))
 
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-hook 'json-mode-hook (lambda ()
