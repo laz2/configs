@@ -1,6 +1,6 @@
 (require 's)
 
-(setq flycheck-python-pycompile-executable "~/.virtualenvs/ks/bin/python")
+(setq flycheck-python-pycompile-executable "~/.virtualenvs/ks/bin/python3")
 (setq flycheck-python-flake8-executable "~/.virtualenvs/ks/bin/flake8")
 
 (defun kstation/django-test-app ()

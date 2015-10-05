@@ -20,7 +20,7 @@
     ag
     helm helm-ag
     projectile helm-projectile
-    avy ave-window
+    avy
     ggtags
     golden-ratio
     yasnippet

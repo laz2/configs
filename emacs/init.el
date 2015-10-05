@@ -166,6 +166,8 @@
 
 (global-set-key (kbd "C-S-n") 'helm-projectile-find-file)
 (global-set-key (kbd "C-S-o") 'helm-imenu)
+(global-set-key (kbd "C-S-f") 'projectile-ag)
+(global-set-key (kbd "C-S-h") 'helm-projectile-ag)
 (global-set-key (kbd "C-S-p") 'helm-projectile-switch-project)
 (global-set-key (kbd "C-<f8>") 'project-explorer-toggle)
 (global-set-key (kbd "<f8>") 'project-explorer-open)
@@ -179,8 +181,7 @@
 
 (golden-ratio-mode 1)
 (setq golden-ratio-exclude-modes '("ediff-mode"
-                                   "eshell-mode"
-                                   "dired-mode"))
+                                   "eshell-mode"))
 (add-to-list 'golden-ratio-exclude-buffer-names "*Help*")
 (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
 (add-to-list 'golden-ratio-exclude-buffer-names "*Occur*")
