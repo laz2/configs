@@ -292,70 +292,70 @@
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*Compilation*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*Occur*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*Help*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*jedi:doc*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*helm jedi:related-names*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*helm-ag*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*helm grep*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*grep*" eos)
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 (add-to-list 'display-buffer-alist
              `(,(rx bos "*ag search")
                (display-buffer-reuse-window
                 display-buffer-in-side-window)
                (reusable-frames . visible)
                (side            . bottom)
-               (window-height   . 0.4)))
+               (window-height   . 0.3)))
 
 (defun my/quit-bottom-side-windows ()
   "Quit bottom side windows of the current frame."

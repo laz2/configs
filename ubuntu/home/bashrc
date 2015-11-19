@@ -183,6 +183,7 @@ fi
 
 add_to_path "$HOME/bin"
 add_to_path "$UBUNTU_CFG_ROOT/bin"
+add_to_path "$HOME/local/bin"
 add_to_path "$HOME/.cask/bin"
 add_to_path "$HOME/tools/sbt/bin"
 add_to_path "$GROOVY_HOME/bin"

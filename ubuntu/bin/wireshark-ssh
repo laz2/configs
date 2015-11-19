@@ -35,7 +35,7 @@ fi
 
 cmd=""
 if [ ! -z "$sudo_password" ] ; then
-  cmd="$cmd echo $sudo_password | sudo"
+  cmd="$cmd echo $sudo_password | sudo -S"
 fi
 
 cmd="$cmd tcpdump -U -s0"

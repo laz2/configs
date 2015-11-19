@@ -2,3 +2,14 @@ Turn off monitor power saving in console:
 setterm -blank 0 -powersave off -powerdown 0
 Reset:
 setterm -reset 
+
+Kernel panic emulation:
+echo c > /proc/sysrq-trigger
+
+All kernel logs (kernel parameter):
+ignore_loglevel=1
+echo 8 > /proc/sys/kernel/printk
+
+* SSH
+
+~ . kill session

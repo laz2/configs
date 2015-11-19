@@ -1,0 +1,6 @@
+* WIFI access point:
+http://www.firewall.cx/microsoft-knowledgebase/windows-xp-7-8/968-windows-7-access-point.html
+> netsh wlan set hostednetwork mode=allow "ssid=Firewall.cx" "key=$connect$here" keyUsage=persistent
+Share LAN network connection for internet access
+> netsh wlan start hostednetwork
+> netsh wlan stop hostednetwork

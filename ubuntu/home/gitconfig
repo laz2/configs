@@ -2,7 +2,7 @@
     st = status -s
     pr = pull --rebase
     pu = push
-    ci = commit
+    ci = commit -v
     co = checkout
     di = diff
     dic = diff --cached
