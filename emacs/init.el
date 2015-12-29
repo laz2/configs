@@ -390,12 +390,13 @@
 
 (add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
 
-(setq custom-file "~/emacs/custom.el")
-(load custom-file t)
-
 (color-theme-initialize)
 (color-theme-sitaramv-nt)
 
-(server-start)
+(add-hook 'window-setup-hook
+          '(lambda () (set-cursor-color "black")))
 
-(set-cursor-color "black")
+(setq custom-file "~/emacs/custom.el")
+(load custom-file t)
+
+(server-start)
