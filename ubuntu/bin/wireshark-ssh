@@ -3,11 +3,12 @@
 set -e
 
 function usage {
-  echo "$0 [-s=password] [-i=interface] user@host"
+  echo "$0 [-s=password] [-i=interface] [-p=port] user@host"
   exit 1
 }
 
 sudo_password=""
+ssh_port=22
 ifaces=()
 
 while getopts ":i:s:h" opt; do
@@ -17,6 +18,9 @@ while getopts ":i:s:h" opt; do
       ;;
     i)
 	  ifaces[${#ifaces[@]}]="$OPTARG"
+      ;;
+    p)
+      ssh_port="$OPTARG"
       ;;
     h)
       usage
@@ -43,6 +47,6 @@ for iface in "${ifaces[@]}"; do
   cmd="$cmd -i $iface"
 done
 
-cmd="$cmd -w - 'not port 22'"
+cmd="$cmd -w - 'not port $ssh_port'"
 echo $cmd
-ssh $1 "$cmd" | wireshark -k -i -
+ssh -p $ssh_port $1 "$cmd" | wireshark -k -i -

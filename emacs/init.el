@@ -372,6 +372,16 @@
 (global-set-key (kbd "s-o") 'ace-window)
 (add-to-list 'golden-ratio-extra-commands 'ace-window)
 
+(defun my/new-empty-buffer ()
+  "Open a new empty buffer."
+  (interactive)
+  (let ((buf (generate-new-buffer "untitled")))
+    (switch-to-buffer buf)
+    (funcall (and initial-major-mode))
+    (setq buffer-offer-save t)))
+
+(global-set-key (kbd "<f7>") 'my/new-empty-buffer)
+
 (setq python-environment-directory "~/.virtualenvs")
 
 (add-hook 'python-mode-hook 'jedi:setup)
