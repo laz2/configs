@@ -24,7 +24,8 @@
 
 (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
 (add-hook 'json-mode-hook (lambda ()
-                             (flycheck-mode t)))
+                             (flycheck-mode t)
+                             (local-set-key (kbd "C-M-\\") 'json-mode-beautify)))
 (setq json-reformat:pretty-string? t)
 
 (setq coffee-tab-width 2)
