@@ -3,25 +3,27 @@
 (setq flycheck-python-pycompile-executable "~/.virtualenvs/ks/bin/python3")
 (setq flycheck-python-flake8-executable "~/.virtualenvs/ks/bin/flake8")
 
-(defun kstation/django-test-app ()
-  (interactive)
+(defun kstation/django-test-app (arg)
+  (interactive "P")
   (compile (format (concat
                     "cd %s && "
                     "source ~/.virtualenvs/ks/bin/activate && "
                     "source backend/os/env/development.sh && "
                     "cd backend/s7 && "
-                    "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test --noinput")
-                   (projectile-project-root)) t))
-
-(defun kstation/django-test-file ()
-  (interactive)
-  (compile (format (concat
-                    "cd %s && "
-                    "source ~/.virtualenvs/ks/bin/activate && "
-                    "source backend/os/env/development.sh && "
-                    "cd backend/s7 && "
-                    "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test --failfast --noinput %s")
+                    "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test %s--noinput")
                    (projectile-project-root)
+                   (if arg "" "--keepdb ")) t))
+
+(defun kstation/django-test-file (arg)
+  (interactive "P")
+  (compile (format (concat
+                    "cd %s && "
+                    "source ~/.virtualenvs/ks/bin/activate && "
+                    "source backend/os/env/development.sh && "
+                    "cd backend/s7 && "
+                    "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test --failfast %s--noinput %s")
+                   (projectile-project-root)
+                   (if arg "" "--keepdb ")
                    (s-replace "/" "."
                               (s-chop-suffix ".py"
                                              (file-relative-name
