@@ -1,6 +1,6 @@
 ;;; Add my emacs directory to load-path
 ;;; and all its subdirs
-(let ((default-directory "~/cfg/emacs/"))
+(let (sudo(default-directory "~/cfg/emacs/"))
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -224,15 +224,22 @@
 
 (electric-pair-mode 1)
 
+(require 'tramp)
+(require 'crux)
 (global-set-key (kbd "C-c j") 'just-one-space)
 (global-set-key (kbd "C-x O") (lambda ()
                                 (interactive)
                                 (other-window -1)))
+(global-set-key (kbd "C-c o") 'crux-open-with)
 (global-set-key (kbd "M-o") 'crux-smart-open-line)
 (global-set-key (kbd "M-O") 'crux-smart-open-line-above)
 (global-set-key [remap kill-whole-line] 'crux-kill-whole-line)
+(global-set-key [(shift return)] 'crux-smart-open-line)
+(global-set-key (kbd "C-c d") 'crux-delete-file-and-buffer)
 (global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
 (global-set-key (kbd "C-c I") 'crux-find-user-init-file)
+(global-set-key (kbd "C-a") 'crux-move-beginning-of-line)
+(global-set-key (kbd "C-^") 'crux-top-join-line)
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()

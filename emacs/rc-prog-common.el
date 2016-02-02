@@ -87,10 +87,3 @@
     (save-excursion
       (indent-region (point-min) (point-max)))))
 (global-set-key "\C-\M-\\" 'my/indent-region-or-buffer)
-
-(defun my/beginning-of-line-or-indentation ()
-  (interactive)
-  (if (bolp)
-      (back-to-indentation)
-    (beginning-of-line)))
-(global-set-key (kbd "C-a") 'my/beginning-of-line-or-indentation)
