@@ -224,36 +224,15 @@
 
 (electric-pair-mode 1)
 
-(defun smart-open-line ()
-  (interactive)
-  (move-end-of-line nil)
-  (newline-and-indent))
-(global-set-key (kbd "M-o") 'smart-open-line)
-
-(defun smart-open-line-above ()
-  (interactive)
-  (move-beginning-of-line nil)
-  (newline-and-indent)
-  (forward-line -1)
-  (indent-according-to-mode))
-
-(global-set-key (kbd "M-O") 'smart-open-line-above)
-
 (global-set-key (kbd "C-c j") 'just-one-space)
 (global-set-key (kbd "C-x O") (lambda ()
                                 (interactive)
                                 (other-window -1)))
-
-(defun smart-kill-whole-line (&optional arg)
-  (interactive "P")
-  (kill-whole-line arg)
-  (back-to-indentation))
-(global-set-key [remap kill-whole-line] 'smart-kill-whole-line)
-
-(defun find-user-init-file ()
-  (interactive)
-  (find-file-other-window user-init-file))
-(global-set-key (kbd "C-c I") 'find-user-init-file)
+(global-set-key (kbd "M-o") 'crux-smart-open-line)
+(global-set-key (kbd "M-O") 'crux-smart-open-line-above)
+(global-set-key [remap kill-whole-line] 'crux-kill-whole-line)
+(global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
+(global-set-key (kbd "C-c I") 'crux-find-user-init-file)
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
@@ -268,7 +247,7 @@
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(setq web-mode-markup-indent-offset 2)
+(setq web-mode-markup-indent-offset 4)
 (setq web-mode-enable-current-element-highlight nil)
 (setq web-mode-enable-current-column-highlight t)
 

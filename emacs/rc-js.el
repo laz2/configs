@@ -8,8 +8,8 @@
 
 (setq js2-highlight-level 3)
 
-(setq js-indent-level 2)
-(setq-default js2-basic-offset 2)
+(setq js-indent-level 4)
+(setq-default js2-basic-offset 4)
 
 (eval-after-load 'tern
    '(progn
