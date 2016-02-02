@@ -1,6 +1,6 @@
 ;;; Add my emacs directory to load-path
 ;;; and all its subdirs
-(let (sudo(default-directory "~/cfg/emacs/"))
+(let ((default-directory "~/cfg/emacs/"))
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
@@ -169,15 +169,7 @@
 (global-set-key (kbd "C-S-f") 'projectile-ag)
 (global-set-key (kbd "C-S-h") 'helm-projectile-ag)
 (global-set-key (kbd "C-S-p") 'helm-projectile-switch-project)
-(global-set-key (kbd "C-<f8>") 'project-explorer-toggle)
-(global-set-key (kbd "<f8>") 'project-explorer-open)
 (global-set-key (kbd "C-M-g") 'grunt-exec)
-
-(setq pe/directory-tree-function 'pe/get-directory-tree-external)
-;;(setq pe/cache-enabled nil)
-(setq pe/omit-enabled nil)
-;; (setq pe/get-directory-tree-external-command
-;;       "find . -maxdepth 1 \\( -type d -printf \"%p/\\n\" , -type f -print \\) ")
 
 (golden-ratio-mode 1)
 (setq golden-ratio-exclude-modes '("ediff-mode"
@@ -272,76 +264,27 @@
 (add-hook 'python-mode-hook (lambda ()
                               (flycheck-mode t)))
 
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*Flycheck errors*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*Compilation*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*Occur*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*Help*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*jedi:doc*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*helm jedi:related-names*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*helm-ag*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*helm grep*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*grep*" eos)
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
-(add-to-list 'display-buffer-alist
-             `(,(rx bos "*ag search")
-               (display-buffer-reuse-window
-                display-buffer-in-side-window)
-               (reusable-frames . visible)
-               (side            . bottom)
-               (window-height   . 0.3)))
+(defun buffer-on-bottom-side (&rest res)
+  (dolist (re res)
+    (add-to-list 'display-buffer-alist
+                 `(,re
+                   (display-buffer-reuse-window
+                    display-buffer-in-side-window)
+                   (reusable-frames . visible)
+                   (side            . bottom)
+                   (window-height   . 0.3)))))
+
+(buffer-on-bottom-side "^\\*Flycheck errors\\*$"
+                       "^\\*Compilation\\*$"
+                       "^\\*Occur\\*$"
+                       "^\\*Help\\*$"
+                       "^\\*jedi:doc\\*$"
+                       "^\\*helm jedi:related-names\\*$"
+                       "^\\*helm-ag\\*$"
+                       "^\\*helm grep\\*$"
+                       "^\\*grep\\*$"
+                       "^\\*ag search"
+                       "^\\*Compile-Log\\*$")
 
 (defun my/quit-bottom-side-windows ()
   "Quit bottom side windows of the current frame."
