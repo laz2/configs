@@ -1,10 +1,12 @@
-;;; Add my emacs directory to load-path
-;;; and all its subdirs
+
 (let ((default-directory "~/cfg/emacs/"))
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
 (require 'prelude-packages)
+
+(require 'use-package)
+(setq use-package-verbose t)
 
 (defun my/load-rc (name)
   (let ((rc-name (concat "rc-" name)))
@@ -26,8 +28,14 @@
 (defun my/global-swap-keys (l r)
   (global-set-key r (my/global-move-key l r)))
 
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
+(use-package uniquify
+  :config
+  (setq uniquify-buffer-name-style 'forward)
+  (setq uniquify-separator "/")
+  ;; rename after killing uniquified
+  (setq uniquify-after-kill-buffer-p t)
+  ;; don't muck with special buffers
+  (setq uniquify-ignore-buffers-re "^\\*"))
 
 ;;; Backup settings
 (setq backup-by-copying t               ; don't clobber symlinks
@@ -42,7 +50,7 @@
 (setq auto-save-list-file-name  nil) ; Don't want any .saves files
 (setq auto-save-default         nil) ; Don't want any auto saving
 
-(blink-cursor-mode t)                ; Enable cursor from blinking
+(blink-cursor-mode -1)
 (setq-default cursor-type 'box)
 
 (setq search-highlight           t) ; Highlight search object
@@ -60,18 +68,17 @@
 
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
-(tool-bar-mode -1)
+(when (fboundp 'tool-bar-mode)
+  (tool-bar-mode -1))
 
 (setq redisplay-dont-pause t)
 
 (ac-config-default)
 
-;;
-;; saveplace
-;;
-(require 'saveplace)
-(setq save-place-file "~/.emacs.d/saveplace")
-(setq-default save-place t)
+(use-package saveplace
+  :config
+  (setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
+  (setq-default save-place t))
 
 (my/load-rc "ido")
 
@@ -106,10 +113,6 @@
 (prefer-coding-system 'utf-8)
 
 (my/load-rc "prog-common")
-(my/load-rc "rst")
-(my/load-rc "js")
-(my/load-rc "sh")
-(my/load-rc "markdown")
 
 ;;
 ;; Compile
@@ -208,61 +211,119 @@
 
 (my/load-rc "kstation")
 
-(add-to-list 'auto-mode-alist
-             '("nginx\.conf$"  . nginx-mode)
-             '("/etc/nginx/.*" . nginx-mode))
+(use-package nginx-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("/etc/nginx/sites-available/.*" . nginx-mode))
+  (add-to-list 'auto-mode-alist '("nginx.conf" . nginx-mode))
+  (add-to-list 'auto-mode-alist '("nginx\.conf$"  . nginx-mode))
+  (add-to-list 'auto-mode-alist '("/etc/nginx/.*" . nginx-mode)))
 
 (setq show-trailing-whitespace t)
 
 (electric-pair-mode 1)
 
-(require 'tramp)
-(require 'crux)
 (global-set-key (kbd "C-c j") 'just-one-space)
 (global-set-key (kbd "C-x O") (lambda ()
                                 (interactive)
                                 (other-window -1)))
-(global-set-key (kbd "C-c o") 'crux-open-with)
-(global-set-key (kbd "M-o") 'crux-smart-open-line)
-(global-set-key (kbd "M-O") 'crux-smart-open-line-above)
-(global-set-key [remap kill-whole-line] 'crux-kill-whole-line)
-(global-set-key [(shift return)] 'crux-smart-open-line)
-(global-set-key (kbd "C-c d") 'crux-delete-file-and-buffer)
-(global-set-key (kbd "C-c r") 'crux-rename-buffer-and-file)
-(global-set-key (kbd "C-c I") 'crux-find-user-init-file)
-(global-set-key (kbd "C-a") 'crux-move-beginning-of-line)
-(global-set-key (kbd "C-^") 'crux-top-join-line)
+
+(defun my/sh-mode-hook ()
+  (setq sh-basic-offset 2
+        sh-indentation 2))
+(add-hook 'sh-mode-hook 'my/sh-mode-hook)
+
+(use-package crux
+  :ensure t
+  :bind (("C-c o" . crux-open-with)
+         ("M-o" . crux-smart-open-line)
+         ("M-O" . crux-smart-open-line-above)
+         ([remap kill-whole-line] . crux-kill-whole-line)
+         ([(shift return)] . crux-smart-open-line)
+         ("C-c d" . crux-delete-file-and-buffer)
+         ("C-c r" . crux-rename-buffer-and-file)
+         ("C-c I" . crux-find-user-init-file)
+         ("C-a" . crux-move-beginning-of-line)
+         ("C-^" . crux-top-join-line)))
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
             (local-set-key (kbd "<f5>") 'eval-buffer)))
 
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(setq web-mode-markup-indent-offset 4)
-(setq web-mode-enable-current-element-highlight nil)
-(setq web-mode-enable-current-column-highlight t)
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-enable-current-element-highlight nil)
+  (setq web-mode-enable-current-column-highlight t))
 
 (global-set-key (kbd "C-x C-v") 'find-alternate-file)
 
-(my/load-rc "dired")
+(use-package dired
+  :config
+  ;; dired - reuse current buffer by pressing 'a'
+  (put 'dired-find-alternate-file 'disabled nil)
 
-(defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
-  (interactive)
-  (let ((window (get-buffer-window "*Flycheck errors*")))
-    (if window
-        (delete-window window)
-      (call-interactively (ad-get-orig-definition 'flycheck-list-errors)))))
+  ;; always delete and copy recursively
+  (setq dired-recursive-deletes 'always)
+  (setq dired-recursive-copies 'always)
 
-(add-hook 'python-mode-hook (lambda ()
-                              (flycheck-mode t)))
+  ;; if there is a dired buffer displayed in the next window, use its
+  ;; current subdir, instead of the current subdir of this dired buffer
+  (setq dired-dwim-target t)
+
+  (require 'dired-x)
+
+  (toggle-diredp-find-file-reuse-dir 1)
+
+  (defun my/dired-sort ()
+    "Sort dired listings with directories first."
+    (save-excursion
+      (let (buffer-read-only)
+        (forward-line 2) ;; beyond dir. header
+        (sort-regexp-fields t "^.*$" "[ ]*." (point) (point-max)))
+      (set-buffer-modified-p nil)))
+
+  (defadvice dired-readin
+    (after dired-after-updating-hook first () activate)
+    "Sort dired listings with directories first before adding marks."
+    (my/dired-sort)))
+
+(use-package markdown-mode
+  :ensure t
+  :config
+  (add-hook 'markdown-mode-hook 'whitespace-mode)
+  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+
+(use-package yaml-mode
+  :ensure t)
+
+(use-package flycheck
+  :ensure t
+  :config
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
+    (interactive)
+    (let ((window (get-buffer-window "*Flycheck errors*")))
+      (if window
+          (delete-window window)
+        (call-interactively (ad-get-orig-definition 'flycheck-list-errors))))))
+
+(use-package flyspell
+  :config
+  (setq ispell-program-name "aspell"
+        ispell-extra-args '("--sug-mode=ultra"))
+  (add-hook 'text-mode-hook #'flyspell-mode)
+  (add-hook 'prog-mode #'flyspell-prog-mode))
 
 (defun buffer-on-bottom-side (&rest res)
   (dolist (re res)
@@ -296,10 +357,17 @@
 (global-set-key (kbd "s-q") 'my/quit-bottom-side-windows)
 (global-set-key (kbd "s-k") 'kill-this-buffer)
 
-(global-set-key (kbd "s-.") 'avy-goto-word-or-subword-1)
-(add-to-list 'golden-ratio-extra-commands 'avy-goto-word-or-subword-1)
-(global-set-key (kbd "s-o") 'ace-window)
-(add-to-list 'golden-ratio-extra-commands 'ace-window)
+(use-package avy
+  :ensure t
+  :bind ("s-." . avy-goto-word-or-subword-1)
+  :config
+  (add-to-list 'golden-ratio-extra-commands 'avy-goto-word-or-subword-1))
+
+(use-package ace-window
+  :ensure t
+  :bind ("s-o" . ace-window)
+  :config
+  (add-to-list 'golden-ratio-extra-commands 'ace-window))
 
 (defun my/new-empty-buffer ()
   "Open a new empty buffer."
@@ -324,6 +392,44 @@
 
 (add-hook 'window-setup-hook
           '(lambda () (set-cursor-color "black")))
+
+(use-package anzu
+  :ensure t
+  :bind (("M-%" . anzu-query-replace)
+         ("C-M-%" . anzu-query-replace-regexp))
+  :config
+  (global-anzu-mode))
+
+(use-package js2-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+  (add-to-list 'auto-mode-alist '("\\.tern-project$" . js-mode))
+  (add-to-list 'auto-mode-alist '("\\.tern-config$" . js-mode))
+
+  (add-hook 'js2-mode-hook 'ac-js2-mode)
+
+  (setq js2-highlight-level 3)
+
+  (setq js-indent-level 2)
+  (setq-default js2-basic-offset 2)
+
+  (eval-after-load 'tern
+    '(progn
+       (require 'tern-auto-complete)
+       (tern-ac-setup)))
+
+  (add-hook 'js2-mode-hook (lambda ()
+                             (tern-mode t)
+                             (js2-imenu-extras-mode t)
+                             (local-set-key (kbd "M-.") 'tern-find-definition)))
+
+  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
+  (add-hook 'json-mode-hook (lambda ()
+                              (local-set-key (kbd "C-M-\\") 'json-mode-beautify)))
+  (setq json-reformat:pretty-string? t)
+
+  (setq coffee-tab-width 2))
 
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)

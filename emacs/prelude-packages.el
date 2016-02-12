@@ -37,6 +37,9 @@
     ;;super-save
     crux
     seq
+    use-package
+    go-mode
+    anzu
     flycheck)
   "A list of packages to ensure are installed at launch.")
 
