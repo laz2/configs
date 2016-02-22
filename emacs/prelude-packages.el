@@ -35,6 +35,7 @@
     yaml-mode
     json-reformat json-mode json-snatcher
     ;;super-save
+    haskell-mode
     crux
     seq
     use-package
