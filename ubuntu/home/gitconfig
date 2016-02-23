@@ -27,3 +27,5 @@
     autosetuprebase = always
 [include]
     path = .gitconfig-private
+[fetch]
+    prune = true
