@@ -431,6 +431,17 @@
 
   (setq coffee-tab-width 2))
 
+(use-package haskell-mode
+  :ensure t
+  :config
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (setq haskell-process-suggest-remove-import-lines t)
+  (setq haskell-process-auto-import-loaded-modules t)
+  (setq haskell-process-log t)
+  (setq haskell-process-show-debug-tips nil)
+  (buffer-on-bottom-side "^\\*haskell\\*$")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*haskell*"))
+
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
 
