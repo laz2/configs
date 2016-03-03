@@ -169,6 +169,7 @@
 
 (global-set-key (kbd "C-S-n") 'helm-projectile-find-file)
 (global-set-key (kbd "C-S-o") 'helm-imenu)
+(global-set-key (kbd "C-S-g") 'helm-occur)
 (global-set-key (kbd "C-S-f") 'projectile-ag)
 (global-set-key (kbd "C-S-h") 'helm-projectile-ag)
 (global-set-key (kbd "C-S-p") 'helm-projectile-switch-project)
@@ -340,9 +341,8 @@
                        "^\\*Occur\\*$"
                        "^\\*Help\\*$"
                        "^\\*jedi:doc\\*$"
-                       "^\\*helm jedi:related-names\\*$"
-                       "^\\*helm-ag\\*$"
-                       "^\\*helm grep\\*$"
+                       "\\`\\*helm.*?\\*\\'"
+                       "^\\*Warnings\\*$"
                        "^\\*grep\\*$"
                        "^\\*ag search"
                        "^\\*Compile-Log\\*$")
@@ -439,6 +439,7 @@
   (setq haskell-process-auto-import-loaded-modules t)
   (setq haskell-process-log t)
   (setq haskell-process-show-debug-tips nil)
+  (setq haskell-stylish-on-save t)
   (buffer-on-bottom-side "^\\*haskell\\*$")
   (add-to-list 'golden-ratio-exclude-buffer-names "*haskell*"))
 
