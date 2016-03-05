@@ -1,4 +1,5 @@
-sudo wget http://www.teamviewer.com/download/teamviewer_linux.deb
-sudo dpkg -i teamviewer_linux.deb
+file=teamviewer_i386.deb
+sudo wget http://download.teamviewer.com/download/$file
+sudo dpkg -i $file
 sudo apt-get install -f
-rm -f teamviewer_linux.deb
+rm -f $file
