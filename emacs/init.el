@@ -440,6 +440,7 @@
   (setq haskell-process-log t)
   (setq haskell-process-show-debug-tips nil)
   (setq haskell-stylish-on-save t)
+  (setq haskell-interactive-popups-error nil)
   (buffer-on-bottom-side "^\\*haskell\\*$")
   (add-to-list 'golden-ratio-exclude-buffer-names "*haskell*"))
 
