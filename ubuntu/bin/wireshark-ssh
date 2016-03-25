@@ -3,15 +3,16 @@
 set -e
 
 function usage {
-  echo "$0 [-s=password] [-i=interface] [-p=port] user@host"
+  echo "$0 [-s=password] [-i=interface] [-p=port] [-l=name] user@host"
   exit 1
 }
 
 sudo_password=""
 ssh_port=22
+lxc_name=""
 ifaces=()
 
-while getopts ":i:s:h" opt; do
+while getopts ":i:s:h:l:" opt; do
   case $opt in
     s)
       sudo_password="$OPTARG"
@@ -21,6 +22,9 @@ while getopts ":i:s:h" opt; do
       ;;
     p)
       ssh_port="$OPTARG"
+      ;;
+    l)
+      lxc_name="$OPTARG"
       ;;
     h)
       usage
@@ -40,6 +44,10 @@ fi
 cmd=""
 if [ ! -z "$sudo_password" ] ; then
   cmd="$cmd echo $sudo_password | sudo -S"
+fi
+
+if [ ! -z "$lxc_name" ] ; then
+  cmd="$cmd lxc-attach -n $lxc_name --"
 fi
 
 cmd="$cmd tcpdump -U -s0"

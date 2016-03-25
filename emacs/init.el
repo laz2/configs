@@ -444,6 +444,27 @@
   (buffer-on-bottom-side "^\\*haskell\\*$")
   (add-to-list 'golden-ratio-exclude-buffer-names "*haskell*"))
 
+(defun my/c++-mode-hook ()
+  (setq tab-width 4)
+  (define-key c++-mode-map "\C-m" 'reindent-then-newline-and-indent)
+  (define-key c++-mode-map "\C-ce" 'c-comment-edit)
+  (setq c++-auto-hungry-initial-state 'none)
+  (setq c++-delete-function 'backward-delete-char)
+  (setq c++-tab-always-indent t)
+  (setq c-indent-level 4)
+  (setq c-basic-offset 4)
+  (setq c-default-style "linux")
+  (setq c-indentation-style "linux")
+  (setq c-continued-statement-offset 4)
+  (setq c++-empty-arglist-indent 4))
+
+(defun my/c-mode-common-hook ()
+  (define-key c-mode-base-map (kbd "M-o") 'eassist-switch-h-cpp)
+  (define-key c-mode-base-map (kbd "M-m") 'eassist-list-methods))
+
+(add-hook 'c-mode-common-hook 'my/c-mode-common-hook)
+(add-hook 'c++-mode-hook 'my/c++-mode-hook)
+
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
 

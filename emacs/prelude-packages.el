@@ -41,7 +41,8 @@
     use-package
     go-mode
     anzu
-    flycheck)
+    flycheck
+    dockerfile-mode)
   "A list of packages to ensure are installed at launch.")
 
 (package-refresh-contents)
