@@ -311,6 +311,8 @@
 (use-package flycheck
   :ensure t
   :config
+  (flycheck-pos-tip-mode)
+  (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
     (interactive)
@@ -318,6 +320,11 @@
       (if window
           (delete-window window)
         (call-interactively (ad-get-orig-definition 'flycheck-list-errors))))))
+
+(use-package flycheck-checkbashisms
+  :ensure t
+  :config
+  (flycheck-checkbashisms-setup))
 
 (use-package flyspell
   :config

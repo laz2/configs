@@ -17,7 +17,7 @@ export HOME_CFG_ROOT=$UBUNTU_CFG_ROOT/home
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
     if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
+	  . "$HOME/.bashrc"
     fi
 fi
 
