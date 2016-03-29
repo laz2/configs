@@ -41,7 +41,7 @@
     use-package
     go-mode
     anzu
-    flycheck flycheck-pos-tip
+    flycheck flycheck-pos-tip flycheck-color-mode-line
     flycheck-checkbashisms
     dockerfile-mode)
   "A list of packages to ensure are installed at launch.")
