@@ -351,7 +351,7 @@
                        "^\\*helm jedi:related-names\\*$"
                        "^\\*helm-ag\\*$"
                        "^\\*helm grep\\*$"
-;;                       "\\`\\*helm.*?\\*\\'"
+                       ;;"\\`\\*helm.*?\\*\\'"
                        "^\\*Warnings\\*$"
                        "^\\*grep\\*$"
                        "^\\*ag search"
