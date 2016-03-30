@@ -1,0 +1,48 @@
+#!/bin/bash
+# -*- mode: shell-script; -*-
+
+set -e
+
+function usage {
+  echo "$0 [-f=file] [-p=port] [-u=uri path]"
+  exit 1
+}
+
+file_path=""
+uri_path="test"
+port=8554
+
+while getopts ":u:p:" opt; do
+  case $opt in
+    u)
+	  uri_path="$OPTARG"
+      ;;
+    p)
+      port="$OPTARG"
+      ;;
+    h)
+      usage
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+
+shift $((OPTIND-1))
+if [ -z "$1" ] ; then
+  usage
+  exit 1
+else
+  file_path=$1
+  if [ -f $file_path ] ; then
+    file_path=$(readlink -f $file_path)
+  else
+    echo "Video file not found: $file_path" >&2
+    exit 1
+  fi
+fi
+
+uri="rtsp://:$port/$uri_path"
+echo "Use: $uri"
+cvlc file://$file_path --loop --quiet --no-version --sout "#duplicate{dst=rtp{sdp=$uri}}"
