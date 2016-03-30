@@ -25,7 +25,7 @@
     yasnippet
     s
     markdown-mode
-    js2-mode ac-js2 tern tern-auto-complete
+    js2-mode ac-js2 js2-refactor tern tern-auto-complete
     coffee-mode
     nginx-mode
     python-mode py-autopep8 jedi

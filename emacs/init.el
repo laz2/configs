@@ -418,6 +418,7 @@
   (add-to-list 'auto-mode-alist '("\\.tern-config$" . js-mode))
 
   (add-hook 'js2-mode-hook 'ac-js2-mode)
+  (add-hook 'js2-mode-hook #'js2-refactor-mode)
 
   (setq js2-highlight-level 3)
 
