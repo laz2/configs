@@ -43,7 +43,8 @@
     anzu
     flycheck flycheck-pos-tip flycheck-color-mode-line
     flycheck-checkbashisms
-    dockerfile-mode)
+    dockerfile-mode
+    nsis-mode)
   "A list of packages to ensure are installed at launch.")
 
 (package-refresh-contents)
