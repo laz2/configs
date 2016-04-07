@@ -43,4 +43,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(font-latex-string-face ((t (:foreground "indian red"))) t)
- '(font-latex-verbatim-face ((t (:inherit nil :foreground "SaddleBrown"))) t))
+ '(font-latex-verbatim-face ((t (:inherit nil :foreground "SaddleBrown"))) t)
+ '(helm-bookmark-file ((t (:inherit compilation-info))))
+ '(helm-grep-lineno ((t (:inherit compilation-line-number))))
+ '(helm-grep-match ((t (:inherit match))))
+ '(helm-match ((t (:inherit match))))
+ '(helm-moccur-buffer ((t (:inherit compilation-info))))
+ '(helm-source-header ((t (:background "#abd7f0" :foreground "black" :weight bold :height 1.3)))))

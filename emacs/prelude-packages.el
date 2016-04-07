@@ -9,7 +9,8 @@
         ("melpa" . "http://melpa.org/packages/")))
 
 (defvar prelude-packages
-  '(dired+
+  '(
+    dired+
     auctex
     paredit
     auto-complete
@@ -44,7 +45,8 @@
     flycheck flycheck-pos-tip flycheck-color-mode-line
     flycheck-checkbashisms
     dockerfile-mode
-    nsis-mode)
+    nsis-mode
+    )
   "A list of packages to ensure are installed at launch.")
 
 (package-refresh-contents)

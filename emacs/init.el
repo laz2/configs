@@ -119,8 +119,10 @@
 ;;
 (require 'compile)
 (setq compilation-disable-input nil)
-(setq compilation-scroll-output t)
+(setq compilation-scroll-output 'first-error)
 (setq mode-compile-always-save-buffer-p t)
+(global-set-key (kbd "M-]") 'next-error)
+(global-set-key (kbd "M-[") 'previous-error)
 
 (global-set-key [f9] 'compile)
 
