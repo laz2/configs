@@ -44,6 +44,8 @@
  ;; If there is more than one, they won't work right.
  '(font-latex-string-face ((t (:foreground "indian red"))) t)
  '(font-latex-verbatim-face ((t (:inherit nil :foreground "SaddleBrown"))) t)
+ '(font-lock-constant-face ((t (:foreground "CadetBlue" :weight bold))))
+ '(font-lock-string-face ((t (:foreground "ForestGreen"))))
  '(helm-bookmark-file ((t (:inherit compilation-info))))
  '(helm-grep-lineno ((t (:inherit compilation-line-number))))
  '(helm-grep-match ((t (:inherit match))))
