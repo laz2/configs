@@ -262,7 +262,7 @@
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-markup-indent-offset 4)
   (setq web-mode-enable-current-element-highlight nil)
   (setq web-mode-enable-current-column-highlight t))
 
@@ -311,7 +311,7 @@
 (use-package flycheck
   :ensure t
   :config
-  (flycheck-pos-tip-mode)
+  ;; (flycheck-pos-tip-mode)
   (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
@@ -421,9 +421,11 @@
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
 
   (setq js2-highlight-level 3)
+  (setq js2-strict-inconsistent-return-warning nil)
+  (setq js2-strict-trailing-comma-warning nil)
 
-  (setq js-indent-level 2)
-  (setq-default js2-basic-offset 2)
+  (setq js-indent-level 4)
+  (setq-default js2-basic-offset 4)
 
   (eval-after-load 'tern
     '(progn
