@@ -264,6 +264,7 @@
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.json?\\'" . web-mode))
   (setq web-mode-markup-indent-offset 4)
   (setq web-mode-enable-current-element-highlight nil)
   (setq web-mode-enable-current-column-highlight t))
@@ -438,11 +439,6 @@
                              (tern-mode t)
                              (js2-imenu-extras-mode t)
                              (local-set-key (kbd "M-.") 'tern-find-definition)))
-
-  (add-to-list 'auto-mode-alist '("\\.json$" . json-mode))
-  (add-hook 'json-mode-hook (lambda ()
-                              (local-set-key (kbd "C-M-\\") 'json-mode-beautify)))
-  (setq json-reformat:pretty-string? t)
 
   (setq coffee-tab-width 2))
 

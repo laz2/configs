@@ -34,7 +34,7 @@
     web-mode
     stylus-mode
     yaml-mode
-    json-reformat json-mode json-snatcher
+    json-snatcher
     ;;super-save
     haskell-mode
     crux
