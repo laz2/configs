@@ -440,6 +440,15 @@
                              (js2-imenu-extras-mode t)
                              (local-set-key (kbd "M-.") 'tern-find-definition)))
 
+  (defadvice js2-record-name-node
+    (after my/js2-record-name-node first () activate)
+    (let ((node (ad-get-arg 0))
+          (leftpos (js2-node-abs-pos node)))
+      (js2-set-face leftpos
+                    (+ leftpos (js2-node-len node))
+                    'font-lock-variable-name-face
+                    'record)))
+
   (setq coffee-tab-width 2))
 
 (use-package haskell-mode
