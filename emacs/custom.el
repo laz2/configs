@@ -48,6 +48,7 @@
  '(font-lock-constant-face ((t (:foreground "CadetBlue" :weight bold))))
  '(font-lock-keyword-face ((t (:foreground "blue"))))
  '(font-lock-string-face ((t (:foreground "dark green"))))
+ '(font-lock-variable-name-face ((t (:foreground "navy" :weight bold))))
  '(helm-bookmark-file ((t (:inherit compilation-info))))
  '(helm-grep-lineno ((t (:inherit compilation-line-number))))
  '(helm-grep-match ((t (:inherit match))))

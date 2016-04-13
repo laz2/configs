@@ -28,6 +28,8 @@
 (defun my/global-swap-keys (l r)
   (global-set-key r (my/global-move-key l r)))
 
+(use-package diminish)
+
 (use-package uniquify
   :config
   (setq uniquify-buffer-name-style 'forward)
@@ -36,6 +38,11 @@
   (setq uniquify-after-kill-buffer-p t)
   ;; don't muck with special buffers
   (setq uniquify-ignore-buffers-re "^\\*"))
+
+(use-package volatile-highlights
+  :config
+  (volatile-highlights-mode t)
+  :diminish volatile-highlights-mode)
 
 ;;; Backup settings
 (setq backup-by-copying t               ; don't clobber symlinks
@@ -76,9 +83,10 @@
 (ac-config-default)
 
 (use-package saveplace
+  :init
+  (setq-default save-place t)
   :config
-  (setq save-place-file (expand-file-name "saveplace" user-emacs-directory))
-  (setq-default save-place t))
+  (setq save-place-file (expand-file-name "saveplace" user-emacs-directory)))
 
 (my/load-rc "ido")
 
@@ -127,8 +135,6 @@
 (global-set-key [f9] 'compile)
 
 (put 'narrow-to-region 'disabled nil)
-
-(my/load-rc "tex")
 
 (require 'helm)
 (require 'helm-config)
@@ -411,7 +417,8 @@
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp))
   :config
-  (global-anzu-mode))
+  (global-anzu-mode +1)
+  :diminish anzu-mode)
 
 (use-package js2-mode
   :ensure t
@@ -485,7 +492,64 @@
 (add-hook 'c-mode-common-hook 'my/c-mode-common-hook)
 (add-hook 'c++-mode-hook 'my/c++-mode-hook)
 
+(defun goto-line-with-feedback ()
+  "Show line numbers temporarily, while prompting for the line
+         number input"
+  (interactive)
+  (unwind-protect
+      (progn
+        (linum-mode 1)
+        (goto-line (read-number "Goto line: ")))
+    (linum-mode -1)))
+
+(global-set-key [remap goto-line] 'goto-line-with-feedback)
+
+(use-package ess
+  :ensure t
+  :config
+  )
+
+(add-hook 'after-init-hook 'server-start t)
+
+(use-package tex-site
+  :defer
+  :config
+  (setq preview-image-type 'pnm)
+
+  (defun TeX-insert-macro-verb ()
+    (interactive)
+    (TeX-insert-macro "verb"))
+
+  (defun TeX-insert-macro-lstinline ()
+    (interactive)
+    (TeX-insert-macro "lstinline"))
+
+  (defun my/TeX-mode-hook ()
+    (local-set-key (kbd "C-c C-g C-v") 'TeX-insert-macro-verb)
+    (local-set-key (kbd "C-c C-g C-l") 'TeX-insert-macro-lstinline))
+
+  (add-hook 'TeX-mode-hook 'my/TeX-mode-hook))
+
+(use-package reftex
+  :diminish reftex-mode
+  :config
+  (add-hook 'latex-mode-hook 'turn-on-reftex)
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+
+  (setq reftex-extra-bindings t)
+  (setq reftex-enable-partial-scans t)
+  (setq reftex-save-parse-info t)
+  (setq reftex-use-multiple-selection-buffers t)
+
+  (defun my/reftex-mode-hook ()
+    (local-set-key (kbd "C-c C-y h") 'reftex-change-label)
+    (local-set-key (kbd "C-c C-y g") 'reftex-goto-label))
+
+  (add-hook 'reftex-mode-hook 'my/reftex-mode-hook))
+
+(use-package tramp
+  :config
+  (setq tramp-default-method "ssh"))
+
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
-
-(server-start)

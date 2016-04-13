@@ -46,6 +46,9 @@
     flycheck-checkbashisms
     dockerfile-mode
     nsis-mode
+    ess
+    diminish
+    volatile-highlights
     )
   "A list of packages to ensure are installed at launch.")
 
