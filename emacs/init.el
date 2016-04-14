@@ -122,17 +122,15 @@
 
 (my/load-rc "prog-common")
 
-;;
-;; Compile
-;;
-(require 'compile)
-(setq compilation-disable-input nil)
-(setq compilation-scroll-output 'first-error)
-(setq mode-compile-always-save-buffer-p t)
 (global-set-key (kbd "M-]") 'next-error)
 (global-set-key (kbd "M-[") 'previous-error)
 
-(global-set-key [f9] 'compile)
+(use-package compile
+  :config
+  (setq compilation-disable-input nil)
+  (setq compilation-scroll-output 'first-error)
+  (setq mode-compile-always-save-buffer-p t)
+  (global-set-key [f9] 'compile))
 
 (put 'narrow-to-region 'disabled nil)
 
@@ -183,24 +181,28 @@
 (global-set-key (kbd "C-S-p") 'helm-projectile-switch-project)
 (global-set-key (kbd "C-M-g") 'grunt-exec)
 
-(golden-ratio-mode 1)
-(setq golden-ratio-exclude-modes '("ediff-mode"
-                                   "eshell-mode"))
-(add-to-list 'golden-ratio-exclude-buffer-names "*Help*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*Occur*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*compilation*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*jedi:doc*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*helm jedi:related-names*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*helm projectile*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*helm-ag*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*helm grep*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*helm imenu*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*helm M-x*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
-(add-to-list 'golden-ratio-exclude-buffer-names "*helm kill ring*")
+(use-package golden-ratio
+  :ensure t
+  :diminish golden-ratio-mode
+  :config
+  (golden-ratio-mode 1)
+  (setq golden-ratio-exclude-modes '("ediff-mode"
+                                     "eshell-mode"))
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Help*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Occur*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*compilation*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*jedi:doc*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*helm jedi:related-names*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*helm projectile*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*helm-ag*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*helm grep*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*helm imenu*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*helm M-x*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*helm kill ring*")
 
-(add-to-list 'golden-ratio-exclude-buffer-regexp "*ag search")
+  (add-to-list 'golden-ratio-exclude-buffer-regexp "*ag search"))
 
 (setq split-width-threshold nil)
 
@@ -273,7 +275,8 @@
   (add-to-list 'auto-mode-alist '("\\.json?\\'" . web-mode))
   (setq web-mode-markup-indent-offset 4)
   (setq web-mode-enable-current-element-highlight nil)
-  (setq web-mode-enable-current-column-highlight t))
+  (setq web-mode-enable-current-column-highlight t)
+  (web-mode-set-engine "angular"))
 
 (global-set-key (kbd "C-x C-v") 'find-alternate-file)
 
@@ -414,11 +417,11 @@
 
 (use-package anzu
   :ensure t
+  :diminish anzu-mode
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp))
   :config
-  (global-anzu-mode +1)
-  :diminish anzu-mode)
+  (global-anzu-mode +1))
 
 (use-package js2-mode
   :ensure t
@@ -430,12 +433,19 @@
   (add-hook 'js2-mode-hook 'ac-js2-mode)
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
 
-  (setq js2-highlight-level 3)
+  (setq js2-highlight-level 2)
   (setq js2-strict-inconsistent-return-warning nil)
   (setq js2-strict-trailing-comma-warning nil)
 
   (setq js-indent-level 4)
   (setq-default js2-basic-offset 4)
+
+  (aset js2-kwd-tokens js2-THIS 'font-lock-keyword-face)
+  (aset js2-kwd-tokens js2-SUPER 'font-lock-keyword-face)
+  (aset js2-kwd-tokens js2-VOID 'font-lock-keyword-face)
+  (aset js2-kwd-tokens js2-NULL 'font-lock-keyword-face)
+  (aset js2-kwd-tokens js2-TRUE 'font-lock-keyword-face)
+  (aset js2-kwd-tokens js2-FALSE 'font-lock-keyword-face)
 
   (eval-after-load 'tern
     '(progn
