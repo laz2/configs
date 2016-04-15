@@ -23,16 +23,6 @@
 (set-face-attribute 'show-paren-mismatch-face nil
                     :weight 'bold :underline nil :overline nil :slant 'normal)
 
-;; Whitespace-mode
-(require 'whitespace)
-(setq whitespace-display-mappings (assq-delete-all 'newline-mark
-                                                   whitespace-display-mappings))
-(push (list 'space-mark ?\  [?.]) whitespace-display-mappings)
-(set-face-attribute 'whitespace-space nil :background nil :foreground "gray40")
-(set-face-attribute 'whitespace-indentation nil :background nil :foreground "gray40")
-(set-face-attribute 'whitespace-line nil :background nil :foreground nil)
-(setq whitespace-style (remove 'newline whitespace-style))
-
 (defun my/common-hook ()
   (local-set-key "\C-c:" 'uncomment-region)
   (local-set-key "\C-c;" 'comment-region)

@@ -28,6 +28,7 @@
 (defun my/global-swap-keys (l r)
   (global-set-key r (my/global-move-key l r)))
 
+(use-package s)
 (use-package diminish)
 
 (use-package uniquify
@@ -88,21 +89,69 @@
   :config
   (setq save-place-file (expand-file-name "saveplace" user-emacs-directory)))
 
-(my/load-rc "ido")
+(global-set-key (kbd "<f5>")
+                (lambda()(interactive)(switch-to-buffer "*scratch*")))
+
+(global-set-key (kbd "<f6>")
+                (lambda()(interactive)(find-file "~/.emacs")))
+
+(use-package ido
+  :config
+  (ido-mode 'both)
+
+  (setq
+   ido-save-directory-list-file "~/.emacs.d/ido.last"
+
+   ido-ignore-buffers ;; ignore these guys
+   '("\\` "
+     "^\*Mess"
+     "^\*Back"
+     ".*Completion"
+     "^\*Ido"
+     "^\*trace"
+     "^\*compilation"
+     "^\*GTAGS"
+     "^session\.*"
+     "^\\*"
+     "^#"
+     "^irc.")
+   ido-work-directory-list '("~/" "~/Desktop" "~/src")
+   ido-case-fold  t                 ; be case-insensitive
+
+   ido-enable-last-directory-history t ; remember last used dirs
+   ido-max-work-directory-list 30   ; should be enough
+   ido-max-work-file-list      50   ; remember many
+   ido-use-filename-at-point nil    ; don't use filename at point (annoying)
+   ido-use-url-at-point nil         ; don't use url at point (annoying)
+
+   ido-enable-flex-matching nil     ; don't try to be too smart
+   ido-max-prospects 8              ; don't spam my minibuffer
+   ido-confirm-unique-completion t) ; wait for RET, even with unique completion
+
+  ;; when using ido, the confirmation is rather annoying...
+  (setq confirm-nonexistent-file-or-buffer nil)
+
+  ;; Display ido results vertically, rather than horizontally
+  (setq ido-decorations
+        (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
+
+  (defun ido-disable-line-trucation ()
+    (set (make-local-variable 'truncate-lines) nil))
+  (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation))
 
 ;;
 ;; ibuffer
 ;;
-(require 'ibuffer)
-(setq ibuffer-saved-filter-groups
-      (quote (("default"
-               ))))
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer)
+  :config
+  (setq ibuffer-saved-filter-groups
+        (quote (("default"
+                 ))))
 
-(add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (ibuffer-switch-to-saved-filter-groups "default")))
-
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+  (add-hook 'ibuffer-mode-hook
+            (lambda ()
+              (ibuffer-switch-to-saved-filter-groups "default"))))
 
 (setq scroll-step 1)
 (setq default-tab-width 4)
@@ -134,52 +183,58 @@
 
 (put 'narrow-to-region 'disabled nil)
 
-(require 'helm)
-(require 'helm-config)
+(use-package helm
+  :ensure t
+  :diminish helm-mode
+  :bind (("C-c h"   . helm-command-prefix)
+         ("M-x"     . helm-M-x)
+         ("M-y"     . helm-show-kill-ring)
+         ("C-x b"   . helm-mini)
+         ("C-x C-f" . helm-find-files)
+         :map helm-map
+         ;; rebind tab to run persistent action
+         ("<tab>" . helm-execute-persistent-action)
+         ;; make TAB works in terminal
+         ("C-i"   . helm-execute-persistent-action)
+         ;; list actions using C-z
+         ("C-z"   . helm-select-action))
+  :config
+  (require 'helm-config)
+  ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
+  ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
+  ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
+  (global-unset-key (kbd "C-x c"))
 
-;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
-;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
-;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
-(global-set-key (kbd "C-c h") 'helm-command-prefix)
-(global-unset-key (kbd "C-x c"))
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (when (executable-find "curl")
+    (setq helm-google-suggest-use-curl-p t))
 
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB works in terminal
-(define-key helm-map (kbd "C-z") 'helm-select-action) ; list actions using C-z
+  ;; open helm buffer inside current window, not occupy whole other window
+  (setq helm-split-window-in-side-p t)
+  ;; move to end or beginning of source when reaching top or bottom of source.
+  (setq helm-move-to-line-cycle-in-source t)
+  ;; search for library in `require' and `declare-function' sexp.
+  (setq helm-ff-search-library-in-sexp t)
+  ;; scroll 8 lines other window using M-<next>/M-<prior>
+  (setq helm-scroll-amount 8)
+  (setq helm-ff-file-name-history-use-recentf t)
 
-(when (executable-find "curl")
-  (setq helm-google-suggest-use-curl-p t))
+  (helm-mode 1))
 
-;; open helm buffer inside current window, not occupy whole other window
-(setq helm-split-window-in-side-p t)
-;; move to end or beginning of source when reaching top or bottom of source.
-(setq helm-move-to-line-cycle-in-source t)
-;; search for library in `require' and `declare-function' sexp.
-(setq helm-ff-search-library-in-sexp t)
-;; scroll 8 lines other window using M-<next>/M-<prior>
-(setq helm-scroll-amount 8)
-(setq helm-ff-file-name-history-use-recentf t)
-
-(helm-mode 1)
-
-(projectile-global-mode)
-(helm-projectile-on)
-(setq projectile-switch-project-action 'projectile-dired)
-(setq projectile-completion-system 'helm)
-(setq projectile-enable-caching t)
-(setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name))))
-
-(global-set-key (kbd "C-S-n") 'helm-projectile-find-file)
-(global-set-key (kbd "C-S-o") 'helm-imenu)
-(global-set-key (kbd "C-S-g") 'helm-occur)
-(global-set-key (kbd "C-S-f") 'projectile-ag)
-(global-set-key (kbd "C-S-h") 'helm-projectile-ag)
-(global-set-key (kbd "C-S-p") 'helm-projectile-switch-project)
-(global-set-key (kbd "C-M-g") 'grunt-exec)
+(use-package projectile
+  :ensure t
+  :bind (("C-S-n" . helm-projectile-find-file)
+         ("C-S-o" . helm-imenu)
+         ("C-S-g" . helm-occur)
+         ("C-S-f" . projectile-ag)
+         ("C-S-h" . helm-projectile-ag)
+         ("C-S-p" . helm-projectile-switch-project))
+  :config
+  (projectile-global-mode)
+  (helm-projectile-on)
+  (setq projectile-switch-project-action 'projectile-dired)
+  (setq projectile-completion-system 'helm)
+  (setq projectile-enable-caching t)
+  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
 
 (use-package golden-ratio
   :ensure t
@@ -206,8 +261,23 @@
 
 (setq split-width-threshold nil)
 
-(add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
-(add-to-list 'interpreter-mode-alist '("python" . python-mode))
+(use-package ruby-mode
+  :mode "\\.rb\\'"
+  :mode "Rakefile"
+  :interpreter "ruby")
+
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode)
+  :config
+  )
+
+(setq python-environment-directory "~/.virtualenvs")
+
+(add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+(setq jedi:use-shortcuts t)
+(setq jedi:environment-root "ks")
 
 (defun my/scroll-other-window-up ()
   (interactive)
@@ -401,19 +471,12 @@
 
 (global-set-key (kbd "<f7>") 'my/new-empty-buffer)
 
-(setq python-environment-directory "~/.virtualenvs")
-
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-(setq jedi:use-shortcuts t)
-
-(add-to-list 'auto-mode-alist '("Rakefile" . ruby-mode))
-
-(color-theme-initialize)
-(color-theme-sitaramv-nt)
-
-(add-hook 'window-setup-hook
-          '(lambda () (set-cursor-color "black")))
+(use-package color-theme
+  :config
+  (color-theme-initialize)
+  (color-theme-sitaramv-nt)
+  (add-hook 'window-setup-hook
+            '(lambda () (set-cursor-color "black"))))
 
 (use-package anzu
   :ensure t
@@ -514,10 +577,7 @@
 
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
-(use-package ess
-  :ensure t
-  :config
-  )
+(use-package ess)
 
 (add-hook 'after-init-hook 'server-start t)
 
@@ -560,6 +620,21 @@
 (use-package tramp
   :config
   (setq tramp-default-method "ssh"))
+
+(use-package stylus-mode
+  :config
+  (add-hook 'stylus-mode-hook (lambda ()
+                                (setq sws-tab-width 4))))
+
+(use-package whitespace-mode
+  :config
+  (setq whitespace-display-mappings (assq-delete-all 'newline-mark
+                                                     whitespace-display-mappings))
+  (push (list 'space-mark ?\  [?.]) whitespace-display-mappings)
+  (set-face-attribute 'whitespace-space nil :background nil :foreground "gray40")
+  (set-face-attribute 'whitespace-indentation nil :background nil :foreground "gray40")
+  (set-face-attribute 'whitespace-line nil :background nil :foreground nil)
+  (setq whitespace-style (remove 'newline whitespace-style)))
 
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)

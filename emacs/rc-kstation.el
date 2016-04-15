@@ -1,4 +1,3 @@
-(require 's)
 
 (setq flycheck-python-pycompile-executable "~/.virtualenvs/ks/bin/python3")
 (setq flycheck-python-flake8-executable "~/.virtualenvs/ks/bin/flake8")
@@ -46,14 +45,14 @@
 
 (dir-locals-set-class-variables
  'kstation-project
- '(("backend/s7" . ((hello . "Hello")
-                    (eval . (progn
-                              (message "Hello from kstation!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                              (local-set-key (kbd "C-c t a") 'kstation/django-compile-file)))))
+ '((nil . ((indent-tabs-mode . t)
+           (fill-column . 80)))
+   ("backend/s7"
+    . ((fill-column . 120)
+       (eval . (progn
+                 (message "Hello from kstation!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                 (local-set-key (kbd "C-c t a") 'kstation/django-compile-file)))))
    ("ui" . ((eval . (progn
                       (local-set-key (kbd "C-c t a") 'kstation/ui-compile-command)))))))
 
-(dir-locals-set-directory-class
- (expand-file-name "~/dev/kstation") 'kstation-project)
-
-(setq jedi:environment-root "ks")
+(dir-locals-set-directory-class "/home/user/dev/kstation" 'kstation-project)
