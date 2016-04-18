@@ -31,6 +31,36 @@
 (use-package s)
 (use-package diminish)
 
+(setq-default indent-tabs-mode nil)
+
+(global-subword-mode)
+(global-font-lock-mode)
+(add-hook 'prog-mode-hook (lambda ()
+                            (font-lock-add-keywords nil '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
+
+;; clean trailing whitespaces automatically
+(setq my/trailing-whitespace-modes nil)
+(defun my/trailing-whitespace-hook ()
+  (when (member major-mode my/trailing-whitespace-modes)
+    (delete-trailing-whitespace)))
+(add-hook 'before-save-hook 'my/trailing-whitespace-hook)
+
+;; untabify some modes
+(setq my/untabify-modes nil)
+(defun my/untabify-hook ()
+  (when (member major-mode my/untabify-modes)
+    (untabify (point-min) (point-max))))
+(add-hook 'before-save-hook 'my/untabify-hook)
+
+(defun my/indent-region-or-buffer ()
+  (interactive)
+  (delete-trailing-whitespace)
+  (if (use-region-p)
+      (indent-region (region-beginning) (region-end))
+    (save-excursion
+      (indent-region (point-min) (point-max)))))
+(global-set-key "\C-\M-\\" 'my/indent-region-or-buffer)
+
 (use-package uniquify
   :config
   (setq uniquify-buffer-name-style 'forward)
@@ -169,8 +199,6 @@
 (set-default-coding-systems 'utf-8)
 (prefer-coding-system 'utf-8)
 
-(my/load-rc "prog-common")
-
 (global-set-key (kbd "M-]") 'next-error)
 (global-set-key (kbd "M-[") 'previous-error)
 
@@ -182,6 +210,7 @@
   (global-set-key [f9] 'compile))
 
 (put 'narrow-to-region 'disabled nil)
+(setq debug-on-error t)
 
 (use-package helm
   :ensure t
@@ -264,13 +293,17 @@
 (use-package ruby-mode
   :mode "\\.rb\\'"
   :mode "Rakefile"
-  :interpreter "ruby")
+  :interpreter "ruby"
+  :init
+  (add-to-list 'my/untabify-modes 'ruby-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'ruby-mode))
 
 (use-package python
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
-  :config
-  )
+  :init
+  (add-to-list 'my/untabify-modes 'python-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'python-mode))
 
 (setq python-environment-directory "~/.virtualenvs")
 
@@ -290,32 +323,39 @@
 
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-(my/load-rc "kstation")
-
 (use-package nginx-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("/etc/nginx/sites-available/.*" . nginx-mode))
-  (add-to-list 'auto-mode-alist '("nginx.conf" . nginx-mode))
-  (add-to-list 'auto-mode-alist '("nginx\.conf$"  . nginx-mode))
-  (add-to-list 'auto-mode-alist '("/etc/nginx/.*" . nginx-mode)))
-
-(setq show-trailing-whitespace t)
+  :mode "/etc/nginx/sites-available/.*"
+  :mode "nginx.conf"
+  :mode "nginx\.conf$"
+  :mode "/etc/nginx/.*")
 
 (electric-pair-mode 1)
 
 (global-set-key (kbd "C-c j") 'just-one-space)
-(global-set-key (kbd "C-x O") (lambda ()
-                                (interactive)
-                                (other-window -1)))
 
-(defun my/sh-mode-hook ()
+(setq show-paren-delay 0)
+(show-paren-mode t)
+(setq show-paren-style 'parenthesis)
+
+(use-package whitespace-mode
+  :config
+  ;; (set-face-background 'show-paren-match-face
+  ;; (face-attribute 'show-paren-match-face :foreground))
+  ;; (set-face-foreground 'show-paren-match-face nil)
+  (set-face-attribute 'show-paren-match-face nil
+                      :weight 'bold :underline nil :overline nil :slant 'normal)
+
+  (set-face-foreground 'show-paren-mismatch-face "red")
+  (set-face-attribute 'show-paren-mismatch-face nil
+                      :weight 'bold :underline nil :overline nil :slant 'normal)
+  (setq show-trailing-whitespace t))
+
+(use-package sh-mode
+  :config
   (setq sh-basic-offset 2
         sh-indentation 2))
-(add-hook 'sh-mode-hook 'my/sh-mode-hook)
 
 (use-package crux
-  :ensure t
   :bind (("C-c o" . crux-open-with)
          ("M-o" . crux-smart-open-line)
          ("M-O" . crux-smart-open-line-above)
@@ -327,22 +367,23 @@
          ("C-a" . crux-move-beginning-of-line)
          ("C-^" . crux-top-join-line)))
 
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (local-set-key (kbd "<f5>") 'eval-buffer)))
+(use-package emacs-lisp-mode
+  :bind (("<f5>" . eval-buffer))
+  :init
+  (add-to-list 'my/untabify-modes 'emacs-lisp-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'emacs-lisp-mode))
 
 (use-package web-mode
-  :ensure t
+  :mode "\\.phtml\\'"
+  :mode "\\.tpl\\.php\\'"
+  :mode "\\.[agj]sp\\'"
+  :mode "\\.as[cp]x\\'"
+  :mode "\\.erb\\'"
+  :mode "\\.mustache\\'"
+  :mode "\\.djhtml\\'"
+  :mode "\\.html?\\'"
+  :mode "\\.json?\\'"
   :config
-  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.json?\\'" . web-mode))
   (setq web-mode-markup-indent-offset 4)
   (setq web-mode-enable-current-element-highlight nil)
   (setq web-mode-enable-current-column-highlight t)
@@ -381,17 +422,13 @@
     (my/dired-sort)))
 
 (use-package markdown-mode
-  :ensure t
-  :config
-  (add-hook 'markdown-mode-hook 'whitespace-mode)
-  (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-  (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode)))
+  :mode "\\.markdown\\'"
+  :mode "\\.md\\'")
 
 (use-package yaml-mode
-  :ensure t)
+  :commands yaml-mode)
 
 (use-package flycheck
-  :ensure t
   :config
   ;; (flycheck-pos-tip-mode)
   (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
@@ -404,7 +441,6 @@
         (call-interactively (ad-get-orig-definition 'flycheck-list-errors))))))
 
 (use-package flycheck-checkbashisms
-  :ensure t
   :config
   (flycheck-checkbashisms-setup))
 
@@ -450,15 +486,13 @@
 (global-set-key (kbd "s-k") 'kill-this-buffer)
 
 (use-package avy
-  :ensure t
   :bind ("s-." . avy-goto-word-or-subword-1)
   :config
   (add-to-list 'golden-ratio-extra-commands 'avy-goto-word-or-subword-1))
 
 (use-package ace-window
-  :ensure t
   :bind ("s-o" . ace-window)
-  :config
+  :init
   (add-to-list 'golden-ratio-extra-commands 'ace-window))
 
 (defun my/new-empty-buffer ()
@@ -479,7 +513,6 @@
             '(lambda () (set-cursor-color "black"))))
 
 (use-package anzu
-  :ensure t
   :diminish anzu-mode
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp))
@@ -487,11 +520,14 @@
   (global-anzu-mode +1))
 
 (use-package js2-mode
-  :ensure t
+  :mode "\\.js\\'"
+  :mode "\\.tern-project$"
+  :mode "\\.tern-config$"
   :config
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-  (add-to-list 'auto-mode-alist '("\\.tern-project$" . js-mode))
-  (add-to-list 'auto-mode-alist '("\\.tern-config$" . js-mode))
+  (add-to-list 'my/untabify-modes 'js-mode)
+  (add-to-list 'my/untabify-modes 'js2-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'js-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'js2-mode)
 
   (add-hook 'js2-mode-hook 'ac-js2-mode)
   (add-hook 'js2-mode-hook #'js2-refactor-mode)
@@ -532,8 +568,10 @@
   (setq coffee-tab-width 2))
 
 (use-package haskell-mode
-  :ensure t
+  :mode "\\.hs\\'"
   :config
+  (add-to-list 'my/untabify-modes 'haskell-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'haskell-mode)
   (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
   (setq haskell-process-suggest-remove-import-lines t)
   (setq haskell-process-auto-import-loaded-modules t)
@@ -544,26 +582,27 @@
   (buffer-on-bottom-side "^\\*haskell\\*$")
   (add-to-list 'golden-ratio-exclude-buffer-names "*haskell*"))
 
-(defun my/c++-mode-hook ()
-  (setq tab-width 4)
-  (define-key c++-mode-map "\C-m" 'reindent-then-newline-and-indent)
-  (define-key c++-mode-map "\C-ce" 'c-comment-edit)
-  (setq c++-auto-hungry-initial-state 'none)
-  (setq c++-delete-function 'backward-delete-char)
-  (setq c++-tab-always-indent t)
-  (setq c-indent-level 4)
-  (setq c-basic-offset 4)
-  (setq c-default-style "linux")
-  (setq c-indentation-style "linux")
-  (setq c-continued-statement-offset 4)
-  (setq c++-empty-arglist-indent 4))
+(use-package c++-mode
+  :init
+  (add-to-list 'my/untabify-modes 'c++-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'c++-mode)
+  (defun my/c++-mode-hook ()
+    (setq tab-width 4)
+    (setq c++-auto-hungry-initial-state 'none)
+    (setq c++-delete-function 'backward-delete-char)
+    (setq c++-tab-always-indent t)
+    (setq c-indent-level 4)
+    (setq c-basic-offset 4)
+    (setq c-default-style "linux")
+    (setq c-indentation-style "linux")
+    (setq c-continued-statement-offset 4)
+    (setq c++-empty-arglist-indent 4))
+  (add-hook 'c++-mode-hook 'my/c++-mode-hook))
 
-(defun my/c-mode-common-hook ()
-  (define-key c-mode-base-map (kbd "M-o") 'eassist-switch-h-cpp)
-  (define-key c-mode-base-map (kbd "M-m") 'eassist-list-methods))
-
-(add-hook 'c-mode-common-hook 'my/c-mode-common-hook)
-(add-hook 'c++-mode-hook 'my/c++-mode-hook)
+(use-package c-mode
+  :init
+  (add-to-list 'my/untabify-modes 'c-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'c-mode))
 
 (defun goto-line-with-feedback ()
   "Show line numbers temporarily, while prompting for the line
@@ -577,12 +616,16 @@
 
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
-(use-package ess)
+(use-package ess
+  :disabled t)
 
-(add-hook 'after-init-hook 'server-start t)
+(use-package edit-server
+  :if window-system
+  :init
+  (add-hook 'after-init-hook 'server-start t))
 
 (use-package tex-site
-  :defer
+  :disabled t
   :config
   (setq preview-image-type 'pnm)
 
@@ -601,6 +644,7 @@
   (add-hook 'TeX-mode-hook 'my/TeX-mode-hook))
 
 (use-package reftex
+  :disabled t
   :diminish reftex-mode
   :config
   (add-hook 'latex-mode-hook 'turn-on-reftex)
@@ -622,7 +666,10 @@
   (setq tramp-default-method "ssh"))
 
 (use-package stylus-mode
+  :commands stylus-mode
   :config
+  (add-to-list 'my/untabify-modes 'stylus-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'stylus-mode)
   (add-hook 'stylus-mode-hook (lambda ()
                                 (setq sws-tab-width 4))))
 
@@ -635,6 +682,8 @@
   (set-face-attribute 'whitespace-indentation nil :background nil :foreground "gray40")
   (set-face-attribute 'whitespace-line nil :background nil :foreground nil)
   (setq whitespace-style (remove 'newline whitespace-style)))
+
+(my/load-rc "kstation")
 
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)
