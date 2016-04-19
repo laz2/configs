@@ -3,33 +3,67 @@
   (normal-top-level-add-to-load-path '("."))
   (normal-top-level-add-subdirs-to-load-path))
 
-(require 'prelude-packages)
+(setq package-enable-at-startup nil)
+(package-initialize)
+
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+        ("melpa" . "http://melpa.org/packages/")))
+
+(defvar prelude-packages
+  '(
+    dired+
+    auctex
+    paredit
+    auto-complete
+    color-theme zenburn-theme
+    desktop
+    multi-term
+    idomenu
+    ag
+    helm helm-ag
+    projectile helm-projectile
+    avy
+    golden-ratio
+    yasnippet
+    s
+    markdown-mode
+    js2-mode ac-js2 js2-refactor tern tern-auto-complete
+    coffee-mode
+    nginx-mode
+    python-mode py-autopep8 jedi
+    cmake-mode
+    web-mode
+    stylus-mode
+    yaml-mode
+    json-snatcher
+    ;;super-save
+    haskell-mode
+    crux
+    seq
+    use-package
+    go-mode
+    anzu
+    flycheck flycheck-pos-tip flycheck-color-mode-line
+    flycheck-checkbashisms
+    dockerfile-mode
+    nsis-mode
+    ess
+    diminish
+    volatile-highlights
+    )
+  "A list of packages to ensure are installed at launch.")
 
 (require 'use-package)
 (setq use-package-verbose t)
+(use-package diminish)
 
 (defun my/load-rc (name)
   (let ((rc-name (concat "rc-" name)))
     (load (concat "~/emacs/" rc-name))))
 
-(defun my/local-move-key (from to)
-  (let ((to-function (local-key-binding to)))
-    (local-set-key to (local-key-binding from))
-    to-function))
-
-(defun my/local-swap-keys (l r)
-  (local-set-key r (my/local-move-key l r)))
-
-(defun my/global-move-key (from to)
-  (let ((to-function (global-key-binding to)))
-    (global-set-key to (global-key-binding from))
-    to-function))
-
-(defun my/global-swap-keys (l r)
-  (global-set-key r (my/global-move-key l r)))
-
-(use-package s)
-(use-package diminish)
+(use-package s
+  :ensure)
 
 (setq-default indent-tabs-mode nil)
 
@@ -62,6 +96,7 @@
 (global-set-key "\C-\M-\\" 'my/indent-region-or-buffer)
 
 (use-package uniquify
+  :demand
   :config
   (setq uniquify-buffer-name-style 'forward)
   (setq uniquify-separator "/")
@@ -71,9 +106,11 @@
   (setq uniquify-ignore-buffers-re "^\\*"))
 
 (use-package volatile-highlights
+  :ensure
+  :demand
+  :diminish volatile-highlights-mode
   :config
-  (volatile-highlights-mode t)
-  :diminish volatile-highlights-mode)
+  (volatile-highlights-mode t))
 
 ;;; Backup settings
 (setq backup-by-copying t               ; don't clobber symlinks
@@ -111,9 +148,16 @@
 
 (setq redisplay-dont-pause t)
 
-(ac-config-default)
+(use-package auto-complete
+  :ensure
+  :demand
+  :diminish auto-complete-mode
+  :config
+  (ac-config-default))
 
 (use-package saveplace
+  :ensure
+  :demand
   :init
   (setq-default save-place t)
   :config
@@ -126,6 +170,8 @@
                 (lambda()(interactive)(find-file "~/.emacs")))
 
 (use-package ido
+  :ensure
+  :demand
   :config
   (ido-mode 'both)
 
@@ -173,6 +219,7 @@
 ;; ibuffer
 ;;
 (use-package ibuffer
+  :ensure
   :bind ("C-x C-b" . ibuffer)
   :config
   (setq ibuffer-saved-filter-groups
@@ -203,23 +250,27 @@
 (global-set-key (kbd "M-[") 'previous-error)
 
 (use-package compile
+  :commands compile-mode
+  :bind ([f9] . compile)
   :config
   (setq compilation-disable-input nil)
   (setq compilation-scroll-output 'first-error)
-  (setq mode-compile-always-save-buffer-p t)
-  (global-set-key [f9] 'compile))
+  (setq mode-compile-always-save-buffer-p t))
 
 (put 'narrow-to-region 'disabled nil)
 (setq debug-on-error t)
 
 (use-package helm
-  :ensure t
+  :ensure
   :diminish helm-mode
+  :commands helm-mode
   :bind (("C-c h"   . helm-command-prefix)
          ("M-x"     . helm-M-x)
          ("M-y"     . helm-show-kill-ring)
          ("C-x b"   . helm-mini)
          ("C-x C-f" . helm-find-files)
+         ("C-S-o" . helm-imenu)
+         ("C-S-g" . helm-occur)
          :map helm-map
          ;; rebind tab to run persistent action
          ("<tab>" . helm-execute-persistent-action)
@@ -250,10 +301,9 @@
   (helm-mode 1))
 
 (use-package projectile
-  :ensure t
+  :ensure
+  :demand
   :bind (("C-S-n" . helm-projectile-find-file)
-         ("C-S-o" . helm-imenu)
-         ("C-S-g" . helm-occur)
          ("C-S-f" . projectile-ag)
          ("C-S-h" . helm-projectile-ag)
          ("C-S-p" . helm-projectile-switch-project))
@@ -266,12 +316,15 @@
   (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
 
 (use-package golden-ratio
-  :ensure t
+  :ensure
+  :demand
   :diminish golden-ratio-mode
   :config
-  (golden-ratio-mode 1)
-  (setq golden-ratio-exclude-modes '("ediff-mode"
-                                     "eshell-mode"))
+  (golden-ratio-mode t)
+
+  (add-to-list 'golden-ratio-exclude-modes "ediff-mode")
+  (add-to-list 'golden-ratio-exclude-modes "eshell-mode")
+
   (add-to-list 'golden-ratio-exclude-buffer-names "*Help*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*Occur*")
@@ -291,16 +344,13 @@
 (setq split-width-threshold nil)
 
 (use-package ruby-mode
-  :mode "\\.rb\\'"
+  :commands ruby-mode
   :mode "Rakefile"
-  :interpreter "ruby"
   :init
   (add-to-list 'my/untabify-modes 'ruby-mode)
   (add-to-list 'my/trailing-whitespace-modes 'ruby-mode))
 
 (use-package python
-  :mode ("\\.py\\'" . python-mode)
-  :interpreter ("python" . python-mode)
   :init
   (add-to-list 'my/untabify-modes 'python-mode)
   (add-to-list 'my/trailing-whitespace-modes 'python-mode))
@@ -311,6 +361,14 @@
 (setq jedi:complete-on-dot t)
 (setq jedi:use-shortcuts t)
 (setq jedi:environment-root "ks")
+
+(use-package sh-mode
+  :init
+  (add-to-list 'my/untabify-modes 'sh-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'sh-mode)
+  :config
+  (setq sh-basic-offset 2
+        sh-indentation 2))
 
 (defun my/scroll-other-window-up ()
   (interactive)
@@ -323,12 +381,6 @@
 
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-(use-package nginx-mode
-  :mode "/etc/nginx/sites-available/.*"
-  :mode "nginx.conf"
-  :mode "nginx\.conf$"
-  :mode "/etc/nginx/.*")
-
 (electric-pair-mode 1)
 
 (global-set-key (kbd "C-c j") 'just-one-space)
@@ -337,25 +389,9 @@
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
 
-(use-package whitespace-mode
-  :config
-  ;; (set-face-background 'show-paren-match-face
-  ;; (face-attribute 'show-paren-match-face :foreground))
-  ;; (set-face-foreground 'show-paren-match-face nil)
-  (set-face-attribute 'show-paren-match-face nil
-                      :weight 'bold :underline nil :overline nil :slant 'normal)
-
-  (set-face-foreground 'show-paren-mismatch-face "red")
-  (set-face-attribute 'show-paren-mismatch-face nil
-                      :weight 'bold :underline nil :overline nil :slant 'normal)
-  (setq show-trailing-whitespace t))
-
-(use-package sh-mode
-  :config
-  (setq sh-basic-offset 2
-        sh-indentation 2))
-
 (use-package crux
+  :ensure
+  :demand
   :bind (("C-c o" . crux-open-with)
          ("M-o" . crux-smart-open-line)
          ("M-O" . crux-smart-open-line-above)
@@ -374,6 +410,8 @@
   (add-to-list 'my/trailing-whitespace-modes 'emacs-lisp-mode))
 
 (use-package web-mode
+  :ensure
+  :commands web-mode
   :mode "\\.phtml\\'"
   :mode "\\.tpl\\.php\\'"
   :mode "\\.[agj]sp\\'"
@@ -392,6 +430,7 @@
 (global-set-key (kbd "C-x C-v") 'find-alternate-file)
 
 (use-package dired
+  :commands dired-mode
   :config
   ;; dired - reuse current buffer by pressing 'a'
   (put 'dired-find-alternate-file 'disabled nil)
@@ -421,14 +460,28 @@
     "Sort dired listings with directories first before adding marks."
     (my/dired-sort)))
 
+(use-package nsis-mode
+  :ensure
+  :commands nsis-mode)
+
+(use-package dockerfile-mode
+  :ensure
+  :commands dockerfile-mode)
+
 (use-package markdown-mode
-  :mode "\\.markdown\\'"
-  :mode "\\.md\\'")
+  :ensure
+  :commands markdown-mode)
 
 (use-package yaml-mode
+  :ensure
   :commands yaml-mode)
 
+(use-package nginx-mode
+  :ensure
+  :commands nginx-mode)
+
 (use-package flycheck
+  :ensure
   :config
   ;; (flycheck-pos-tip-mode)
   (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
@@ -441,6 +494,7 @@
         (call-interactively (ad-get-orig-definition 'flycheck-list-errors))))))
 
 (use-package flycheck-checkbashisms
+  :ensure
   :config
   (flycheck-checkbashisms-setup))
 
@@ -465,6 +519,7 @@
                        "^\\*Compilation\\*$"
                        "^\\*Occur\\*$"
                        "^\\*Help\\*$"
+                       "^\\*Backtrace\\*$"
                        "^\\*jedi:doc\\*$"
                        "^\\*helm jedi:related-names\\*$"
                        "^\\*helm-ag\\*$"
@@ -486,11 +541,13 @@
 (global-set-key (kbd "s-k") 'kill-this-buffer)
 
 (use-package avy
+  :ensure
   :bind ("s-." . avy-goto-word-or-subword-1)
   :config
   (add-to-list 'golden-ratio-extra-commands 'avy-goto-word-or-subword-1))
 
 (use-package ace-window
+  :ensure
   :bind ("s-o" . ace-window)
   :init
   (add-to-list 'golden-ratio-extra-commands 'ace-window))
@@ -506,6 +563,7 @@
 (global-set-key (kbd "<f7>") 'my/new-empty-buffer)
 
 (use-package color-theme
+  :ensure
   :config
   (color-theme-initialize)
   (color-theme-sitaramv-nt)
@@ -513,6 +571,7 @@
             '(lambda () (set-cursor-color "black"))))
 
 (use-package anzu
+  :ensure
   :diminish anzu-mode
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp))
@@ -520,6 +579,7 @@
   (global-anzu-mode +1))
 
 (use-package js2-mode
+  :ensure
   :mode "\\.js\\'"
   :mode "\\.tern-project$"
   :mode "\\.tern-config$"
@@ -568,7 +628,8 @@
   (setq coffee-tab-width 2))
 
 (use-package haskell-mode
-  :mode "\\.hs\\'"
+  :ensure
+  :commands haskell-mode
   :config
   (add-to-list 'my/untabify-modes 'haskell-mode)
   (add-to-list 'my/trailing-whitespace-modes 'haskell-mode)
@@ -583,6 +644,7 @@
   (add-to-list 'golden-ratio-exclude-buffer-names "*haskell*"))
 
 (use-package c++-mode
+  :commands c++-mode
   :init
   (add-to-list 'my/untabify-modes 'c++-mode)
   (add-to-list 'my/trailing-whitespace-modes 'c++-mode)
@@ -600,6 +662,7 @@
   (add-hook 'c++-mode-hook 'my/c++-mode-hook))
 
 (use-package c-mode
+  :commands c-mode
   :init
   (add-to-list 'my/untabify-modes 'c-mode)
   (add-to-list 'my/trailing-whitespace-modes 'c-mode))
@@ -617,6 +680,7 @@
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 (use-package ess
+  :ensure
   :disabled t)
 
 (use-package edit-server
@@ -625,6 +689,7 @@
   (add-hook 'after-init-hook 'server-start t))
 
 (use-package tex-site
+  :ensure "auctex"
   :disabled t
   :config
   (setq preview-image-type 'pnm)
@@ -675,6 +740,16 @@
 
 (use-package whitespace-mode
   :config
+  ;; (set-face-background 'show-paren-match-face
+  ;; (face-attribute 'show-paren-match-face :foreground))
+  ;; (set-face-foreground 'show-paren-match-face nil)
+  (set-face-attribute 'show-paren-match-face nil
+                      :weight 'bold :underline nil :overline nil :slant 'normal)
+
+  (set-face-foreground 'show-paren-mismatch-face "red")
+  (set-face-attribute 'show-paren-mismatch-face nil
+                      :weight 'bold :underline nil :overline nil :slant 'normal)
+  (setq show-trailing-whitespace t)
   (setq whitespace-display-mappings (assq-delete-all 'newline-mark
                                                      whitespace-display-mappings))
   (push (list 'space-mark ?\  [?.]) whitespace-display-mappings)
