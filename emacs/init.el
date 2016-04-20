@@ -10,49 +10,16 @@
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa" . "http://melpa.org/packages/")))
 
-(defvar prelude-packages
-  '(
-    dired+
-    auctex
-    paredit
-    auto-complete
-    color-theme zenburn-theme
-    desktop
-    multi-term
-    idomenu
-    ag
-    helm helm-ag
-    projectile helm-projectile
-    avy
-    golden-ratio
-    yasnippet
-    s
-    markdown-mode
-    js2-mode ac-js2 js2-refactor tern tern-auto-complete
-    coffee-mode
-    nginx-mode
-    python-mode py-autopep8 jedi
-    cmake-mode
-    web-mode
-    stylus-mode
-    yaml-mode
-    json-snatcher
-    ;;super-save
-    haskell-mode
-    crux
-    seq
-    use-package
-    go-mode
-    anzu
-    flycheck flycheck-pos-tip flycheck-color-mode-line
-    flycheck-checkbashisms
-    dockerfile-mode
-    nsis-mode
-    ess
-    diminish
-    volatile-highlights
-    )
-  "A list of packages to ensure are installed at launch.")
+(dolist (p '(
+             use-package
+             diminish
+             ))
+  (let (refreshed)
+    (when (not (package-installed-p p))
+      (unless refreshed
+        (package-refresh-contents)
+        (setq refreshed t))
+      (package-install p))))
 
 (require 'use-package)
 (setq use-package-verbose t)
@@ -63,6 +30,9 @@
     (load (concat "~/emacs/" rc-name))))
 
 (use-package s
+  :ensure)
+
+(use-package seq
   :ensure)
 
 (setq-default indent-tabs-mode nil)
@@ -166,7 +136,7 @@
 (global-set-key (kbd "<f5>")
                 (lambda ()
                   (interactive)
-                  (switch-to-buffer "*scratch*")))
+                  (Switch-to-buffer "*scratch*")))
 
 (global-set-key (kbd "<f6>")
                 (lambda ()
@@ -174,7 +144,6 @@
                   (find-file "~/.emacs")))
 
 (use-package ido
-  :ensure
   :demand
   :config
   (ido-mode 'both)
@@ -223,7 +192,6 @@
 ;; ibuffer
 ;;
 (use-package ibuffer
-  :ensure
   :bind ("C-x C-b" . ibuffer)
   :config
   (setq ibuffer-saved-filter-groups
@@ -305,20 +273,73 @@
 
   (helm-mode 1))
 
+(use-package ag
+  :ensure)
+
+(use-package helm-ag
+  :ensure)
+
+(use-package yasnippet
+  :ensure)
+
+(use-package dired+
+  :ensure)
+
+(use-package dired
+  :commands dired-mode
+  :config
+  ;; dired - reuse current buffer by pressing 'a'
+  (put 'dired-find-alternate-file 'disabled nil)
+
+  ;; always delete and copy recursively
+  (setq dired-recursive-deletes 'always)
+  (setq dired-recursive-copies 'always)
+
+  ;; if there is a dired buffer displayed in the next window, use its
+  ;; current subdir, instead of the current subdir of this dired buffer
+  (setq dired-dwim-target t)
+
+  (require 'dired-x)
+  (require 'dired+)
+
+  (toggle-diredp-find-file-reuse-dir 1)
+
+  (defun my/dired-sort ()
+    "Sort dired listings with directories first."
+    (save-excursion
+      (let (buffer-read-only)
+        (forward-line 2) ;; beyond dir. header
+        (sort-regexp-fields t "^.*$" "[ ]*." (point) (point-max)))
+      (set-buffer-modified-p nil)))
+
+  (defadvice dired-readin
+    (after dired-after-updating-hook first () activate)
+    "Sort dired listings with directories first before adding marks."
+    (my/dired-sort)))
+
 (use-package projectile
   :ensure
   :demand
-  :bind (("C-S-n" . helm-projectile-find-file)
+  :bind (
          ("C-S-f" . projectile-ag)
-         ("C-S-h" . helm-projectile-ag)
-         ("C-S-p" . helm-projectile-switch-project))
+         )
   :config
   (projectile-global-mode)
-  (helm-projectile-on)
-  (setq projectile-switch-project-action 'projectile-dired)
-  (setq projectile-completion-system 'helm)
   (setq projectile-enable-caching t)
   (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
+
+(use-package helm-projectile
+  :ensure
+  :demand
+  :bind (
+         ("C-S-n" . helm-projectile-find-file)
+         ("C-S-h" . helm-projectile-ag)
+         ("C-S-p" . helm-projectile-switch-project)
+         )
+  :config
+  (setq projectile-completion-system 'helm)
+  (helm-projectile-on)
+  (setq projectile-switch-project-action 'projectile-dired))
 
 (use-package golden-ratio
   :ensure
@@ -343,10 +364,21 @@
   (add-to-list 'golden-ratio-exclude-buffer-names "*helm M-x*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*helm kill ring*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Compile-Log*")
 
   (add-to-list 'golden-ratio-exclude-buffer-regexp "*ag search"))
 
 (setq split-width-threshold nil)
+
+(use-package bm
+  :ensure
+  :bind ("C-M-;" . bm-toggle)
+  :init
+  (setq-default bm-highlight-style 'bm-highlight-only-fringe))
+
+(use-package helm-bm
+  :ensure
+  :bind ("C-M-'" . helm-bm))
 
 (use-package ruby-mode
   :commands ruby-mode
@@ -360,7 +392,14 @@
   (add-to-list 'my/untabify-modes 'python-mode)
   (add-to-list 'my/trailing-whitespace-modes 'python-mode))
 
+(use-package py-autopep8
+  :ensure)
+
 (setq python-environment-directory "~/.virtualenvs")
+
+(use-package jedi
+  :ensure
+  :demand)
 
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
@@ -418,6 +457,12 @@
   (add-to-list 'my/untabify-modes 'emacs-lisp-mode)
   (add-to-list 'my/trailing-whitespace-modes 'emacs-lisp-mode))
 
+(use-package json-snatcher
+  :ensure)
+
+(use-package json-reformat
+  :ensure)
+
 (use-package web-mode
   :ensure
   :commands web-mode
@@ -437,37 +482,6 @@
   (web-mode-set-engine "angular"))
 
 (global-set-key (kbd "C-x C-v") 'find-alternate-file)
-
-(use-package dired
-  :commands dired-mode
-  :config
-  ;; dired - reuse current buffer by pressing 'a'
-  (put 'dired-find-alternate-file 'disabled nil)
-
-  ;; always delete and copy recursively
-  (setq dired-recursive-deletes 'always)
-  (setq dired-recursive-copies 'always)
-
-  ;; if there is a dired buffer displayed in the next window, use its
-  ;; current subdir, instead of the current subdir of this dired buffer
-  (setq dired-dwim-target t)
-
-  (require 'dired-x)
-
-  (toggle-diredp-find-file-reuse-dir 1)
-
-  (defun my/dired-sort ()
-    "Sort dired listings with directories first."
-    (save-excursion
-      (let (buffer-read-only)
-        (forward-line 2) ;; beyond dir. header
-        (sort-regexp-fields t "^.*$" "[ ]*." (point) (point-max)))
-      (set-buffer-modified-p nil)))
-
-  (defadvice dired-readin
-    (after dired-after-updating-hook first () activate)
-    "Sort dired listings with directories first before adding marks."
-    (my/dired-sort)))
 
 (use-package nsis-mode
   :ensure
@@ -489,11 +503,13 @@
   :ensure
   :commands nginx-mode)
 
+(use-package go-mode
+  :ensure
+  :commands go-mode)
+
 (use-package flycheck
   :ensure
   :config
-  ;; (flycheck-pos-tip-mode)
-  (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
     (interactive)
@@ -506,6 +522,11 @@
   :ensure
   :config
   (flycheck-checkbashisms-setup))
+
+(use-package flycheck-color-mode-line
+  :ensure
+  :config
+  (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
 
 (use-package flyspell
   :config
@@ -590,16 +611,9 @@
 (use-package js2-mode
   :ensure
   :mode "\\.js\\'"
-  :mode "\\.tern-project$"
-  :mode "\\.tern-config$"
   :config
-  (add-to-list 'my/untabify-modes 'js-mode)
   (add-to-list 'my/untabify-modes 'js2-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'js-mode)
   (add-to-list 'my/trailing-whitespace-modes 'js2-mode)
-
-  (add-hook 'js2-mode-hook 'ac-js2-mode)
-  (add-hook 'js2-mode-hook #'js2-refactor-mode)
 
   (setq js2-highlight-level 2)
   (setq js2-strict-inconsistent-return-warning nil)
@@ -615,15 +629,8 @@
   (aset js2-kwd-tokens js2-TRUE 'font-lock-keyword-face)
   (aset js2-kwd-tokens js2-FALSE 'font-lock-keyword-face)
 
-  (eval-after-load 'tern
-    '(progn
-       (require 'tern-auto-complete)
-       (tern-ac-setup)))
-
   (add-hook 'js2-mode-hook (lambda ()
-                             (tern-mode t)
-                             (js2-imenu-extras-mode t)
-                             (local-set-key (kbd "M-.") 'tern-find-definition)))
+                             (js2-imenu-extras-mode t)))
 
   (defadvice js2-record-name-node
     (after my/js2-record-name-node first () activate)
@@ -632,9 +639,41 @@
       (js2-set-face leftpos
                     (+ leftpos (js2-node-len node))
                     'font-lock-variable-name-face
-                    'record)))
+                    'record))))
 
-  (setq coffee-tab-width 2))
+(use-package ac-js2
+  :ensure
+  :commands ac-js2-mode
+  :init
+  (add-hook 'js2-mode-hook 'ac-js2-mode))
+
+(use-package js2-refactor
+  :ensure
+  :commands js2-refactor-mode
+  :init
+  (add-hook 'js2-mode-hook #'js2-refactor-mode))
+
+(use-package tern
+  :ensure
+  :commands tern-mode
+  :mode ("\\.tern-project$" . js2-mode)
+  :mode ("\\.tern-config$" . js2-mode)
+  :init
+  (add-hook 'js2-mode-hook (lambda ()
+                             (tern-mode t)
+                             (local-set-key (kbd "M-.") 'tern-find-definition))))
+
+(use-package tern-auto-complete
+  :ensure
+  :commands tern-mode
+  :config
+  (tern-ac-setup))
+
+(use-package coffee-mode
+  :ensure
+  :commands coffee-mode
+  :init
+  (setq-default coffee-tab-width 2))
 
 (use-package haskell-mode
   :ensure
@@ -698,7 +737,7 @@
   (add-hook 'after-init-hook 'server-start t))
 
 (use-package tex-site
-  :ensure "auctex"
+  :ensure auctex
   :disabled t
   :config
   (setq preview-image-type 'pnm)
