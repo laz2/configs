@@ -164,10 +164,14 @@
   (setq save-place-file (expand-file-name "saveplace" user-emacs-directory)))
 
 (global-set-key (kbd "<f5>")
-                (lambda()(interactive)(switch-to-buffer "*scratch*")))
+                (lambda ()
+                  (interactive)
+                  (switch-to-buffer "*scratch*")))
 
 (global-set-key (kbd "<f6>")
-                (lambda()(interactive)(find-file "~/.emacs")))
+                (lambda ()
+                  (interactive)
+                  (find-file "~/.emacs")))
 
 (use-package ido
   :ensure
@@ -258,7 +262,6 @@
   (setq mode-compile-always-save-buffer-p t))
 
 (put 'narrow-to-region 'disabled nil)
-(setq debug-on-error t)
 
 (use-package helm
   :ensure
@@ -297,6 +300,8 @@
   ;; scroll 8 lines other window using M-<next>/M-<prior>
   (setq helm-scroll-amount 8)
   (setq helm-ff-file-name-history-use-recentf t)
+
+  (setq helm-split-window-in-side-p t)
 
   (helm-mode 1))
 
@@ -367,8 +372,8 @@
   (add-to-list 'my/untabify-modes 'sh-mode)
   (add-to-list 'my/trailing-whitespace-modes 'sh-mode)
   :config
-  (setq sh-basic-offset 2
-        sh-indentation 2))
+  (setq-default sh-basic-offset 2
+                sh-indentation 2))
 
 (defun my/scroll-other-window-up ()
   (interactive)
@@ -385,9 +390,13 @@
 
 (global-set-key (kbd "C-c j") 'just-one-space)
 
-(setq show-paren-delay 0)
+(setq-default show-paren-delay 0
+              show-paren-style 'parenthesis)
 (show-paren-mode t)
-(setq show-paren-style 'parenthesis)
+
+(use-package cmake-mode
+  :ensure
+  :commands cmake-mode)
 
 (use-package crux
   :ensure
@@ -757,6 +766,14 @@
   (set-face-attribute 'whitespace-indentation nil :background nil :foreground "gray40")
   (set-face-attribute 'whitespace-line nil :background nil :foreground nil)
   (setq whitespace-style (remove 'newline whitespace-style)))
+
+(use-package miniedit
+  :ensure
+  :demand
+  :init
+  (miniedit-install)
+  :config
+  (setq miniedit-show-help-p nil))
 
 (my/load-rc "kstation")
 
