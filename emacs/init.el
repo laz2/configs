@@ -271,7 +271,11 @@
 
   (setq helm-split-window-in-side-p t)
 
-  (helm-mode 1))
+  (helm-mode 1)
+
+  (setq helm-autoresize-min-height 30
+        helm-autoresize-max-height 30)
+  (helm-autoresize-mode 1))
 
 (use-package ag
   :ensure)
@@ -361,6 +365,7 @@
   (add-to-list 'golden-ratio-exclude-buffer-names "*helm-ag*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*helm grep*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*helm imenu*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*helm occur*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*helm M-x*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*helm kill ring*")
@@ -390,21 +395,20 @@
 (use-package python
   :init
   (add-to-list 'my/untabify-modes 'python-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'python-mode))
+  (add-to-list 'my/trailing-whitespace-modes 'python-mode)
+  (setq python-environment-directory "~/.virtualenvs"))
 
 (use-package py-autopep8
   :ensure)
 
-(setq python-environment-directory "~/.virtualenvs")
-
 (use-package jedi
   :ensure
-  :demand)
-
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-(setq jedi:use-shortcuts t)
-(setq jedi:environment-root "ks")
+  :commands jedi:setup
+  :init
+  (setq jedi:complete-on-dot t)
+  (setq jedi:use-shortcuts t)
+  (setq jedi:environment-root "ks")
+  (add-hook 'python-mode-hook 'jedi:setup))
 
 (use-package sh-mode
   :init
@@ -425,13 +429,31 @@
 
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 
-(electric-pair-mode 1)
+(use-package electric
+  :config
+  (electric-pair-mode 1))
 
-(global-set-key (kbd "C-c j") 'just-one-space)
+(bind-key "C-c j" 'just-one-space)
 
-(setq-default show-paren-delay 0
-              show-paren-style 'parenthesis)
-(show-paren-mode t)
+(use-package paren
+  :config
+  (set-face-attribute 'show-paren-match-face nil
+                      :weight 'bold
+                      :underline nil
+                      :overline nil
+                      :slant 'normal)
+  (set-face-attribute 'show-paren-mismatch-face nil
+                      :foreground "red"
+                      :background nil
+                      :weight 'bold
+                      :underline nil
+                      :overline nil
+                      :slant 'normal)
+
+  (setq-default show-paren-delay 0
+                show-paren-style 'parenthesis)
+
+  (show-paren-mode t))
 
 (use-package cmake-mode
   :ensure
@@ -449,7 +471,11 @@
          ("C-c r" . crux-rename-buffer-and-file)
          ("C-c I" . crux-find-user-init-file)
          ("C-a" . crux-move-beginning-of-line)
-         ("C-^" . crux-top-join-line)))
+         ("C-^" . crux-top-join-line))
+  :config
+  (defadvice crux-reopen-as-root
+    (after my/crux-reopen-as-root first () activate)
+    (projectile-mode -1)))
 
 (use-package emacs-lisp-mode
   :bind (("<f5>" . eval-buffer))
@@ -564,8 +590,8 @@
   "Quit bottom side windows of the current frame."
   (interactive)
   (dolist (window (window-at-side-list nil 'bottom))
-    (if (eq (window-parameter window 'window-side) 'bottom)
-        (quit-window 'kill window))))
+    (when (eq (window-parameter window 'window-side) 'bottom)
+        (delete-window window))))
 
 (global-set-key (kbd "s-q") 'my/quit-bottom-side-windows)
 (global-set-key (kbd "s-k") 'kill-this-buffer)
@@ -779,6 +805,7 @@
   (setq tramp-default-method "ssh"))
 
 (use-package stylus-mode
+  :ensure
   :commands stylus-mode
   :config
   (add-to-list 'my/untabify-modes 'stylus-mode)
@@ -787,24 +814,11 @@
                                 (setq sws-tab-width 4))))
 
 (use-package whitespace-mode
+  :bind (("C-c T w" . whitespace-mode))
+  :diminish whitespace-mode
   :config
-  ;; (set-face-background 'show-paren-match-face
-  ;; (face-attribute 'show-paren-match-face :foreground))
-  ;; (set-face-foreground 'show-paren-match-face nil)
-  (set-face-attribute 'show-paren-match-face nil
-                      :weight 'bold :underline nil :overline nil :slant 'normal)
-
-  (set-face-foreground 'show-paren-mismatch-face "red")
-  (set-face-attribute 'show-paren-mismatch-face nil
-                      :weight 'bold :underline nil :overline nil :slant 'normal)
   (setq show-trailing-whitespace t)
-  (setq whitespace-display-mappings (assq-delete-all 'newline-mark
-                                                     whitespace-display-mappings))
-  (push (list 'space-mark ?\  [?.]) whitespace-display-mappings)
-  (set-face-attribute 'whitespace-space nil :background nil :foreground "gray40")
-  (set-face-attribute 'whitespace-indentation nil :background nil :foreground "gray40")
-  (set-face-attribute 'whitespace-line nil :background nil :foreground nil)
-  (setq whitespace-style (remove 'newline whitespace-style)))
+  (push (list 'space-mark ?\  [?.]) whitespace-display-mappings))
 
 (use-package miniedit
   :ensure

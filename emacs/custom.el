@@ -34,7 +34,8 @@
  '(vc-annotate-background "#2B2B2B")
  '(vc-annotate-color-map (quote ((20 . "#BC8383") (40 . "#CC9393") (60 . "#DFAF8F") (80 . "#D0BF8F") (100 . "#E0CF9F") (120 . "#F0DFAF") (140 . "#5F7F5F") (160 . "#7F9F7F") (180 . "#8FB28F") (200 . "#9FC59F") (220 . "#AFD8AF") (240 . "#BFEBBF") (260 . "#93E0E3") (280 . "#6CA0A3") (300 . "#7CB8BB") (320 . "#8CD0D3") (340 . "#94BFF3") (360 . "#DC8CC3"))))
  '(vc-annotate-very-old-color "#DC8CC3")
- '(weechat-color-list (quote (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496"))))
+ '(weechat-color-list (quote (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496")))
+ '(whitespace-style (quote (face tabs spaces trailing space-before-tab newline indentation empty space-after-tab space-mark tab-mark newline-mark))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -57,9 +58,11 @@
  '(js2-function-call ((t (:inherit default :foreground "dark red"))))
  '(js2-function-param ((t (:inherit font-lock-variable-name-face))))
  '(js2-object-property ((t (:inherit default :foreground "navy"))))
+ '(show-paren-mismatch ((t (:foreground "red" :overline nil :underline nil :slant normal :weight bold))))
  '(web-mode-html-attr-engine-face ((t (:inherit web-mode-html-attr-name-face))))
  '(web-mode-html-attr-equal-face ((t (:inherit web-mode-tag-bracket-face))))
  '(web-mode-html-attr-name-face ((t (:foreground "blue" :weight bold))))
  '(web-mode-html-attr-value-face ((t (:foreground "forest green" :weight bold))))
  '(web-mode-html-tag-face ((t (:foreground "dark blue" :weight bold))))
- '(web-mode-json-key-face ((t (:inherit font-lock-keyword-face)))))
+ '(web-mode-json-key-face ((t (:inherit font-lock-keyword-face))))
+ '(whitespace-space ((t (:foreground "lightgray")))))
