@@ -204,17 +204,6 @@
   (add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*Compile-Log*"))
 
-(use-package ibuffer
-  :bind ("C-x C-b" . ibuffer)
-  :config
-  (setq ibuffer-saved-filter-groups
-        (quote (("default"
-                 ))))
-
-  (add-hook 'ibuffer-mode-hook
-            (lambda ()
-              (ibuffer-switch-to-saved-filter-groups "default"))))
-
 (setq scroll-step 1)
 (setq default-tab-width 4)
 (global-hl-line-mode -1)
@@ -256,6 +245,7 @@
          ("C-S-o" . helm-imenu)
          ("C-S-g" . helm-occur)
          ("C-h SPC" . helm-all-mark-rings)
+         ("C-x C-b" . helm-buffers-list)
          :map helm-map
          ;; rebind tab to run persistent action
          ("<tab>" . helm-execute-persistent-action)
@@ -299,6 +289,10 @@
   :ensure
   :config
   (helm-descbinds-mode))
+
+(use-package helm-describe-modes
+  :ensure
+  :commands helm-describe-modes)
 
 (use-package ag
   :ensure
@@ -397,6 +391,12 @@
 
 (use-package py-autopep8
   :ensure)
+
+(use-package pip-requirements
+  :ensure
+  :commands pip-requirements-mode
+  :init
+  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
 
 (use-package jedi
   :ensure
@@ -536,13 +536,11 @@
   :ensure
   :config
   (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
-  (add-hook 'after-init-hook #'global-flycheck-mode)
-  (defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
-    (interactive)
-    (let ((window (get-buffer-window "*Flycheck errors*")))
-      (if window
-          (delete-window window)
-        (call-interactively (ad-get-orig-definition 'flycheck-list-errors))))))
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+(use-package helm-flycheck
+  :ensure
+  :bind ("C-c ! l" . helm-flycheck))
 
 (use-package flycheck-checkbashisms
   :ensure
@@ -591,7 +589,7 @@
   (interactive)
   (dolist (window (window-at-side-list nil 'bottom))
     (when (eq (window-parameter window 'window-side) 'bottom)
-        (delete-window window))))
+      (delete-window window))))
 
 (global-set-key (kbd "s-q") 'my/quit-bottom-side-windows)
 (global-set-key (kbd "s-k") 'kill-this-buffer)
@@ -617,14 +615,6 @@
     (setq buffer-offer-save t)))
 
 (global-set-key (kbd "<f7>") 'my/new-empty-buffer)
-
-(use-package color-theme
-  :ensure
-  :config
-  (color-theme-initialize)
-  (color-theme-sitaramv-nt)
-  (add-hook 'window-setup-hook
-            '(lambda () (set-cursor-color "black"))))
 
 (use-package anzu
   :ensure
@@ -829,6 +819,12 @@
   (setq miniedit-show-help-p nil))
 
 (my/load-rc "kstation")
+
+(use-package color-theme-modern
+  :ensure)
+
+(load-theme 'sitaramv-nt t t)
+(enable-theme 'sitaramv-nt)
 
 (setq custom-file "~/emacs/custom.el")
 (load custom-file t)

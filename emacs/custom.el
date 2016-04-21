@@ -14,8 +14,6 @@
  '(cua-normal-cursor-color "#657b83")
  '(cua-overwrite-cursor-color "#b58900")
  '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes (quote (gruber-darker)))
- '(custom-safe-themes (quote ("f3d6a49e3f4491373028eda655231ec371d79d6d2a628f08d5aa38739340540b" "bcc6775934c9adf5f3bd1f428326ce0dcd34d743a92df48c128e6438b815b44f" "afc220610bee26945b7c750b0cca03775a8b73c27fdca81a586a0a62d45bbce2" "28ec8ccf6190f6a73812df9bc91df54ce1d6132f18b4c8fcc85d45298569eb53" "3632cf223c62cb7da121be0ed641a2243f7ec0130178722554e613c9ab3131de" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "472af27930b4c25b13971cc34ee1610c562366d63ad570d4f7cd0055c182c7e9" "f04122bbc305a202967fa1838e20ff741455307c2ae80a26035fbf5d637e325f" "66132890ee1f884b4f8e901f0c61c5ed078809626a547dbefbb201f900d03fd8" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "dd4db38519d2ad7eb9e2f30bc03fba61a7af49a185edfd44e020aa5345e3dca7" default)))
  '(fci-rule-color "#383838")
  '(frame-brackground-mode (quote dark))
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
@@ -41,6 +39,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cursor ((t (:background "black"))))
  '(font-latex-string-face ((t (:foreground "indian red"))) t)
  '(font-latex-verbatim-face ((t (:inherit nil :foreground "SaddleBrown"))) t)
  '(font-lock-builtin-face ((t (:inherit default))))
