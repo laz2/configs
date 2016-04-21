@@ -188,9 +188,22 @@
     (set (make-local-variable 'truncate-lines) nil))
   (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation))
 
-;;
-;; ibuffer
-;;
+(use-package golden-ratio
+  :ensure
+  :demand
+  :diminish golden-ratio-mode
+  :config
+  (golden-ratio-mode t)
+
+  (add-to-list 'golden-ratio-exclude-modes "ediff-mode")
+  (add-to-list 'golden-ratio-exclude-modes "eshell-mode")
+
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Help*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Occur*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*compilation*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Compile-Log*"))
+
 (use-package ibuffer
   :bind ("C-x C-b" . ibuffer)
   :config
@@ -242,14 +255,19 @@
          ("C-x C-f" . helm-find-files)
          ("C-S-o" . helm-imenu)
          ("C-S-g" . helm-occur)
+         ("C-h SPC" . helm-all-mark-rings)
          :map helm-map
          ;; rebind tab to run persistent action
          ("<tab>" . helm-execute-persistent-action)
          ;; make TAB works in terminal
          ("C-i"   . helm-execute-persistent-action)
          ;; list actions using C-z
-         ("C-z"   . helm-select-action))
+         ("C-z"   . helm-select-action)
+         :map minibuffer-local-map
+         ("C-c C-l" . helm-minibuffer-history))
   :config
+  (add-to-list 'golden-ratio-exclude-buffer-regexp "\\`\\*helm.*?\\*\\'")
+
   (require 'helm-config)
   ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
   ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
@@ -277,8 +295,15 @@
         helm-autoresize-max-height 30)
   (helm-autoresize-mode 1))
 
+(use-package helm-descbinds
+  :ensure
+  :config
+  (helm-descbinds-mode))
+
 (use-package ag
-  :ensure)
+  :ensure
+  :config
+  (add-to-list 'golden-ratio-exclude-buffer-regexp "*ag search"))
 
 (use-package helm-ag
   :ensure)
@@ -345,34 +370,6 @@
   (helm-projectile-on)
   (setq projectile-switch-project-action 'projectile-dired))
 
-(use-package golden-ratio
-  :ensure
-  :demand
-  :diminish golden-ratio-mode
-  :config
-  (golden-ratio-mode t)
-
-  (add-to-list 'golden-ratio-exclude-modes "ediff-mode")
-  (add-to-list 'golden-ratio-exclude-modes "eshell-mode")
-
-  (add-to-list 'golden-ratio-exclude-buffer-names "*Help*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*Occur*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*compilation*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*jedi:doc*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*helm jedi:related-names*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*helm projectile*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*helm-ag*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*helm grep*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*helm imenu*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*helm occur*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*helm M-x*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*helm kill ring*")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*Compile-Log*")
-
-  (add-to-list 'golden-ratio-exclude-buffer-regexp "*ag search"))
-
 (setq split-width-threshold nil)
 
 (use-package bm
@@ -408,7 +405,9 @@
   (setq jedi:complete-on-dot t)
   (setq jedi:use-shortcuts t)
   (setq jedi:environment-root "ks")
-  (add-hook 'python-mode-hook 'jedi:setup))
+  (add-hook 'python-mode-hook 'jedi:setup)
+  :config
+  (add-to-list 'golden-ratio-exclude-buffer-regexp "\\`\\*jedi.*?\\*\\'"))
 
 (use-package sh-mode
   :init
@@ -536,6 +535,7 @@
 (use-package flycheck
   :ensure
   :config
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (defadvice flycheck-list-errors (around my/flycheck-list-errors activate)
     (interactive)
