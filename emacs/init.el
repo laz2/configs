@@ -311,6 +311,10 @@
 (use-package yasnippet
   :ensure)
 
+(use-package restart-emacs
+  :ensure
+  :bind ("C-c C-c R" . restart-emacs))
+
 (use-package dired+
   :ensure)
 
