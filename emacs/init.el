@@ -302,6 +302,12 @@
 (use-package helm-ag
   :ensure)
 
+(use-package free-keys
+  :ensure
+  :commands free-keys
+  :init
+  (add-to-list 'golden-ratio-exclude-buffer-regexp "*Free keys*"))
+
 (use-package yasnippet
   :ensure)
 
@@ -394,9 +400,7 @@
 
 (use-package pip-requirements
   :ensure
-  :commands pip-requirements-mode
-  :init
-  (add-hook 'pip-requirements-mode-hook #'pip-requirements-auto-complete-setup))
+  :commands pip-requirements-mode)
 
 (use-package jedi
   :ensure
@@ -578,7 +582,6 @@
                        "^\\*helm jedi:related-names\\*$"
                        "^\\*helm-ag\\*$"
                        "^\\*helm grep\\*$"
-                       ;;"\\`\\*helm.*?\\*\\'"
                        "^\\*Warnings\\*$"
                        "^\\*grep\\*$"
                        "^\\*ag search"
