@@ -199,6 +199,7 @@
   (add-to-list 'golden-ratio-exclude-modes "eshell-mode")
 
   (add-to-list 'golden-ratio-exclude-buffer-names "*Help*")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Apropos*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*Occur*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*compilation*")
   (add-to-list 'golden-ratio-exclude-buffer-names "*grep*")
@@ -314,6 +315,10 @@
 (use-package restart-emacs
   :ensure
   :bind ("C-c C-c R" . restart-emacs))
+
+(use-package toggle-quotes
+  :ensure
+  :bind ("C-'" . toggle-quotes))
 
 (use-package dired+
   :ensure)
@@ -581,6 +586,7 @@
                        "^\\*Compilation\\*$"
                        "^\\*Occur\\*$"
                        "^\\*Help\\*$"
+                       "^\\*Apropos\\*$"
                        "^\\*Backtrace\\*$"
                        "^\\*jedi:doc\\*$"
                        "^\\*helm jedi:related-names\\*$"
