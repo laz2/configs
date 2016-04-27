@@ -839,10 +839,11 @@
 
 (use-package magit
   :ensure
-  :bind ("C-x g" . magit-status))
+  :bind (("C-x g" . magit-status)))
 
 (use-package super-save
   :ensure
+  :diminish super-save-mode
   :init
   (setq-default super-save-auto-save-when-idle t)
   :config
