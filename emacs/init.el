@@ -499,7 +499,12 @@
   :ensure)
 
 (use-package json-reformat
-  :ensure)
+  :ensure
+  :commands json-reformat-region)
+
+(use-package json-mode
+  :ensure
+  :commands json-mode)
 
 (use-package web-mode
   :ensure
@@ -512,7 +517,6 @@
   :mode "\\.mustache\\'"
   :mode "\\.djhtml\\'"
   :mode "\\.html?\\'"
-  :mode "\\.json?\\'"
   :config
   (setq web-mode-markup-indent-offset 4)
   (setq web-mode-enable-current-element-highlight nil)
@@ -832,6 +836,17 @@
   (setq miniedit-show-help-p nil))
 
 (my/load-rc "kstation")
+
+(use-package magit
+  :ensure
+  :bind ("C-x g" . magit-status))
+
+(use-package super-save
+  :ensure
+  :init
+  (setq-default super-save-auto-save-when-idle t)
+  :config
+  (super-save-mode t))
 
 (use-package color-theme-modern
   :ensure)
