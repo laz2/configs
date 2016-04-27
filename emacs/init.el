@@ -47,14 +47,14 @@
                             (font-lock-add-keywords nil '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
 ;; clean trailing whitespaces automatically
-(setq my/trailing-whitespace-modes nil)
+(defvar my/trailing-whitespace-modes nil)
 (defun my/trailing-whitespace-hook ()
   (when (member major-mode my/trailing-whitespace-modes)
     (delete-trailing-whitespace)))
 (add-hook 'before-save-hook 'my/trailing-whitespace-hook)
 
 ;; untabify some modes
-(setq my/untabify-modes nil)
+(defvar my/untabify-modes nil)
 (defun my/untabify-hook ()
   (when (member major-mode my/untabify-modes)
     (untabify (point-min) (point-max))))
@@ -211,6 +211,7 @@
   (add-to-list 'golden-ratio-exclude-buffer-names "*Compile-Log*"))
 
 (setq scroll-step 1)
+(setq scroll-preserve-screen-position 'always)
 (setq default-tab-width 4)
 (global-hl-line-mode -1)
 (windmove-default-keybindings 'meta)
@@ -325,9 +326,6 @@
   :ensure
   :bind ("C-'" . toggle-quotes))
 
-(use-package dired+
-  :ensure)
-
 (use-package dired
   :commands dired-mode
   :config
@@ -359,6 +357,10 @@
     (after dired-after-updating-hook first () activate)
     "Sort dired listings with directories first before adding marks."
     (my/dired-sort)))
+
+(use-package dired+
+  :ensure
+  :commands dired-mode)
 
 (use-package projectile
   :ensure
@@ -399,6 +401,7 @@
 (use-package ruby-mode
   :commands ruby-mode
   :mode "Rakefile"
+  :mode "Vagrantfile"
   :init
   (add-to-list 'my/untabify-modes 'ruby-mode)
   (add-to-list 'my/trailing-whitespace-modes 'ruby-mode))
@@ -494,11 +497,29 @@
     (after my/crux-reopen-as-root first () activate)
     (projectile-mode -1)))
 
+(use-package flycheck
+  :ensure
+  :config
+  (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
+  (add-hook 'after-init-hook #'global-flycheck-mode))
+
+(use-package helm-flycheck
+  :ensure
+  :bind ("C-c ! l" . helm-flycheck))
+
+(use-package flycheck-checkbashisms
+  :ensure
+  :config
+  (flycheck-checkbashisms-setup))
+
 (use-package emacs-lisp-mode
   :bind (("<f5>" . eval-buffer))
+  :commands emacs-lisp-mode
   :init
   (add-to-list 'my/untabify-modes 'emacs-lisp-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'emacs-lisp-mode))
+  (add-to-list 'my/trailing-whitespace-modes 'emacs-lisp-mode)
+  (add-hook 'emacs-lisp-mode-hook (lambda ()
+                                    (add-to-list 'flycheck-disabled-checkers 'emacs-lisp-checkdoc))))
 
 (use-package json-snatcher
   :ensure)
@@ -553,21 +574,6 @@
 (use-package go-mode
   :ensure
   :commands go-mode)
-
-(use-package flycheck
-  :ensure
-  :config
-  (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
-  (add-hook 'after-init-hook #'global-flycheck-mode))
-
-(use-package helm-flycheck
-  :ensure
-  :bind ("C-c ! l" . helm-flycheck))
-
-(use-package flycheck-checkbashisms
-  :ensure
-  :config
-  (flycheck-checkbashisms-setup))
 
 (use-package flyspell
   :config
@@ -863,6 +869,23 @@
   :ensure
   :config
   (exec-path-from-shell-initialize))
+
+(use-package mb-depth
+  :init
+  (setq-default enable-recursive-minibuffers t)
+  :config
+  (minibuffer-depth-indicate-mode t))
+
+(use-package jump-char
+  :ensure
+  :bind (("M-m" . jump-char-forward)
+         ("M-M" . jump-char-backward)))
+
+(use-package keyfreq
+  :ensure
+  :config
+  (keyfreq-mode t)
+  (keyfreq-autosave-mode t))
 
 (use-package color-theme-modern
   :ensure)
