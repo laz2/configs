@@ -569,11 +569,6 @@
   :config
   (flycheck-checkbashisms-setup))
 
-(use-package flycheck-color-mode-line
-  :ensure
-  :config
-  (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode))
-
 (use-package flyspell
   :config
   (setq ispell-program-name "aspell"
@@ -863,6 +858,11 @@
   (add-to-list 'golden-ratio-exclude-buffer-names "*undo-tree*")
   :config
   (global-undo-tree-mode t))
+
+(use-package exec-path-from-shell
+  :ensure
+  :config
+  (exec-path-from-shell-initialize))
 
 (use-package color-theme-modern
   :ensure)
