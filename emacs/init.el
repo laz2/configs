@@ -594,6 +594,7 @@
 (buffer-on-bottom-side "^\\*Flycheck errors\\*$"
                        "^\\*Compilation\\*$"
                        "^\\*Occur\\*$"
+                       "^\\*undo-tree\\*$"
                        "^\\*Help\\*$"
                        "^\\*Apropos\\*$"
                        "^\\*Backtrace\\*$"
@@ -853,6 +854,15 @@
   (setq-default super-save-auto-save-when-idle t)
   :config
   (super-save-mode t))
+
+(use-package undo-tree
+  :ensure
+  :diminish undo-tree-mode
+  :bind ("M-/" . undo-tree-redo)
+  :init
+  (add-to-list 'golden-ratio-exclude-buffer-names "*undo-tree*")
+  :config
+  (global-undo-tree-mode t))
 
 (use-package color-theme-modern
   :ensure)
