@@ -876,16 +876,14 @@
   :config
   (minibuffer-depth-indicate-mode t))
 
-(use-package jump-char
-  :ensure
-  :bind (("M-m" . jump-char-forward)
-         ("M-M" . jump-char-backward)))
-
 (use-package keyfreq
   :ensure
   :config
   (keyfreq-mode t)
   (keyfreq-autosave-mode t))
+
+(use-package powerline
+  :ensure)
 
 (use-package color-theme-modern
   :ensure)
