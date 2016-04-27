@@ -37,7 +37,11 @@
 
 (setq-default indent-tabs-mode nil)
 
-(global-subword-mode)
+(use-package subword
+  :diminish subword-mode
+  :config
+  (global-subword-mode))
+
 (global-font-lock-mode)
 (add-hook 'prog-mode-hook (lambda ()
                             (font-lock-add-keywords nil '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
@@ -66,7 +70,6 @@
 (global-set-key "\C-\M-\\" 'my/indent-region-or-buffer)
 
 (use-package uniquify
-  :demand
   :config
   (setq uniquify-buffer-name-style 'forward)
   (setq uniquify-separator "/")
@@ -75,9 +78,11 @@
   ;; don't muck with special buffers
   (setq uniquify-ignore-buffers-re "^\\*"))
 
+(use-package autorevert
+  :diminish auto-revert-mode)
+
 (use-package volatile-highlights
   :ensure
-  :demand
   :diminish volatile-highlights-mode
   :config
   (volatile-highlights-mode t))
