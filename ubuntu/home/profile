@@ -14,6 +14,10 @@ export UBUNTU_CFG_ROOT=$CFG_ROOT/ubuntu
 export HOME_CFG_ROOT=$UBUNTU_CFG_ROOT/home
 export PATH="$UBUNTU_CFG_ROOT/bin":$PATH
 
+export ALTERNATE_EDITOR=""
+export EDITOR="emacsclient -t" # $EDITOR should open in terminal
+export VISUAL="emacsclient"    # $VISUAL opens in GUI with non-daemon as alternate
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -28,7 +32,5 @@ if [ -f "$HOME/.profile_private" ]; then
     chmod u=rw,g=,o= $HOME/.profile_private
     . "$HOME/.profile_private"
 fi
-
-export EDITOR=/usr/bin/emacsclient
 
 export GROOVY_HOME=$HOME/tools/groovy

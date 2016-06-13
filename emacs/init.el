@@ -316,7 +316,8 @@
   (add-to-list 'golden-ratio-exclude-buffer-regexp "*Free keys*"))
 
 (use-package yasnippet
-  :ensure)
+  :ensure
+  :diminish yas-minor-mode)
 
 (use-package restart-emacs
   :ensure
@@ -366,10 +367,11 @@
   :ensure
   :demand
   :bind (
-         ("C-S-f" . projectile-ag)
+         ("C-S-f" . projectile-grep)
          )
   :config
   (projectile-global-mode)
+  (setq projectile-use-git-grep t)
   (setq projectile-enable-caching t)
   (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
 
@@ -378,7 +380,7 @@
   :demand
   :bind (
          ("C-S-n" . helm-projectile-find-file)
-         ("C-S-h" . helm-projectile-ag)
+         ("C-S-h" . helm-projectile-grep)
          ("C-S-p" . helm-projectile-switch-project)
          )
   :config
@@ -530,6 +532,7 @@
 
 (use-package json-mode
   :ensure
+  :mode "\\.jshintrc"
   :commands json-mode)
 
 (use-package web-mode
@@ -545,6 +548,7 @@
   :mode "\\.html?\\'"
   :config
   (setq web-mode-markup-indent-offset 4)
+  (setq web-mode-indent-style 4)
   (setq web-mode-enable-current-element-highlight nil)
   (setq web-mode-enable-current-column-highlight t)
   (web-mode-set-engine "angular"))
@@ -690,6 +694,7 @@
 (use-package js2-refactor
   :ensure
   :commands js2-refactor-mode
+  :diminish js2-refactor-mode
   :init
   (add-hook 'js2-mode-hook #'js2-refactor-mode))
 
@@ -698,6 +703,7 @@
   :commands tern-mode
   :mode ("\\.tern-project$" . js2-mode)
   :mode ("\\.tern-config$" . js2-mode)
+  :diminish tern-mode
   :init
   (add-hook 'js2-mode-hook (lambda ()
                              (tern-mode t)

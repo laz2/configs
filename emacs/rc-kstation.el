@@ -7,7 +7,7 @@
   (compile (format (concat
                     "cd %s && "
                     "source ~/.virtualenvs/ks/bin/activate && "
-                    "source backend/os/env/development.sh && "
+                    "source lxc/os/env/development.sh && "
                     "cd backend/s7 && "
                     "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test %s--noinput")
                    (projectile-project-root)
@@ -18,7 +18,7 @@
   (compile (format (concat
                     "cd %s && "
                     "source ~/.virtualenvs/ks/bin/activate && "
-                    "source backend/os/env/development.sh && "
+                    "source lxc/os/env/development.sh && "
                     "cd backend/s7 && "
                     "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test --failfast %s--noinput %s")
                    (projectile-project-root)
