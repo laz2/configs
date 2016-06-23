@@ -1,0 +1,7 @@
+#!/bin/bash
+# -*- mode: shell-script; -*-
+
+wget https://raw.githubusercontent.com/rabbitmq/rabbitmq-management/rabbitmq_v3_5_7/bin/rabbitmqadmin -O /tmp/rabbitmqadmin
+sudo chmod 777 /tmp/rabbitmqadmin
+sudo mv /tmp/rabbitmqadmin /usr/bin/rabbitmqadmin
+sudo sh -c 'rabbitmqadmin --bash-completion > /etc/bash_completion.d/rabbitmqadmin'
