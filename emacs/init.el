@@ -613,7 +613,9 @@
 
 (use-package go-mode
   :ensure
-  :commands go-mode)
+  :commands go-mode
+  :init
+  (add-to-list 'my/trailing-whitespace-modes 'go-mode))
 
 (use-package flyspell
   :config

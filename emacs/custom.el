@@ -108,4 +108,5 @@
  '(web-mode-html-attr-value-face ((t (:foreground "forest green" :weight bold))))
  '(web-mode-html-tag-face ((t (:foreground "dark blue" :weight bold))))
  '(web-mode-json-key-face ((t (:inherit font-lock-keyword-face))))
- '(whitespace-space ((t (:foreground "lightgray")))))
+ '(whitespace-space ((t (:foreground "lightgray"))))
+ '(whitespace-tab ((t (:foreground "lightgray")))))

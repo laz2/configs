@@ -45,8 +45,7 @@
 
 (dir-locals-set-class-variables
  'kstation-project
- '((nil . ((indent-tabs-mode . t)
-           (fill-column . 80)))
+ '((nil . ((fill-column . 80)))
    ("backend/s7"
     . ((fill-column . 120)
        (eval . (progn
