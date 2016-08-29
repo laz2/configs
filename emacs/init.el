@@ -753,6 +753,20 @@
   :config
   (tern-ac-setup))
 
+(use-package clojure-mode
+  :ensure
+  :commands clojure-mode)
+
+(use-package cider
+  :ensure
+  :commands clojure-mode
+  :init
+  (add-hook 'clojure-mode-hook 'cider-mode)
+  (add-to-list 'golden-ratio-exclude-buffer-names "*cider-error*")
+  (buffer-on-bottom-side "^\\*cider-error\\*$")
+  (add-to-list 'golden-ratio-exclude-buffer-names "*cider-doc*")
+  (buffer-on-bottom-side "^\\*cider-doc\\*$"))
+
 (use-package coffee-mode
   :ensure
   :commands coffee-mode
