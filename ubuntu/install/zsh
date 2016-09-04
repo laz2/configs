@@ -1,0 +1,4 @@
+#!/bin/bash
+# -*- mode: shell-script; -*-
+sudo apt install zsh zsh-syntax-highlighting
+mkdir -p .zsh-custom
