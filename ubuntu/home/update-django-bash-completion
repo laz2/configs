@@ -1,6 +1,0 @@
-#!/bin/bash
-
-SCRIPT=$(readlink -f $0)
-SCRIPT_ROOT_PATH=$(dirname $SCRIPT)
-
-wget -O $SCRIPT_ROOT_PATH/django_bash_completion https://raw.github.com/django/django/master/extras/django_bash_completion

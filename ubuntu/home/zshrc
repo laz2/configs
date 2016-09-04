@@ -1,0 +1,61 @@
+# -*- mode: shell-script; -*-
+
+export ZSH=/home/user/.oh-my-zsh
+
+# Set name of the theme to load. Optionally, if you set this to "random"
+# it'll load a random theme each time that oh-my-zsh is loaded.
+# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+ZSH_THEME="robbyrussell"
+
+# Uncomment the following line to display red dots whilst waiting for completion.
+# COMPLETION_WAITING_DOTS="true"
+
+# Uncomment the following line if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment the following line if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# HIST_STAMPS="mm/dd/yyyy"
+
+# Would you like to use another custom folder than $ZSH/custom?
+# ZSH_CUSTOM=/path/to/new-custom-folder
+
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+# Add wisely, as too many plugins slow down shell startup.
+plugins=(git svn)
+
+source $ZSH/oh-my-zsh.sh
+
+alias free='free --human --lohi'
+alias df='df --human-readable'
+alias ll='ls -lav --classify --human-readable --group-directories-first'
+alias sreload='source ~/.zshrc'
+
+alias em="$EDITOR"
+alias vem="$VISUAL"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+
+function add_to_path {
+  if [[ ! "$PATH" =~ (^|:)"$1"(:|$) ]]; then
+    PATH="$1:$PATH"
+  fi
+}
+
+if [ -f ~/.zshrc_private ]; then
+  . ~/.zshrc_private
+fi
+
+add_to_path "$HOME/bin"
+add_to_path "$UBUNTU_CFG_ROOT/bin"
+add_to_path "$HOME/local/bin"
+add_to_path "$HOME/.cask/bin"
+add_to_path "$HOME/tools/sbt/bin"
+add_to_path "$GROOVY_HOME/bin"
+add_to_path "$HOME/.cabal/bin"

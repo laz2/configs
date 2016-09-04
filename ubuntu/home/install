@@ -9,14 +9,13 @@ function make_link {
 }
 
 make_link $SCRIPT_ROOT_PATH/profile ~/.profile
-make_link $SCRIPT_ROOT_PATH/bashrc ~/.bashrc
-make_link $SCRIPT_ROOT_PATH/bash_logout ~/.bash_logout
+make_link $SCRIPT_ROOT_PATH/zshrc ~/.zshrc
 make_link $SCRIPT_ROOT_PATH/tmux.conf ~/.tmux.conf
 make_link $SCRIPT_ROOT_PATH/gitconfig ~/.gitconfig
 make_link $SCRIPT_ROOT_PATH/selected_editor ~/.selected_editor
 
-touch ~/.bashrc_private
-chmod u=rw,g=,o= ~/.bashrc_private
+touch ~/.zshrc_private
+chmod u=rw,g=,o= ~/.zshrc_private
 
 make_link ~/cfg/emacs ~/emacs
 make_link ~/cfg/emacs/init.el ~/.emacs
