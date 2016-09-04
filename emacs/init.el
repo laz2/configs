@@ -946,6 +946,9 @@
 (use-package color-theme-modern
   :ensure)
 
+(use-package lua-mode
+  :ensure)
+
 (load-theme 'sitaramv-nt t t)
 (enable-theme 'sitaramv-nt)
 

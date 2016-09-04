@@ -27,9 +27,26 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git svn)
+plugins=(
+    git svn
+    tmux
+    extract
+    cp
+    docker
+    go
+    lein
+    nvm npm node
+    python pip fabric virtualenvwrapper
+    debian systemd
+)
 
 source $ZSH/oh-my-zsh.sh
+
+export LANG="en_US.UTF-8"
+export LC_PAPER="ru_RU.UTF-8"
+export LC_MEASUREMENT="ru_RU.UTF-8"
+export LC_TIME="ru_RU.UTF-8"
+export LC_ALL="en_US.UTF-8"
 
 alias free='free --human --lohi'
 alias df='df --human-readable'
@@ -43,15 +60,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
 function add_to_path {
-  if [[ ! "$PATH" =~ (^|:)"$1"(:|$) ]]; then
     PATH="$1:$PATH"
-  fi
 }
 
 if [ -f ~/.zshrc_private ]; then
   . ~/.zshrc_private
 fi
 
+typeset -U path cdpath fpath manpath
 add_to_path "$HOME/bin"
 add_to_path "$UBUNTU_CFG_ROOT/bin"
 add_to_path "$HOME/local/bin"
