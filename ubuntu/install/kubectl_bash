@@ -1,5 +1,0 @@
-#!/bin/bash
-# -*- mode: shell-script; -*-
-
-curl -sSL https://raw.githubusercontent.com/kubernetes/kubernetes/$(kubectl version --client | grep -o -P '(?<=GitCommit:").*(?=",)')/contrib/completions/bash/kubectl | sudo tee /etc/bash_completion.d/kubectl
-

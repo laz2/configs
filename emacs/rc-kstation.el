@@ -40,6 +40,11 @@
                     (buffer-file-name)
                     (concat (projectile-project-root) "ui")) t)))
 
+(defun kstation/lint (arg)
+  (interactive "P")
+  (compile (format "cd %s && fab lint"
+                   (projectile-project-root))))
+
 (global-set-key (kbd "C-c C-t a") 'kstation/django-test-app)
 (global-set-key (kbd "C-c C-t r") 'kstation/django-test-file)
 

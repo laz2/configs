@@ -1,4 +1,12 @@
 #!/bin/bash
 # -*- mode: shell-script; -*-
-sudo apt install zsh zsh-syntax-highlighting
+sudo apt install -y zsh zsh-syntax-highlighting
 mkdir -p .zsh-custom
+
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+fi
+
+# $(kubectl version --client | grep -o -P '(?<=GitCommit:").*(?=",)')
+
+curl -sSL https://raw.githubusercontent.com/kubernetes/kubernetes/86b8a09c28390b06acce24f0a7144c14b373e752/contrib/completions/zsh/kubectl | tee $HOME/.zsh-custom/kubectl
