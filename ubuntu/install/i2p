@@ -1,0 +1,6 @@
+#!/bin/bash
+# -*- mode: shell-script; -*-
+
+sudo apt-add-repository ppa:i2p-maintainers/i2p
+sudo apt update
+sudo apt install -y i2p

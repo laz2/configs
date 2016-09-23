@@ -341,6 +341,14 @@
 (use-package helm-ag
   :ensure)
 
+(use-package wgrep-helm
+  :ensure)
+
+(use-package wgrep-ag
+  :ensure
+  :init
+  (setq-default wgrep-auto-save-buffer t))
+
 (use-package free-keys
   :ensure
   :commands free-keys
