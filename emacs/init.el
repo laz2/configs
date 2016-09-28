@@ -617,7 +617,10 @@
 
 (use-package nginx-mode
   :ensure
-  :commands nginx-mode)
+  :commands nginx-mode
+  :init
+  (add-to-list 'my/untabify-modes 'nginx-mode)
+  (add-to-list 'my/trailing-whitespace-modes 'nginx-mode))
 
 (use-package go-mode
   :ensure
@@ -729,7 +732,14 @@
       (js2-set-face leftpos
                     (+ leftpos (js2-node-len node))
                     'font-lock-variable-name-face
-                    'record))))
+                    'record)))
+
+  (setq-default js2-global-externs
+                '("module" "require" "buster"
+                  "sinon" "assert" "refute"
+                  "setTimeout" "clearTimeout" "setInterval"
+                  "clearInterval" "location" "__dirname"
+                  "console" "JSON")))
 
 (use-package ac-js2
   :ensure
