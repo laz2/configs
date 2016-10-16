@@ -618,6 +618,7 @@
 (use-package nginx-mode
   :ensure
   :commands nginx-mode
+  :mode "nginx\\.conf"
   :init
   (add-to-list 'my/untabify-modes 'nginx-mode)
   (add-to-list 'my/trailing-whitespace-modes 'nginx-mode))

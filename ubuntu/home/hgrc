@@ -1,0 +1,12 @@
+[ui]
+username =
+
+[extensions]
+pager =
+progress =
+color =
+rebase =
+shelve =
+patchbomb =
+
+%include .hgrc_private

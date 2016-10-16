@@ -8,7 +8,7 @@ HIST_STAMPS="dd.mm.yyyy"
 
 ZSH_CUSTOM=$HOME/.zsh-custom
 plugins=(
-    git svn
+    git svn hg
     tmux
     extract
     cp
@@ -59,3 +59,9 @@ add_to_path "$HOME/.cask/bin"
 add_to_path "$HOME/tools/sbt/bin"
 add_to_path "$GROOVY_HOME/bin"
 add_to_path "$HOME/.cabal/bin"
+
+PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
