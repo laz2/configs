@@ -42,6 +42,10 @@
   :config
   (global-subword-mode))
 
+(use-package scroll-bar
+  :config
+  (horizontal-scroll-bar-mode -1))
+
 (global-font-lock-mode)
 (add-hook 'prog-mode-hook (lambda ()
                             (font-lock-add-keywords nil '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))

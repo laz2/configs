@@ -9,4 +9,12 @@ rebase =
 shelve =
 patchbomb =
 
+[email]
+method = smtp
+
+[smtp]
+host = smtp.gmail.com
+port = 587
+tls = true
+
 %include .hgrc_private
