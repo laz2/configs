@@ -408,7 +408,7 @@
   :commands dired-mode)
 
 (use-package projectile
-  :ensure
+  :load-path "~/dev/projectile"
   :demand
   :bind (
          ("C-S-f" . projectile-grep)
@@ -420,7 +420,7 @@
   (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
 
 (use-package helm-projectile
-  :ensure
+  :load-path "~/dev/helm-projectile"
   :demand
   :bind (
          ("C-S-n" . helm-projectile-find-file)
@@ -464,6 +464,13 @@
 (use-package pip-requirements
   :ensure
   :commands pip-requirements-mode)
+
+(use-package cython-mode
+  :ensure
+  :commands cython-mode)
+
+(use-package flycheck-cython
+  :ensure)
 
 (use-package jedi
   :ensure

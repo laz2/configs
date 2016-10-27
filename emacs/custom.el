@@ -47,6 +47,7 @@
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(reftex-plug-into-AUCTeX t)
+ '(safe-local-variable-values (quote ((c-noise-macro-names "UNINIT"))))
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
  '(term-default-bg-color "#fdf6e3")
  '(term-default-fg-color "#657b83")

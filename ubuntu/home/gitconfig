@@ -29,3 +29,6 @@
     path = .gitconfig-private
 [fetch]
     prune = true
+    fsckobjects = true
+[transfer]
+    fsckobjects = true
