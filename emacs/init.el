@@ -429,7 +429,14 @@
          )
   :config
   (setq projectile-completion-system 'helm)
+
   (helm-projectile-on)
+  (define-key projectile-mode-map [remap projectile-grep] nil)
+  (define-key projectile-mode-map [remap projectile-ack] nil)
+  (define-key projectile-mode-map [remap projectile-ag] nil)
+
+  (define-key projectile-mode-map [remap projectile-grep] nil)
+
   (setq projectile-switch-project-action 'projectile-dired))
 
 (setq split-width-threshold nil)
@@ -569,7 +576,7 @@
   :bind (("<f5>" . eval-buffer))
   :commands emacs-lisp-mode
   :init
-  (add-to-list 'my/untabify-modes 'emacs-lisp-mode)
+  ;; (add-to-list 'my/untabify-modes 'emacs-lisp-mode)
   (add-to-list 'my/trailing-whitespace-modes 'emacs-lisp-mode)
   (add-hook 'emacs-lisp-mode-hook (lambda ()
                                     (add-to-list 'flycheck-disabled-checkers 'emacs-lisp-checkdoc))))
