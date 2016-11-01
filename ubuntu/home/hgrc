@@ -8,6 +8,7 @@ color =
 rebase =
 shelve =
 patchbomb =
+mq =
 
 [email]
 method = smtp
