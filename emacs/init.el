@@ -50,6 +50,16 @@
 (add-hook 'prog-mode-hook (lambda ()
                             (font-lock-add-keywords nil '(("\\<\\(FIXME\\|TODO\\|BUG\\):" 1 font-lock-warning-face t)))))
 
+(defun buffer-on-bottom-side (&rest res)
+  (dolist (re res)
+    (add-to-list 'display-buffer-alist
+                 `(,re
+                   (display-buffer-reuse-window
+                    display-buffer-in-side-window)
+                   (reusable-frames . visible)
+                   (side            . bottom)
+                   (window-height   . 0.3)))))
+
 ;; clean trailing whitespaces automatically
 (defvar my/trailing-whitespace-modes nil)
 (defun my/trailing-whitespace-hook ()
@@ -517,12 +527,12 @@
 
 (use-package paren
   :config
-  (set-face-attribute 'show-paren-match-face nil
+  (set-face-attribute 'show-paren-match nil
                       :weight 'bold
                       :underline nil
                       :overline nil
                       :slant 'normal)
-  (set-face-attribute 'show-paren-mismatch-face nil
+  (set-face-attribute 'show-paren-mismatch nil
                       :foreground "red"
                       :background nil
                       :weight 'bold
@@ -578,6 +588,8 @@
   :init
   ;; (add-to-list 'my/untabify-modes 'emacs-lisp-mode)
   (add-to-list 'my/trailing-whitespace-modes 'emacs-lisp-mode)
+  (add-to-list 'golden-ratio-exclude-buffer-names "*ert*")
+  (buffer-on-bottom-side "^\\*ert\\*$")
   (add-hook 'emacs-lisp-mode-hook (lambda ()
                                     (add-to-list 'flycheck-disabled-checkers 'emacs-lisp-checkdoc))))
 
@@ -653,16 +665,6 @@
         ispell-extra-args '("--sug-mode=ultra"))
   (add-hook 'text-mode-hook #'flyspell-mode)
   (add-hook 'prog-mode #'flyspell-prog-mode))
-
-(defun buffer-on-bottom-side (&rest res)
-  (dolist (re res)
-    (add-to-list 'display-buffer-alist
-                 `(,re
-                   (display-buffer-reuse-window
-                    display-buffer-in-side-window)
-                   (reusable-frames . visible)
-                   (side            . bottom)
-                   (window-height   . 0.3)))))
 
 (buffer-on-bottom-side "^\\*Flycheck errors\\*$"
                        "^\\*Compilation\\*$"
@@ -985,6 +987,30 @@
 
 (use-package lua-mode
   :ensure)
+
+(use-package realgud
+  :ensure
+  :config
+  (buffer-on-bottom-side "^\\*ipdb .* shell\\*$"))
+
+(use-package buffer-move
+  :ensure
+  :init
+  :bind ("C-c C-b C-f" . buf-move-right)
+  :bind ("C-c C-b C-b" . buf-move-left)
+  :bind ("C-c C-b C-p" . buf-move-top)
+  :bind ("C-c C-b C-n" . buf-move-bottom)
+  :config
+  (defun buffer-move-prefix-wrap (f)
+    (interactive)
+    (let ((buffer-move-behavior (if current-prefix-arg 'move 'swap)))
+      (funcall f)))
+
+  (dolist (cmd '(buf-move-right
+                 buf-move-left
+                 buf-move-top
+                 buf-move-bottom))
+    (add-to-list 'golden-ratio-extra-commands cmd)))
 
 (load-theme 'sitaramv-nt t t)
 (enable-theme 'sitaramv-nt)

@@ -5,5 +5,5 @@ function activate {
 }
 
 activate && exit 0
-emacs --maximized &
+emacs-snapshot --maximized &
 activate

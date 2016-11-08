@@ -59,6 +59,7 @@ add_to_path "$HOME/.cask/bin"
 add_to_path "$HOME/tools/sbt/bin"
 add_to_path "$GROOVY_HOME/bin"
 add_to_path "$HOME/.cabal/bin"
+add_to_path "$HOME/.evm/bin"
 
 PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
