@@ -994,21 +994,33 @@
 
 (use-package buffer-move
   :ensure
-  :init
-  :bind ("C-c C-b C-f" . buf-move-right)
-  :bind ("C-c C-b C-b" . buf-move-left)
-  :bind ("C-c C-b C-p" . buf-move-top)
-  :bind ("C-c C-b C-n" . buf-move-bottom)
   :config
   (defun buffer-move-prefix-wrap (f)
-    (interactive)
     (let ((buffer-move-behavior (if current-prefix-arg 'move 'swap)))
       (funcall f)))
 
-  (dolist (cmd '(buf-move-right
-                 buf-move-left
-                 buf-move-top
-                 buf-move-bottom))
+  (defun my/buf-move-right ()
+    (interactive)
+    (buffer-move-prefix-wrap 'buf-move-right))
+  (defun my/buf-move-left ()
+    (interactive)
+    (buffer-move-prefix-wrap 'buf-move-left))
+  (defun my/buf-move-top ()
+    (interactive)
+    (buffer-move-prefix-wrap 'buf-move-top))
+  (defun my/buf-move-bottom ()
+    (interactive)
+    (buffer-move-prefix-wrap 'buf-move-bottom))
+
+  (global-set-key (kbd "C-c C-b C-f") 'my/buf-move-right)
+  (global-set-key (kbd "C-c C-b C-b") 'my/buf-move-left)
+  (global-set-key (kbd "C-c C-b C-p") 'my/buf-move-top)
+  (global-set-key (kbd "C-c C-b C-n") 'my/buf-move-bottom)
+
+  (dolist (cmd '(my/buf-move-right
+                 my/buf-move-left
+                 my/buf-move-top
+                 my/buf-move-bottom))
     (add-to-list 'golden-ratio-extra-commands cmd)))
 
 (use-package scala-mode

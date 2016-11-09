@@ -32,13 +32,6 @@ install wmctrl
 install sshpass
 install unetbootin
 
-sudo add-apt-repository ppa:wireshark-dev/stable
-sudo apt-get update
-install wireshark
-echo 'wireshark-common wireshark-common/install-setuid select true' | sudo debconf-set-selections
-sudo dpkg-reconfigure --unseen-only wireshark-common
-sudo usermod -a -G wireshark $USER
-
 install python-pip
 install python-dev
 sudo pip install thefuck --upgrade

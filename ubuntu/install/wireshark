@@ -1,0 +1,9 @@
+#!/bin/bash
+# -*- mode: shell-script; -*-
+
+sudo add-apt-repository ppa:wireshark-dev/stable
+sudo apt update
+sudo apt install wireshark
+echo 'wireshark-common wireshark-common/install-setuid select true' | sudo debconf-set-selections
+sudo dpkg-reconfigure --unseen-only wireshark-common
+sudo usermod -a -G wireshark $USER
