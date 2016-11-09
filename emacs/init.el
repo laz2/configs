@@ -52,6 +52,7 @@
 
 (defun buffer-on-bottom-side (&rest res)
   (dolist (re res)
+    (add-to-list 'golden-ratio-exclude-buffer-regexp re)
     (add-to-list 'display-buffer-alist
                  `(,re
                    (display-buffer-reuse-window
@@ -187,7 +188,7 @@
 (global-set-key (kbd "<f5>")
                 (lambda ()
                   (interactive)
-                  (Switch-to-buffer "*scratch*")))
+                  (switch-to-buffer "*scratch*")))
 
 (global-set-key (kbd "<f6>")
                 (lambda ()
@@ -427,7 +428,8 @@
   (projectile-global-mode)
   (setq projectile-use-git-grep t)
   (setq projectile-enable-caching t)
-  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name)))))
+  (setq projectile-mode-line '(:eval (format " P[%s]" (projectile-project-name))))
+  (buffer-on-bottom-side "^\\*Async Shell Command\\*$"))
 
 (use-package helm-projectile
   :load-path "~/dev/helm-projectile"
@@ -801,9 +803,7 @@
   :commands clojure-mode
   :init
   (add-hook 'clojure-mode-hook 'cider-mode)
-  (add-to-list 'golden-ratio-exclude-buffer-names "*cider-error*")
   (buffer-on-bottom-side "^\\*cider-error\\*$")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*cider-doc*")
   (buffer-on-bottom-side "^\\*cider-doc\\*$"))
 
 (use-package coffee-mode
@@ -825,8 +825,7 @@
   (setq haskell-process-show-debug-tips nil)
   (setq haskell-stylish-on-save t)
   (setq haskell-interactive-popups-error nil)
-  (buffer-on-bottom-side "^\\*haskell\\*$")
-  (add-to-list 'golden-ratio-exclude-buffer-names "*haskell*"))
+  (buffer-on-bottom-side "^\\*haskell\\*$"))
 
 (use-package c++-mode
   :commands c++-mode
@@ -1011,6 +1010,9 @@
                  buf-move-top
                  buf-move-bottom))
     (add-to-list 'golden-ratio-extra-commands cmd)))
+
+(use-package scala-mode
+  :ensure)
 
 (load-theme 'sitaramv-nt t t)
 (enable-theme 'sitaramv-nt)
