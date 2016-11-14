@@ -1026,6 +1026,20 @@
 (use-package scala-mode
   :ensure)
 
+(use-package gradle-mode
+  :diminish editorconfig-mode
+  :ensure)
+
+(use-package groovy-mode
+  :ensure)
+
+(use-package editorconfig
+  :ensure t
+  :diminish editorconfig-mode
+  :init
+  (add-hook 'prog-mode-hook (editorconfig-mode 1))
+  (add-hook 'text-mode-hook (editorconfig-mode 1)))
+
 (load-theme 'sitaramv-nt t t)
 (enable-theme 'sitaramv-nt)
 
