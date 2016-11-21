@@ -986,7 +986,8 @@
   :ensure)
 
 (use-package lua-mode
-  :ensure)
+  :ensure
+  :commands lua-mode)
 
 (use-package realgud
   :ensure
@@ -1025,21 +1026,25 @@
     (add-to-list 'golden-ratio-extra-commands cmd)))
 
 (use-package scala-mode
-  :ensure)
+  :ensure
+  :commands scala-mode)
 
 (use-package gradle-mode
-  :diminish editorconfig-mode
-  :ensure)
+  :ensure
+  :diminish gradle-mode
+  :commands gradle-mode)
 
 (use-package groovy-mode
-  :ensure)
+  :ensure
+  :commands groovy-mode)
 
 (use-package editorconfig
   :ensure t
   :diminish editorconfig-mode
   :init
   (add-hook 'prog-mode-hook (editorconfig-mode 1))
-  (add-hook 'text-mode-hook (editorconfig-mode 1)))
+  (add-hook 'text-mode-hook (editorconfig-mode 1))
+  (buffer-on-bottom-side "^\\*EditorConfig Properties\\*$"))
 
 (use-package pcap-mode
   :ensure
