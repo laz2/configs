@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 SCRIPT=$(readlink -f $0)
 SCRIPT_ROOT_PATH=$(dirname $SCRIPT)
@@ -14,8 +15,10 @@ make_link $SCRIPT_ROOT_PATH/tmux.conf ~/.tmux.conf
 make_link $SCRIPT_ROOT_PATH/gitconfig ~/.gitconfig
 make_link $SCRIPT_ROOT_PATH/selected_editor ~/.selected_editor
 make_link $SCRIPT_ROOT_PATH/hgrc ~/.hgrc
+make_link $SCRIPT_ROOT_PATH/init.gradle ~/.gradle/init.gradle
+
 make_link $SCRIPT_ROOT_PATH/Xresources ~/.Xresources
-xrdb --merge ~/.Xresources
+xrdb -merge ~/.Xresources
 
 touch ~/.zshrc_private
 chmod u=rw,g=,o= ~/.zshrc_private

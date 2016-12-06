@@ -1031,6 +1031,10 @@
   :ensure
   :commands scala-mode)
 
+(use-package ensime
+  :ensure
+  :commands ensime)
+
 (use-package gradle-mode
   :ensure
   :diminish gradle-mode
