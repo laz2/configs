@@ -3,22 +3,26 @@
 set -e
 
 function usage {
-  echo "$0 [-s=password] [-i=interface] [-p=port] [-l=name] user@host"
+  echo "$0 [-s] [-p=password] [-i=interface] [-p=port] [-l=name] user@host"
   exit 1
 }
 
 sudo_password=""
+sudo=""
 ssh_port=22
 lxc_name=""
 ifaces=()
 
-while getopts ":i:s:h:l:" opt; do
+while getopts ":s:i:h:l:p" opt; do
   case $opt in
-    s)
+    p)
       sudo_password="$OPTARG"
       ;;
+    s)
+      sudo="yes"
+      ;;
     i)
-	  ifaces[${#ifaces[@]}]="$OPTARG"
+      ifaces[${#ifaces[@]}]="$OPTARG"
       ;;
     p)
       ssh_port="$OPTARG"
@@ -42,8 +46,12 @@ if [ -z "$1" ] ; then
 fi
 
 cmd=""
-if [ ! -z "$sudo_password" ] ; then
-  cmd="$cmd echo $sudo_password | sudo -S"
+if [ ! -z "$sudo" ] ; then
+    if [ ! -z "$sudo_password" ] ; then
+        cmd="$cmd echo $sudo_password | sudo -S"
+    else
+        cmd="$cmd sudo"
+    fi
 fi
 
 if [ ! -z "$lxc_name" ] ; then

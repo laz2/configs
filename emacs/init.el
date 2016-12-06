@@ -260,8 +260,8 @@
 
 (setq scroll-step 1)
 (setq scroll-preserve-screen-position 'always)
-(setq scroll-conservatively 10000)
-(setq auto-window-vscroll nil)
+;; (setq scroll-conservatively 10000)
+(setq auto-window-vscroll t)
 (setq default-tab-width 4)
 (global-hl-line-mode -1)
 (windmove-default-keybindings 'meta)

@@ -1,0 +1,18 @@
+#!/bin/bash
+# -*- mode: shell-script; -*-
+# Requires:
+# sudo apt-get install pactl
+
+set -e
+
+# arecord | aplay
+
+module=$(pactl load-module module-loopback latency_msec=1000)
+
+function cleanup {
+    pactl unload-module $module
+}
+
+trap cleanup EXIT
+
+sleep infinity
