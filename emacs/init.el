@@ -375,7 +375,10 @@
 
 (use-package yasnippet
   :ensure
-  :diminish yas-minor-mode)
+  :diminish yas-minor-mode
+  :config
+  (yas-global-mode 1)
+  (add-to-list 'ac-sources 'ac-source-yasnippet))
 
 (use-package restart-emacs
   :ensure
@@ -661,8 +664,39 @@
 (use-package go-mode
   :ensure
   :commands go-mode
-  :init
-  (add-to-list 'my/trailing-whitespace-modes 'go-mode))
+  :bind ("M-." . godef-jump)
+  :config
+  (exec-path-from-shell-copy-env "GOPATH")
+
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (setq-default gofmt-command "goimports")
+  (buffer-on-bottom-side "^\\*Gofmt Errors\\*$")
+
+  (buffer-on-bottom-side "^\\*godoc")
+  (define-key go-mode-map (kbd "C-h C-f") 'godoc-at-point)
+
+  (use-package gotest
+    :ensure
+    :config
+    (define-key go-mode-map (kbd "C-c C-t f") 'go-test-current-file)
+    (define-key go-mode-map (kbd "C-c C-t t") 'go-test-current-test)
+    (define-key go-mode-map (kbd "C-c C-t p") 'go-test-current-project)
+    (buffer-on-bottom-side "^\\*Go Test\\*$"))
+
+  (use-package go-guru
+    :ensure)
+
+  (use-package go-rename
+    :ensure
+    :bind ("C-c C-r" . go-rename))
+
+  (use-package go-eldoc
+    :ensure
+    :config
+    (add-hook 'go-mode-hook 'go-eldoc-setup))
+
+  (use-package go-autocomplete
+    :ensure))
 
 (use-package flyspell
   :config
@@ -952,6 +986,7 @@
   :diminish super-save-mode
   :init
   (setq-default super-save-auto-save-when-idle t)
+  (setq-default super-save-idle-duration 60)
   :config
   (super-save-mode t))
 

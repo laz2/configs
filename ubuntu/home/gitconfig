@@ -32,3 +32,6 @@
     fsckobjects = true
 [transfer]
     fsckobjects = true
+[recieve]
+    fsckobjects = true
+
