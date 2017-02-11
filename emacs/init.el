@@ -8,7 +8,8 @@
 
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
-        ("melpa" . "http://melpa.org/packages/")))
+        ("melpa" . "http://melpa.org/packages/")
+        ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")))
 
 (dolist (p '(
              use-package
@@ -661,6 +662,11 @@
   (add-to-list 'my/untabify-modes 'nginx-mode)
   (add-to-list 'my/trailing-whitespace-modes 'nginx-mode))
 
+(use-package go-projectile
+  :ensure
+  :init
+  (setq-default go-projectile-switch-gopath 'never))
+
 (use-package go-mode
   :ensure
   :commands go-mode
@@ -696,7 +702,12 @@
     (add-hook 'go-mode-hook 'go-eldoc-setup))
 
   (use-package go-autocomplete
-    :ensure))
+    :ensure)
+
+  (use-package go-direx
+    :ensure
+    :init
+    (buffer-on-bottom-side "^\\*go-direx:")))
 
 (use-package flyspell
   :config
@@ -1068,7 +1079,10 @@
 
 (use-package ensime
   :ensure
-  :commands ensime)
+  :commands ensime
+  :pin melpa-stable
+  :init
+  (buffer-on-bottom-side "^\\*Uses\\*$"))
 
 (use-package gradle-mode
   :ensure
@@ -1090,6 +1104,9 @@
 (use-package pcap-mode
   :ensure
   :commands pcap-mode)
+
+(use-package debbugs
+  :ensure)
 
 (load-theme 'sitaramv-nt t t)
 (enable-theme 'sitaramv-nt)

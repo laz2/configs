@@ -1,0 +1,10 @@
+#!/bin/sh
+# -*- mode: shell-script; -*-
+
+play -q /usr/share/sounds/ubuntu/notifications/Amsterdam.ogg
+while true
+do
+    sleep 2m
+    sleep 5s
+    play -q /usr/share/sounds/ubuntu/notifications/Amsterdam.ogg
+done

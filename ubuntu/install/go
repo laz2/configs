@@ -15,4 +15,5 @@ go get -u golang.org/x/tools/cmd/cover
 go get -u github.com/mattn/goveralls
 go get -u github.com/golang/lint/golint
 go get -u github.com/GeertJohan/fgt
+go get -u github.com/stretchr/gorc
 sudo -E go get -u golang.org/x/tools/cmd/godoc

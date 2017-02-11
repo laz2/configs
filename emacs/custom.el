@@ -43,7 +43,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
    (quote
-    (go-rename go-autocomplete go-eldoc go-guru gotest ensime pcap-mode editorconfig groovy-mode gradle-mode scala-mode powerline keyfreq jump-char exec-path-from-shell undo-tree super-save magit zenburn-theme yaml-mode web-mode volatile-highlights use-package toggle-quotes tern-auto-complete stylus-mode seq restart-emacs python-mode py-autopep8 popwin pip-requirements paredit pallet nsis-mode nginx-mode multi-term miniedit markdown-mode json-mode js2-refactor jedi idomenu highlight-symbol helm-projectile helm-flycheck helm-describe-modes helm-descbinds helm-bm helm-ag haskell-mode handoff golden-ratio go-mode ggtags free-keys flycheck-pos-tip flycheck-color-mode-line flycheck-checkbashisms ess erlang dockerfile-mode dired+ crux color-theme-modern color-theme coffee-mode cmake-mode auctex anzu ag ace-window ace-jump-buffer ac-js2)))
+    (debbugs go-projectile go-direx go-rename go-autocomplete go-eldoc go-guru gotest ensime pcap-mode editorconfig groovy-mode gradle-mode scala-mode powerline keyfreq jump-char exec-path-from-shell undo-tree super-save magit zenburn-theme yaml-mode web-mode volatile-highlights use-package toggle-quotes tern-auto-complete stylus-mode seq restart-emacs python-mode py-autopep8 popwin pip-requirements paredit pallet nsis-mode nginx-mode multi-term miniedit markdown-mode json-mode js2-refactor jedi idomenu highlight-symbol helm-projectile helm-flycheck helm-describe-modes helm-descbinds helm-bm helm-ag haskell-mode handoff golden-ratio go-mode ggtags free-keys flycheck-pos-tip flycheck-color-mode-line flycheck-checkbashisms ess erlang dockerfile-mode dired+ crux color-theme-modern color-theme coffee-mode cmake-mode auctex anzu ag ace-window ace-jump-buffer ac-js2)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(reftex-plug-into-AUCTeX t)
@@ -104,6 +104,9 @@
  '(js2-function-call ((t (:inherit default :foreground "dark red"))))
  '(js2-function-param ((t (:inherit font-lock-variable-name-face))))
  '(js2-object-property ((t (:inherit default :foreground "navy"))))
+ '(scala-font-lock:override-face ((t (:inherit font-lock-keyword-face))))
+ '(scala-font-lock:private-face ((t (:inherit font-lock-keyword-face))))
+ '(scala-font-lock:var-face ((t (:inherit font-lock-variable-name-face))))
  '(show-paren-mismatch ((t (:foreground "red" :overline nil :underline nil :slant normal :weight bold))))
  '(web-mode-html-attr-engine-face ((t (:inherit web-mode-html-attr-name-face))))
  '(web-mode-html-attr-equal-face ((t (:inherit web-mode-tag-bracket-face))))
