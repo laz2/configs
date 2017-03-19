@@ -5,6 +5,6 @@ play -q /usr/share/sounds/ubuntu/notifications/Amsterdam.ogg
 while true
 do
     sleep 2m
-    sleep 5s
+    sleep 10s
     play -q /usr/share/sounds/ubuntu/notifications/Amsterdam.ogg
 done
