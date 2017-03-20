@@ -6,7 +6,7 @@
   (interactive "P")
   (compile (format (concat
                     "cd %s && "
-                    "source ~/.virtualenvs/ks/bin/activate && "
+                    "source ~/.virtualenvs/oldfashioned/bin/activate && "
                     "source lxc/os/env/development.sh && "
                     "cd backend/s7 && "
                     "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test %s--noinput")
@@ -17,7 +17,7 @@
   (interactive "P")
   (compile (format (concat
                     "cd %s && "
-                    "source ~/.virtualenvs/ks/bin/activate && "
+                    "source ~/.virtualenvs/oldfashioned/bin/activate && "
                     "source lxc/os/env/development.sh && "
                     "cd backend/s7 && "
                     "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test --failfast %s--noinput %s")

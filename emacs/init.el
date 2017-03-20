@@ -9,7 +9,7 @@
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
         ("melpa" . "http://melpa.org/packages/")
-        ("melpa-stable" . "http://melpa-stable.milkbox.net/packages/")))
+        ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
 (dolist (p '(
              use-package
@@ -579,7 +579,7 @@
 (use-package flycheck
   :ensure
   :config
-  (add-to-list 'golden-ratio-exclude-buffer-names "*Flycheck errors*")
+  (buffer-on-bottom-side "^\\*Flycheck ")
   (add-hook 'after-init-hook #'global-flycheck-mode))
 
 (use-package helm-flycheck
@@ -1082,7 +1082,9 @@
   :commands ensime
   :pin melpa-stable
   :init
-  (buffer-on-bottom-side "^\\*Uses\\*$"))
+  (buffer-on-bottom-side "^\\*Uses\\*$")
+  (buffer-on-bottom-side "^\\*Inspector\\*$")
+  (buffer-on-bottom-side "^\\*ENSIME-Compilation-Result\\*$"))
 
 (use-package gradle-mode
   :ensure
