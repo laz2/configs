@@ -1,7 +1,7 @@
 #!/bin/bash
 # -*- mode: shell-script; -*-
-sudo apt install -y zsh zsh-syntax-highlighting
-mkdir -p .zsh-custom
+sudo apt install -y zsh zsh-syntax-highlighting curl
+mkdir -p ~/.zsh-custom
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"

@@ -426,6 +426,7 @@
   :commands dired-mode)
 
 (use-package projectile
+  :ensure
   :load-path "~/dev/projectile"
   :demand
   :bind (
@@ -439,6 +440,7 @@
   (buffer-on-bottom-side "^\\*Async Shell Command\\*$"))
 
 (use-package helm-projectile
+  :ensure
   :load-path "~/dev/helm-projectile"
   :demand
   :bind (

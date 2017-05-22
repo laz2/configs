@@ -12,29 +12,26 @@ function remove {
 install aptitude
 install tmux xclip
 install emacs emacs-goodies-el silversearcher-ag
-install krusader konsole
+install krusader
 install tilda
-install liferea
 install cmake
 install htop
 install thunderbird
-install firefox
 install network-manager-openconnect
-# install workrave
 install virtualbox
 install git git-flow
 install subversion
 install meld
 install filezilla
-install dconf-cli
-install dconf-editor
+install dconf-cli dconf-editor
 install wmctrl
 install sshpass
 install unetbootin
+install ubuntu-restricted-extras
+install sox
 
 install python-pip
 install python-dev
-sudo pip install thefuck --upgrade
 
 remove unity-scope-video-remote
 remove unity-scope-musicstores

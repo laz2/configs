@@ -15,7 +15,11 @@ make_link $SCRIPT_ROOT_PATH/tmux.conf ~/.tmux.conf
 make_link $SCRIPT_ROOT_PATH/gitconfig ~/.gitconfig
 make_link $SCRIPT_ROOT_PATH/selected_editor ~/.selected_editor
 make_link $SCRIPT_ROOT_PATH/hgrc ~/.hgrc
+mkdir -p ~/.gradle
 make_link $SCRIPT_ROOT_PATH/init.gradle ~/.gradle/init.gradle
+
+mkdir -p ~/.config/tilda
+cp $SCRIPT_ROOT_PATH/tilda/* ~/.config/tilda
 
 make_link $SCRIPT_ROOT_PATH/Xresources ~/.Xresources
 xrdb -merge ~/.Xresources
