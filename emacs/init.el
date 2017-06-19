@@ -26,10 +26,6 @@
 (setq use-package-verbose t)
 (use-package diminish)
 
-(defun my/load-rc (name)
-  (let ((rc-name (concat "rc-" name)))
-    (load (concat "~/emacs/" rc-name))))
-
 (use-package s
   :ensure)
 
@@ -37,6 +33,7 @@
   :ensure)
 
 (setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
 
 (use-package subword
   :diminish subword-mode
@@ -263,7 +260,6 @@
 (setq scroll-preserve-screen-position 'always)
 ;; (setq scroll-conservatively 10000)
 (setq auto-window-vscroll t)
-(setq default-tab-width 4)
 (global-hl-line-mode -1)
 (windmove-default-keybindings 'meta)
 (desktop-save-mode t)
@@ -988,8 +984,6 @@
   :config
   (setq miniedit-show-help-p nil))
 
-(my/load-rc "kstation")
-
 (use-package magit
   :ensure
   :bind (("C-x g" . magit-status)))
@@ -1111,6 +1105,15 @@
 
 (use-package debbugs
   :ensure)
+
+(use-package postgresql-project
+  :commands pgsql-c-mode
+  :init
+  (setq auto-mode-alist
+        (cons '("\\(postgresql\\|pgsql\\|pgwork\\).*\\.\\(cc\\|[chyl]\\)\\'" . pgsql-c-mode)
+              auto-mode-alist)))
+
+(use-package kstation-project)
 
 (load-theme 'sitaramv-nt t t)
 (enable-theme 'sitaramv-nt)

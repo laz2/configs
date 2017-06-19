@@ -9,6 +9,8 @@ function make_link {
     ln -f -s $1 $2
 }
 
+mkdir -p ~/local/bin
+
 make_link $SCRIPT_ROOT_PATH/profile ~/.profile
 make_link $SCRIPT_ROOT_PATH/zshrc ~/.zshrc
 make_link $SCRIPT_ROOT_PATH/tmux.conf ~/.tmux.conf

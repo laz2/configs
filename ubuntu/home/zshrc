@@ -6,6 +6,8 @@ ZSH_THEME="robbyrussell"
 
 HIST_STAMPS="dd.mm.yyyy"
 
+export WORKON_HOME="$HOME/.virtualenvs"
+
 ZSH_CUSTOM=$HOME/.zsh-custom
 plugins=(
     git svn hg
