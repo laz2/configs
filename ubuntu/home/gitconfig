@@ -2,6 +2,7 @@
     st = status -s
     pr = pull --rebase
     pu = push
+    punv = push --no-verify
     ci = commit -v
     co = checkout
     di = diff

@@ -1,0 +1,4 @@
+#!/bin/sh
+# -*- mode: shell-script; -*-
+
+redis-cli KEYS "*" | xargs redis-cli DEL
