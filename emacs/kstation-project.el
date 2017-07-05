@@ -61,4 +61,4 @@
 
 (dir-locals-set-directory-class "/home/user/dev/kstation" 'kstation-project)
 
-(provide 'rc-kstation)
+(provide 'kstation-project)

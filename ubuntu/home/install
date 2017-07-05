@@ -17,6 +17,7 @@ make_link $SCRIPT_ROOT_PATH/tmux.conf ~/.tmux.conf
 make_link $SCRIPT_ROOT_PATH/gitconfig ~/.gitconfig
 make_link $SCRIPT_ROOT_PATH/selected_editor ~/.selected_editor
 make_link $SCRIPT_ROOT_PATH/hgrc ~/.hgrc
+make_link $SCRIPT_ROOT_PATH/psqlrc ~/.psqlrc
 mkdir -p ~/.gradle
 make_link $SCRIPT_ROOT_PATH/init.gradle ~/.gradle/init.gradle
 
