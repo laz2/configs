@@ -12,6 +12,9 @@
 
 (defun pgsql-c-mode ()
   (c-mode)
-  (c-set-style "pgsql"))
+  (c-set-style "pgsql")
+  (ggtags-mode)
+  (setq-local projectile-globally-ignored-file-suffixes
+              (cons ".o" projectile-globally-ignored-file-suffixes)))
 
 (provide 'postgresql-project)

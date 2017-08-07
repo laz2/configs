@@ -1106,6 +1106,20 @@
 (use-package debbugs
   :ensure)
 
+(use-package ggtags
+  :ensure
+  :commands ggtags-mode
+  :init
+  (buffer-on-bottom-side "^\\*ggtags-global\\*$"))
+
+(use-package helm-gtags
+  :ensure
+  :commands helm-gtags-mode)
+
+(use-package rtags
+  :ensure
+  :commands rtags-mode)
+
 (use-package postgresql-project
   :commands pgsql-c-mode
   :init
