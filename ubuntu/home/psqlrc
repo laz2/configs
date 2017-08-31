@@ -3,7 +3,7 @@
 
 \pset pager off
 \pset null '(null)'
-\pset expanded auto
+\pset expanded off
 
 \set PROMPT1 '%M:%> %n@%/%R%#%x '
 \set PROMPT2 :PROMPT1
@@ -14,6 +14,8 @@
 \set VERBOSITY verbose
 \set ON_ERROR_ROLLBACK interactive
 \set COMP_KEYWORD_CASE lower
+
+\set bpid 'select pg_backend_pid();'
 
 prepare index_toggle as
 update pg_index set indisvalid = not indisvalid where indexrelid = $1::regclass;

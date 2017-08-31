@@ -14,7 +14,10 @@
   (c-mode)
   (c-set-style "pgsql")
   (ggtags-mode)
+  (helm-gtags-mode)
   (setq-local projectile-globally-ignored-file-suffixes
-              (cons ".o" projectile-globally-ignored-file-suffixes)))
+              (append
+               (list ".o")
+               projectile-globally-ignored-file-suffixes)))
 
 (provide 'postgresql-project)

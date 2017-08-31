@@ -1035,6 +1035,8 @@
 
 (use-package realgud
   :ensure
+  :init
+  (setq-default realgud-safe-mode nil)
   :config
   (buffer-on-bottom-side "^\\*ipdb .* shell\\*$"))
 
@@ -1100,11 +1102,22 @@
   (buffer-on-bottom-side "^\\*EditorConfig Properties\\*$"))
 
 (use-package pcap-mode
-  :ensure
+  :ensure t
   :commands pcap-mode)
 
 (use-package debbugs
-  :ensure)
+  :ensure t)
+
+(use-package ggtags
+  :ensure t
+  :commands ggtags-mode
+  :init
+  (buffer-on-bottom-side "^\\*ggtags-global\\*$"))
+
+(use-package helm-gtags
+  :ensure t
+  :commands helm-gtags-mode
+  :diminish helm-gtags-mode)
 
 (use-package ggtags
   :ensure
