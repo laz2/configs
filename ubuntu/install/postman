@@ -1,0 +1,20 @@
+#!/bin/bash
+# -*- mode: shell-script; -*-
+set -e
+
+wget https://dl.pstmn.io/download/latest/linux64 -O ~/tmp/postman.tar.gz
+mkdir -p ~/tools
+tar -xzf ~/tmp/postman.tar.gz -C ~/tools
+rm -f ~/bin/postman
+ln -s ~/tools/Postman/Postman ~/bin/postman
+
+cat > ~/.local/share/applications/postman.desktop <<EOL
+[Desktop Entry]
+Encoding=UTF-8
+Name=Postman
+Exec=$HOME/tools/Postman/Postman
+Icon=$HOME/tools/Postman/resources/app/assets/icon.png
+Terminal=false
+Type=Application
+Categories=Development;
+EOL
