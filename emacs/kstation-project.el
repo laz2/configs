@@ -1,6 +1,6 @@
 
-(setq flycheck-python-pycompile-executable "~/.virtualenvs/ks/bin/python3")
-(setq flycheck-python-flake8-executable "~/.virtualenvs/ks/bin/flake8")
+(setq flycheck-python-pycompile-executable "~/.virtualenvs/oldfashioned/bin/python3")
+(setq flycheck-python-flake8-executable "~/.virtualenvs/oldfashioned/bin/flake8")
 
 (defun kstation/django-test-app (arg)
   (interactive "P")
@@ -42,7 +42,19 @@
 
 (defun kstation/lint (arg)
   (interactive "P")
-  (compile (format "cd %s && fab lint"
+  (compile (format (concat
+                    "cd %s && "
+                    "source ~/.virtualenvs/oldfashioned/bin/activate && "
+                    "fab lint")
+                   (projectile-project-root))))
+
+(defun kstation/ui-lint (arg)
+  (interactive "P")
+  (compile (format (concat
+                    "cd %s && "
+                    "source ~/.virtualenvs/oldfashioned/bin/activate && "
+                    "cd ui/ && "
+                    "gulp lint")
                    (projectile-project-root))))
 
 (global-set-key (kbd "C-c C-t a") 'kstation/django-test-app)

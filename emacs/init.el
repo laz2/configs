@@ -350,6 +350,7 @@
 
 (use-package ag
   :ensure
+  :bind (("C-M-S-f" . ag))
   :config
   (add-to-list 'golden-ratio-exclude-buffer-regexp "*ag search"))
 
