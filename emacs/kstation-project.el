@@ -1,16 +1,15 @@
 
-(setq flycheck-python-pycompile-executable "~/.virtualenvs/oldfashioned/bin/python3")
-(setq flycheck-python-flake8-executable "~/.virtualenvs/oldfashioned/bin/flake8")
+(defun kstation/format-enter-cmd ()
+  (format (concat "cd %s && "
+                  "source ~/.virtualenvs/oldfashioned/bin/activate")
+          (projectile-project-root)))
 
 (defun kstation/django-test (arg file)
   (compile
    (format (concat
-            "cd %s && "
-            "source ~/.virtualenvs/oldfashioned/bin/activate && "
-            "source lxc/os/env/development.sh && "
+            (kstation/format-enter-cmd) " && "
             "cd backend/s7 && "
             "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test %s--noinput %s")
-           (projectile-project-root)
            (if arg "" "--keepdb ")
            file)
    t))
@@ -23,7 +22,7 @@
                              (expand-file-name
                               (concat (projectile-project-root) "/backend/s7"))))))
 
-(defun kstation/django-test-app (arg)
+(defun kstation/django-test-project (arg)
   (interactive "P")
   (kstation/django-test arg ""))
 
@@ -53,38 +52,28 @@
                              (first (split-string (car imenu)))
                              (first (split-string (car entry))))))))
 
-(defun kstation/lint (arg)
-  (interactive "P")
-  (compile (format (concat
-                    "cd %s && "
-                    "source ~/.virtualenvs/oldfashioned/bin/activate && "
-                    "fab lint")
-                   (projectile-project-root))))
+(defun kstation/lint-generic (cmd)
+  (compile (format "%s && %s" (kstation/format-enter-cmd) cmd)))
 
-(defun kstation/ui-lint (arg)
-  (interactive "P")
-  (compile (format (concat
-                    "cd %s && "
-                    "source ~/.virtualenvs/oldfashioned/bin/activate && "
-                    "cd ui/ && "
-                    "gulp lint")
-                   (projectile-project-root))))
+(defun kstation/lint-all ()
+  (interactive)
+  (kstation/lint-generic "fab lint"))
 
-(global-set-key (kbd "C-c C-t a") 'kstation/django-test-app)
-(global-set-key (kbd "C-c C-t r") 'kstation/django-test-file)
-(global-set-key (kbd "C-c C-t t") 'kstation/django-test-test)
+(defun kstation/lint-py ()
+  (interactive)
+  (kstation/lint-generic "fab lint_py"))
 
-(dir-locals-set-class-variables
- 'kstation-project
- '((nil . ((fill-column . 80)))
-   ("backend/s7"
-    . ((fill-column . 120)
-       (eval . (progn
-                 (message "Hello from kstation!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                 (local-set-key (kbd "C-c t a") 'kstation/django-compile-file)))))
-   ("ui" . ((eval . (progn
-                      (local-set-key (kbd "C-c t a") 'kstation/ui-compile-command)))))))
+(defun kstation/lint-ui ()
+  (interactive)
+  (kstation/lint-generic "fab lint_ui"))
 
-(dir-locals-set-directory-class "/home/user/dev/kstation" 'kstation-project)
+(defun kstation-python-mode ()
+  (interactive)
+  (python-mode)
+  (setq-local flycheck-python-pycompile-executable "~/.virtualenvs/oldfashioned/bin/python3")
+  (setq-local flycheck-python-flake8-executable "~/.virtualenvs/oldfashioned/bin/flake8")
+  (local-set-key (kbd "C-c C-t p") 'kstation/django-test-project)
+  (local-set-key (kbd "C-c C-t f") 'kstation/django-test-file)
+  (local-set-key (kbd "C-c C-t t") 'kstation/django-test-test))
 
 (provide 'kstation-project)

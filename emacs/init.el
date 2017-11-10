@@ -599,6 +599,7 @@
   (add-to-list 'golden-ratio-exclude-buffer-names "*ert*")
   (buffer-on-bottom-side "^\\*ert\\*$")
   (add-hook 'emacs-lisp-mode-hook (lambda ()
+                                    (paredit-mode)
                                     (add-to-list 'flycheck-disabled-checkers 'emacs-lisp-checkdoc))))
 
 (use-package json-snatcher
@@ -1141,7 +1142,11 @@
         (cons '("\\(postgresql\\|pgsql\\|pgwork\\).*\\.\\(cc\\|[chyl]\\)\\'" . pgsql-c-mode)
               auto-mode-alist)))
 
-(use-package kstation-project)
+(use-package kstation-project
+  :init
+  (setq auto-mode-alist
+        (cons '("\\(oldfashioned\\).*\\.\\(py\\)\\'" . kstation-python-mode)
+              auto-mode-alist)))
 
 (load-theme 'sitaramv-nt t t)
 (enable-theme 'sitaramv-nt)
