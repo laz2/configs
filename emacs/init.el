@@ -842,9 +842,15 @@
   :config
   (tern-ac-setup))
 
+(use-package paredit
+  :ensure
+  :diminish paredit-mode)
+
 (use-package clojure-mode
   :ensure
-  :commands clojure-mode)
+  :commands clojure-mode
+  :init
+  (add-hook 'clojure-mode-hook 'paredit-mode))
 
 (use-package cider
   :ensure
@@ -852,7 +858,9 @@
   :init
   (add-hook 'clojure-mode-hook 'cider-mode)
   (buffer-on-bottom-side "^\\*cider-error\\*$")
-  (buffer-on-bottom-side "^\\*cider-doc\\*$"))
+  (buffer-on-bottom-side "^\\*cider-doc\\*$")
+  (buffer-on-bottom-side "^\\*cider-repl ")
+  (buffer-on-bottom-side "^\\*cider-test-report\\*$"))
 
 (use-package coffee-mode
   :ensure
@@ -1145,7 +1153,7 @@
 (use-package kstation-project
   :init
   (setq auto-mode-alist
-        (cons '("\\(oldfashioned\\).*\\.\\(py\\)\\'" . kstation-python-mode)
+        (cons '("\\(oldfashioned\\|station\\).*\\.\\(py\\)\\'" . kstation-python-mode)
               auto-mode-alist)))
 
 (load-theme 'sitaramv-nt t t)
