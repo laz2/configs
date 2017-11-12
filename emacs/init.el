@@ -483,6 +483,14 @@
   (add-to-list 'my/trailing-whitespace-modes 'python-mode)
   (setq python-environment-directory "~/.virtualenvs"))
 
+(use-package pyvenv
+  :ensure)
+
+(use-package auto-virtualenv
+  :ensure
+  :init
+  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv))
+
 (use-package py-autopep8
   :ensure)
 
@@ -503,7 +511,6 @@
   :init
   (setq jedi:complete-on-dot t)
   (setq jedi:use-shortcuts t)
-  (setq jedi:environment-root "ks")
   (add-hook 'python-mode-hook 'jedi:setup)
   :config
   (add-to-list 'golden-ratio-exclude-buffer-regexp "\\`\\*jedi.*?\\*\\'"))
@@ -590,13 +597,16 @@
   :config
   (flycheck-checkbashisms-setup))
 
+(use-package ielm
+  :init
+  (buffer-on-bottom-side "^\\*ielm\\*$"))
+
 (use-package emacs-lisp-mode
   :bind (("<f5>" . eval-buffer))
   :commands emacs-lisp-mode
   :init
   ;; (add-to-list 'my/untabify-modes 'emacs-lisp-mode)
   (add-to-list 'my/trailing-whitespace-modes 'emacs-lisp-mode)
-  (add-to-list 'golden-ratio-exclude-buffer-names "*ert*")
   (buffer-on-bottom-side "^\\*ert\\*$")
   (add-hook 'emacs-lisp-mode-hook (lambda ()
                                     (paredit-mode)
@@ -1150,11 +1160,10 @@
         (cons '("\\(postgresql\\|pgsql\\|pgwork\\).*\\.\\(cc\\|[chyl]\\)\\'" . pgsql-c-mode)
               auto-mode-alist)))
 
-(use-package kstation-project
+(use-package ks2-project
   :init
   (setq auto-mode-alist
-        (cons '("\\(oldfashioned\\|station\\).*\\.\\(py\\)\\'" . kstation-python-mode)
-              auto-mode-alist)))
+        (cons '("\\(ks2\\).*\\.\\(py\\)\\'" . ks2-python-mode) auto-mode-alist)))
 
 (load-theme 'sitaramv-nt t t)
 (enable-theme 'sitaramv-nt)
