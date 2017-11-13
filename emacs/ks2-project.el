@@ -1,10 +1,14 @@
 
 (defvar ks2/test-last-cmd)
 
+(defconst ks2/lxc-env-path
+  "lxc/os/env/development.sh")
+
 (defun ks2/format-enter-cmd ()
   (format (concat "cd %s && "
-                  "source lxc/os/env/development.sh")
-          (projectile-project-root)))
+                  "source %s")
+          (projectile-project-root)
+          ks2/lxc-env-path))
 
 (defun ks2/run-test (cmd)
   (setq ks2/test-last-cmd cmd)
@@ -103,12 +107,14 @@
   (setq-local python-shell-interpreter-args
               (format (concat "-c \""
                               "cd %s && "
-                              "source lxc/os/env/development.sh && "
-                              "exec python -i backend/s7/manage.py shell_plus"
+                              "source %s && "
+                              "exec python -i backend/s7/manage.py shell_plus --plain"
                               "\"")
-                      (projectile-project-root)))
+                      (projectile-project-root)
+                      ks2/lxc-env-path))
   (setq-local python-shell-interpreter-interactive-arg "")
   (setq-local python-shell-prompt-detect-enabled nil)
+  (setq-local python-shell-completion-native-enable t)
   (local-set-key (kbd "C-c C-t r") 'ks2/django-test-repeat-last)
   (local-set-key (kbd "C-c C-t C-r") 'ks2/django-test-repeat-last)
   (local-set-key (kbd "C-c C-t p") 'ks2/django-test-project)
