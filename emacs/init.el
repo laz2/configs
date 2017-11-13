@@ -481,7 +481,8 @@
   :init
   (add-to-list 'my/untabify-modes 'python-mode)
   (add-to-list 'my/trailing-whitespace-modes 'python-mode)
-  (setq python-environment-directory "~/.virtualenvs"))
+  (setq python-environment-directory "~/.virtualenvs")
+  (buffer-on-bottom-side "^\\*Python\\*$"))
 
 (use-package pyvenv
   :ensure)
