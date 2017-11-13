@@ -99,6 +99,15 @@
 (defun ks2-python-mode ()
   (interactive)
   (python-mode)
+  (setq-local python-shell-interpreter "bash")
+  (setq-local python-shell-interpreter-args
+              (format (concat "-c \""
+                              "cd %s && "
+                              "source lxc/os/env/development.sh && "
+                              "exec python -i backend/s7/manage.py shell_plus"
+                              "\"")
+                      (projectile-project-root)))
+  (setq-local python-shell-interpreter-interactive-arg "")
   (local-set-key (kbd "C-c C-t r") 'ks2/django-test-repeat-last)
   (local-set-key (kbd "C-c C-t C-r") 'ks2/django-test-repeat-last)
   (local-set-key (kbd "C-c C-t p") 'ks2/django-test-project)
