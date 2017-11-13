@@ -108,6 +108,7 @@
                               "\"")
                       (projectile-project-root)))
   (setq-local python-shell-interpreter-interactive-arg "")
+  (setq-local python-shell-prompt-detect-enabled nil)
   (local-set-key (kbd "C-c C-t r") 'ks2/django-test-repeat-last)
   (local-set-key (kbd "C-c C-t C-r") 'ks2/django-test-repeat-last)
   (local-set-key (kbd "C-c C-t p") 'ks2/django-test-project)
