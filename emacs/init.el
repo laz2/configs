@@ -682,7 +682,7 @@
 (use-package go-mode
   :ensure
   :commands go-mode
-  :bind ("M-." . godef-jump)
+  ;; :bind ("M-." . godef-jump)
   :config
   (exec-path-from-shell-copy-env "GOPATH")
 
