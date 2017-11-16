@@ -508,6 +508,7 @@
 
 (use-package jedi
   :ensure
+  :load-path "~/dev/emacs-jedi"
   :commands jedi:setup
   :init
   (setq jedi:complete-on-dot t)
@@ -741,7 +742,8 @@
                        "^\\*Warnings\\*$"
                        "^\\*grep\\*$"
                        "^\\*ag search"
-                       "^\\*Compile-Log\\*$")
+                       "^\\*Compile-Log\\*$"
+                       "^\\*EPC Controller\\*$")
 
 (defun my/quit-bottom-side-windows ()
   "Quit bottom side windows of the current frame."
