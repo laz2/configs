@@ -743,7 +743,8 @@
                        "^\\*grep\\*$"
                        "^\\*ag search"
                        "^\\*Compile-Log\\*$"
-                       "^\\*EPC Controller\\*$")
+                       "^\\*EPC Controller\\*$"
+                       "^\\*xref\\*$")
 
 (defun my/quit-bottom-side-windows ()
   "Quit bottom side windows of the current frame."
