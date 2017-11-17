@@ -100,6 +100,13 @@
   (interactive)
   (ks2/lint-generic "fab lint_ui"))
 
+(defun ks2-projectile-mode ()
+  (interactive)
+  (setq-local projectile-globally-ignored-file-suffixes
+              (append
+               (list ".min.js")
+               projectile-globally-ignored-file-suffixes)))
+
 (defun ks2-python-mode ()
   (interactive)
   (python-mode)

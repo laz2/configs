@@ -1158,16 +1158,25 @@
   :commands rtags-mode)
 
 (use-package postgresql-project
-  :commands pgsql-c-mode
+  :commands (pgsql-c-mode
+             pgsql-projectile-mode)
   :init
   (setq auto-mode-alist
         (cons '("\\(postgresql\\|pgsql\\|pgwork\\).*\\.\\(cc\\|[chyl]\\)\\'" . pgsql-c-mode)
-              auto-mode-alist)))
+              auto-mode-alist))
+  (add-hook 'projectile-mode-hook (lambda ()
+                                    (when (string= (projectile-project-name) "postgresql")
+                                      (pgsql-projectile-mode)))))
 
 (use-package ks2-project
+  :commands (ks2-projectile-mode
+             ks2-python-mode)
   :init
   (setq auto-mode-alist
-        (cons '("\\(ks2\\).*\\.\\(py\\)\\'" . ks2-python-mode) auto-mode-alist)))
+        (cons '("\\(ks2\\).*\\.\\(py\\)\\'" . ks2-python-mode) auto-mode-alist))
+  (add-hook 'projectile-mode-hook (lambda ()
+                                    (when (string= (projectile-project-name) "ks2")
+                                      (ks2-projectile-mode)))))
 
 (load-theme 'sitaramv-nt t t)
 (enable-theme 'sitaramv-nt)
