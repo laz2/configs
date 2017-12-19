@@ -1,0 +1,17 @@
+
+"$HOME/cfg/ubuntu/shortcuts/skype.sh"
+    m:0xd + c:58
+    Control+Shift+Alt + s
+
+"$HOME/cfg/ubuntu/shortcuts/emacs.sh"
+    m:0xd + c:26
+    Control+Shift+Alt + e
+
+"$HOME/cfg/ubuntu/shortcuts/chrome.sh"
+    m:0xd + c:54
+    Control+Shift+Alt + c
+
+"$HOME/cfg/ubuntu/shortcuts/krusader.sh"
+    m:0xd + c:45
+    Control+Shift+Alt + k
+
