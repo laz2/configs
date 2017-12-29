@@ -1061,8 +1061,8 @@
   :ensure
   :init
   (setq-default realgud-safe-mode nil)
-  :config
-  (buffer-on-bottom-side "^\\*ipdb .* shell\\*$"))
+  (buffer-on-bottom-side "^\\*ipdb ")
+  (buffer-on-bottom-side "^\\*gdb "))
 
 (use-package buffer-move
   :ensure

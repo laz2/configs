@@ -13,15 +13,15 @@
 (defun pgsql-c-mode ()
   (interactive)
   (c-mode)
-  (c-set-style "pgsql")
-  (ggtags-mode)
-  (helm-gtags-mode))
+  (c-set-style "pgsql"))
 
 (defun pgsql-projectile-mode ()
   (interactive)
   (setq-local projectile-globally-ignored-file-suffixes
               (append
                (list ".o")
-               projectile-globally-ignored-file-suffixes)))
+               projectile-globally-ignored-file-suffixes))
+  (ggtags-mode)
+  (helm-gtags-mode))
 
 (provide 'postgresql-project)
