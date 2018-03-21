@@ -517,7 +517,7 @@
   :config
   (add-to-list 'golden-ratio-exclude-buffer-regexp "\\`\\*jedi.*?\\*\\'"))
 
-(use-package sh-mode
+(use-package sh-script
   :init
   (add-to-list 'my/untabify-modes 'sh-mode)
   (add-to-list 'my/trailing-whitespace-modes 'sh-mode)
@@ -900,7 +900,7 @@
 (use-package c++-mode
   :commands c++-mode
   :init
-  (add-to-list 'my/untabify-modes 'c++-mode)
+  ;; (add-to-list 'my/untabify-modes 'c++-mode)
   (add-to-list 'my/trailing-whitespace-modes 'c++-mode)
   (defun my/c++-mode-hook ()
     (setq tab-width 4)
@@ -937,7 +937,7 @@
   :ensure
   :disabled t)
 
-(use-package edit-server
+(use-package server
   :if window-system
   :init
   (add-hook 'after-init-hook 'server-start t))
@@ -1156,6 +1156,10 @@
 (use-package rtags
   :ensure
   :commands rtags-mode)
+
+(use-package solidity-mode
+  :ensure
+  :commands solidity-mode)
 
 (use-package postgresql-project
   :commands (pgsql-c-mode

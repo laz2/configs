@@ -19,7 +19,8 @@
                  (format (concat
                           (ks2/format-enter-cmd) " && "
                           "cd backend/s7 && "
-                          "python -W ignore::DeprecationWarning:RemovedInDjango19Warning ./manage.py test %s--noinput %s")
+                          "python -W ignore::DeprecationWarning:RemovedInDjango19Warning"
+                          " ./manage.py test %s --noinput %s --verbosity 2 ")
                          (if arg "" "--keepdb ")
                          file))))
     (ks2/run-test cmd)))
