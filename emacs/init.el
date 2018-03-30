@@ -4,7 +4,6 @@
   (normal-top-level-add-subdirs-to-load-path))
 
 (setq package-enable-at-startup nil)
-(package-initialize)
 
 (setq package-archives
       '(("gnu" . "http://elpa.gnu.org/packages/")
