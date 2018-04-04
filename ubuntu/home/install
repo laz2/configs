@@ -32,3 +32,7 @@ chmod u=rw,g=,o= ~/.zshrc_private
 
 make_link ~/cfg/emacs ~/emacs
 make_link ~/cfg/emacs/init.el ~/.emacs
+
+make_link $SCRIPT_ROOT_PATH/sbclrc ~/.sbclrc
+
+make_link $SCRIPT_ROOT_PATH/xbindkeysrc ~/.xbindkeysrc

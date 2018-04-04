@@ -347,6 +347,12 @@
   :ensure
   :commands helm-describe-modes)
 
+(use-package helm-xref
+  :ensure
+  :commands helm-xref-show-xrefs
+  :init
+  (setq xref-show-xrefs-function 'helm-xref-show-xrefs))
+
 (use-package ag
   :ensure
   :bind (("C-M-S-f" . ag))
@@ -497,6 +503,14 @@
 (use-package pip-requirements
   :ensure
   :commands pip-requirements-mode)
+
+(use-package pipenv
+  :commands pipenv-mode
+  :hook (python-mode . pipenv-mode)
+  :init
+  (setq
+   pipenv-projectile-after-switch-function
+   #'pipenv-projectile-after-switch-extended))
 
 (use-package cython-mode
   :ensure
@@ -887,14 +901,30 @@
   :config
   (add-to-list 'my/untabify-modes 'haskell-mode)
   (add-to-list 'my/trailing-whitespace-modes 'haskell-mode)
-  (add-hook 'haskell-mode-hook 'interactive-haskell-mode)
+  (add-hook 'haskell-mode-hook 'intero-mode)
   (setq haskell-process-suggest-remove-import-lines t)
   (setq haskell-process-auto-import-loaded-modules t)
   (setq haskell-process-log t)
   (setq haskell-process-show-debug-tips nil)
   (setq haskell-stylish-on-save t)
   (setq haskell-interactive-popups-error nil)
-  (buffer-on-bottom-side "^\\*haskell\\*$"))
+  (setq haskell-process-args-ghci
+        '("-ferror-spans" "-fshow-loaded-modules"))
+  (setq haskell-process-args-cabal-repl
+        '("--ghc-options=-ferror-spans -fshow-loaded-modules"))
+  (setq haskell-process-args-stack-ghci
+        '("--ghci-options=-ferror-spans -fshow-loaded-modules"
+          "--no-build" "--no-load"))
+  (setq haskell-process-args-cabal-new-repl
+        '("--ghc-options=-ferror-spans -fshow-loaded-modules"))
+  (buffer-on-bottom-side "^\\*haskell\\*$")
+  (buffer-on-bottom-side "^\\*HS-error\\*$"))
+
+(use-package intero
+  :ensure
+  :commands intero-mode
+  :config
+  (buffer-on-bottom-side "^\\*intero"))
 
 (use-package c++-mode
   :commands c++-mode
@@ -1170,6 +1200,18 @@
   (add-hook 'projectile-mode-hook (lambda ()
                                     (when (string= (projectile-project-name) "postgresql")
                                       (pgsql-projectile-mode)))))
+
+(use-package wireshark-project
+  :commands (wireshark-c-mode
+             wireshark-projectile-mode)
+  :init
+  (setq auto-mode-alist
+        (cons '("\\(wireshark\\).*\\.\\(cc\\|[chyl]\\)\\'" . wireshark-c-mode)
+              auto-mode-alist))
+  (add-hook 'projectile-mode-hook (lambda ()
+                                    (when (string= (projectile-project-name) "wireshark")
+                                      (wireshark-projectile-mode)))))
+
 
 (use-package ks2-project
   :commands (ks2-projectile-mode

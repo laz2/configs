@@ -1,0 +1,4 @@
+#!/bin/bash
+# -*- mode: shell-script; -*-
+
+curl -sSL https://get.haskellstack.org/ | sh /dev/stdin --dest $HOME/bin
