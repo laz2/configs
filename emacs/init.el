@@ -505,6 +505,7 @@
   :commands pip-requirements-mode)
 
 (use-package pipenv
+  :ensure
   :commands pipenv-mode
   :hook (python-mode . pipenv-mode)
   :init
@@ -1189,6 +1190,12 @@
 (use-package solidity-mode
   :ensure
   :commands solidity-mode)
+
+(use-package make-mode
+  :commands makefile-mode
+  :init
+  (add-hook 'makefile-mode-hook (lambda ()
+                                  (setq indent-tabs-mode t))))
 
 (use-package postgresql-project
   :commands (pgsql-c-mode

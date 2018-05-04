@@ -49,7 +49,7 @@ fi
 cmd=""
 if [ ! -z "$sudo" ] ; then
     if [ ! -z "$sudo_password" ] ; then
-        cmd="$cmd echo $sudo_password | sudo -S"
+        cmd="$cmd echo \"$sudo_password\" | sudo -S"
     else
         cmd="$cmd sudo"
     fi

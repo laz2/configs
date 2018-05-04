@@ -128,9 +128,9 @@
   (setq-local python-shell-interpreter-interactive-arg "")
   (setq-local python-shell-prompt-detect-enabled nil)
   (setq-local python-shell-completion-native-enable t)
-  (setq-local jedi:server-command "/home/user/.virtualenvs/ks2/lib/python3.5/site-packages/jediepcserver")
-  (setq-local jedi:server-args '("--log" "/home/user/jedi.log"
-                                 "--virtual-env" "/home/user/.virtualenvs/ks2"))
+  ;; (setq-local jedi:server-command "/home/user/.virtualenvs/ks2/lib/python3.5/site-packages/jediepcserver")
+  ;; (setq-local jedi:server-args '("--log" "/home/user/jedi.log"
+  ;;                                "--virtual-env" "/home/user/.virtualenvs/ks2"))
   (local-set-key (kbd "C-c C-t r") 'ks2/django-test-repeat-last)
   (local-set-key (kbd "C-c C-t C-r") 'ks2/django-test-repeat-last)
   (local-set-key (kbd "C-c C-t p") 'ks2/django-test-project)
