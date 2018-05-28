@@ -6,8 +6,8 @@ export HOME_CFG_ROOT=$UBUNTU_CFG_ROOT/home
 export PATH="$UBUNTU_CFG_ROOT/bin":$PATH
 
 export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient-snapshot -t" # $EDITOR should open in terminal
-export VISUAL="emacsclient-snapshot"    # $VISUAL opens in GUI with non-daemon as alternate
+export EDITOR="emacsclient-snapshot" # $EDITOR should open in terminal
+export VISUAL="emacsclient-snapshot" # $VISUAL opens in GUI with non-daemon as alternate
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
