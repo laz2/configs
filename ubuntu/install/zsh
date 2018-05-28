@@ -1,5 +1,6 @@
 #!/bin/bash
 # -*- mode: shell-script; -*-
+set -x
 sudo apt install -y zsh zsh-syntax-highlighting curl
 mkdir -p ~/.zsh-custom
 
