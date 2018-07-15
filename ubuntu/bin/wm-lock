@@ -1,0 +1,10 @@
+#!/bin/bash -l
+# -*- mode: shell-script; -*-
+
+dbus-send --print-reply \
+          --dest=org.gnome.SettingsDaemon.Keyboard \
+          /org/gnome/SettingsDaemon/Keyboard \
+          org.gnome.SettingsDaemon.Keyboard.SetInputSource \
+          uint32:0
+
+gnome-screensaver-command --lock
