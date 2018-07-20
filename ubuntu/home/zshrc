@@ -44,6 +44,8 @@ alias sreload='source ~/.zshrc'
 alias em="$EDITOR"
 alias vem="$VISUAL"
 
+alias apt-upgrade="sudo apt update && sudo apt upgrade"
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
 
