@@ -58,13 +58,6 @@
                    (side            . bottom)
                    (window-height   . 0.3)))))
 
-;; clean trailing whitespaces automatically
-(defvar my/trailing-whitespace-modes nil)
-(defun my/trailing-whitespace-hook ()
-  (when (member major-mode my/trailing-whitespace-modes)
-    (delete-trailing-whitespace)))
-(add-hook 'before-save-hook 'my/trailing-whitespace-hook)
-
 ;; untabify some modes
 (defvar my/untabify-modes nil)
 (defun my/untabify-hook ()
@@ -479,13 +472,11 @@
   :mode "Rakefile"
   :mode "Vagrantfile"
   :init
-  (add-to-list 'my/untabify-modes 'ruby-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'ruby-mode))
+  (add-to-list 'my/untabify-modes 'ruby-mode))
 
 (use-package python
   :init
   (add-to-list 'my/untabify-modes 'python-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'python-mode)
   (setq python-environment-directory "~/.virtualenvs")
   (buffer-on-bottom-side "^\\*Python\\(\\[.+\\]\\)?\\*$"))
 
@@ -534,7 +525,6 @@
 (use-package sh-script
   :init
   (add-to-list 'my/untabify-modes 'sh-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'sh-mode)
   :config
   (setq-default sh-basic-offset 2
                 sh-indentation 2))
@@ -622,7 +612,6 @@
   :commands emacs-lisp-mode
   :init
   ;; (add-to-list 'my/untabify-modes 'emacs-lisp-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'emacs-lisp-mode)
   (buffer-on-bottom-side "^\\*ert\\*$")
   (add-hook 'emacs-lisp-mode-hook (lambda ()
                                     (paredit-mode)
@@ -685,8 +674,7 @@
   :commands nginx-mode
   :mode "nginx\\.conf"
   :init
-  (add-to-list 'my/untabify-modes 'nginx-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'nginx-mode))
+  (add-to-list 'my/untabify-modes 'nginx-mode))
 
 (use-package go-projectile
   :ensure
@@ -805,7 +793,6 @@
   :mode "\\.js\\'"
   :config
   (add-to-list 'my/untabify-modes 'js2-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'js2-mode)
 
   (setq js2-highlight-level 2)
   (setq js2-strict-inconsistent-return-warning nil)
@@ -901,7 +888,6 @@
   :commands haskell-mode
   :config
   (add-to-list 'my/untabify-modes 'haskell-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'haskell-mode)
   (add-hook 'haskell-mode-hook 'intero-mode)
   (setq haskell-process-suggest-remove-import-lines t)
   (setq haskell-process-auto-import-loaded-modules t)
@@ -931,7 +917,6 @@
   :commands c++-mode
   :init
   ;; (add-to-list 'my/untabify-modes 'c++-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'c++-mode)
   (defun my/c++-mode-hook ()
     (setq tab-width 4)
     (setq c++-auto-hungry-initial-state 'none)
@@ -948,8 +933,7 @@
 (use-package c-mode
   :commands c-mode
   :init
-  (add-to-list 'my/untabify-modes 'c-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'c-mode))
+  (add-to-list 'my/untabify-modes 'c-mode))
 
 (defun goto-line-with-feedback ()
   "Show line numbers temporarily, while prompting for the line
@@ -1019,7 +1003,6 @@
   :commands stylus-mode
   :config
   (add-to-list 'my/untabify-modes 'stylus-mode)
-  (add-to-list 'my/trailing-whitespace-modes 'stylus-mode)
   (add-hook 'stylus-mode-hook (lambda ()
                                 (setq sws-tab-width 4))))
 
@@ -1192,10 +1175,16 @@
   :commands solidity-mode)
 
 (use-package make-mode
+  :ensure
   :commands makefile-mode
   :init
   (add-hook 'makefile-mode-hook (lambda ()
                                   (setq indent-tabs-mode t))))
+
+(use-package ws-butler
+  :ensure
+  :config
+  (ws-butler-global-mode))
 
 (use-package postgresql-project
   :commands (pgsql-c-mode
