@@ -1,11 +1,14 @@
 #!/bin/bash
 # -*- mode: shell-script; -*-
 set -x
-sudo apt install -y zsh zsh-syntax-highlighting curl
-mkdir -p ~/.zsh-custom
 
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+sudo apt install -y zsh curl
+
+ZSH_CUSTOM=~/.zsh
+mkdir -p ${ZSH_CUSTOM}
+
+if [ ! -f "${ZSH_CUSTOM}/antigen.zsh" ]; then
+    curl -L git.io/antigen > "${ZSH_CUSTOM}/antigen.zsh"
 fi
 
-kubectl completion zsh > $HOME/.zsh-custom/kubectl
+kubectl completion zsh > ${ZSH_CUSTOM}/kubectl
