@@ -10,6 +10,7 @@ typeset -g ZSH_SYSTEM_CLIPBOARD_TMUX_SUPPORT='true'
 typeset -g ZSH_SYSTEM_CLIPBOARD_XCLIP_SELECTION='PRIMARY'
 typeset -U path cdpath fpath manpath
 
+source ${ZSH}/kubectl.zsh
 source ${ZSH}/antigen.zsh
 
 antigen use oh-my-zsh
@@ -40,8 +41,6 @@ antigen bundle kutsan/zsh-system-clipboard
 antigen theme robbyrussell/oh-my-zsh themes/robbyrussell
 
 antigen apply
-
-source ${ZSH}/kubectl
 
 setopt nosharehistory
 unsetopt auto_cd
