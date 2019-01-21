@@ -1,0 +1,5 @@
+#!/bin/bash
+# -*- mode: shell-script; -*-
+
+sudo add-apt-repository ppa:ubuntu-elisp/ppa
+sudo apt install emacs-snapshot
