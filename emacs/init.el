@@ -113,6 +113,8 @@
 (setq query-replace-highlight    t) ; Highlight query object
 (setq mouse-sel-retain-highlight t) ; Keep mouse high-lightening
 
+(setq ring-bell-function 'ignore)
+
 (global-font-lock-mode t)
 
 (setq show-trailing-whitespace t)
