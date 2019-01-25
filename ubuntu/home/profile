@@ -25,3 +25,7 @@ if [ -f "$HOME/.profile_private" ]; then
 fi
 
 export GROOVY_HOME=$HOME/tools/groovy
+
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+    . $HOME/.nix-profile/etc/profile.d/nix.sh
+fi
