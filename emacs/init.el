@@ -520,6 +520,7 @@
   :init
   (setq jedi:complete-on-dot t)
   (setq jedi:use-shortcuts t)
+  (setq jedi:environment-root "emacs-jedi")
   (add-hook 'python-mode-hook 'jedi:setup)
   :config
   (add-to-list 'golden-ratio-exclude-buffer-regexp "\\`\\*jedi.*?\\*\\'"))
