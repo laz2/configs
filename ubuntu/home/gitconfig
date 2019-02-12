@@ -23,6 +23,7 @@
 [merge]
     tool = meld
     conflictstyle = diff3
+    ff = false
 [branch]
     autosetupmerge = always
     autosetuprebase = always
