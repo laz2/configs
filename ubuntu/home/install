@@ -36,3 +36,5 @@ make_link ~/cfg/emacs/init.el ~/.emacs
 make_link $SCRIPT_ROOT_PATH/sbclrc ~/.sbclrc
 
 make_link $SCRIPT_ROOT_PATH/xbindkeysrc ~/.xbindkeysrc
+
+make_link ~/cfg/vscode/settings.json $HOME/.config/Code/User/settings.json
