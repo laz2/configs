@@ -1,10 +1,11 @@
 #!/bin/bash -l
 # -*- mode: shell-script; -*-
 
-dbus-send --print-reply \
-          --dest=org.gnome.SettingsDaemon.Keyboard \
-          /org/gnome/SettingsDaemon/Keyboard \
-          org.gnome.SettingsDaemon.Keyboard.SetInputSource \
-          uint32:0
+set -e
+
+gdbus call --session --dest org.gnome.Shell \
+      --object-path /org/gnome/Shell \
+      --method org.gnome.Shell.Eval \
+      'imports.ui.status.keyboard.getInputSourceManager().inputSources[0].activate()'
 
 gnome-screensaver-command --lock
