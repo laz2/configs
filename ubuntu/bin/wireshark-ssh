@@ -4,47 +4,58 @@ set -e
 set -x
 
 function usage {
-  echo "$0 [-s] [-p=password] [-i=interface] [-p=port] [-l=name] user@host"
+  echo "$0 [--sudo] [--password=password] [--interface=interface] [--port=port] [--lxc=name] --host=user@host"
   exit 1
 }
 
 sudo_password=""
 sudo=""
+ssh_host=""
 ssh_port=22
 lxc_name=""
 ifaces=()
 
-while getopts ":s:i:h:l:p:o:" opt; do
-  case $opt in
-    p)
-      sudo_password="$OPTARG"
+TEMP=`getopt --options '' --long sudo,interface:,help,lxc:,port:,password:,host: -n '$0' -- "$@"`
+eval set -- "$TEMP"
+
+
+while true; do
+  case $1 in
+    --password)
+      sudo_password="$2"
+      shift 2
       ;;
-    s)
+    --sudo)
       sudo="yes"
+      shift
       ;;
-    i)
-      ifaces[${#ifaces[@]}]="$OPTARG"
+    --interface)
+      ifaces[${#ifaces[@]}]="$2"
+      shift 2
       ;;
-    o)
-      ssh_port="$OPTARG"
+    --port)
+      ssh_port="$2"
+      shift 2
       ;;
-    l)
-      lxc_name="$OPTARG"
+    --lxc)
+      lxc_name="$2"
+      shift 2
       ;;
-    h)
+    --host)
+      ssh_host="$2"
+      shift 2
+      ;;
+    --help)
       usage
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
+      break
       ;;
+    *)
+      break ;;
   esac
 done
-
-shift $((OPTIND-1))
-if [ -z "$1" ] ; then
-  usage
-  exit 1
-fi
 
 cmd=""
 if [ ! -z "$sudo" ] ; then
@@ -66,4 +77,4 @@ done
 
 cmd="$cmd -w - 'not port $ssh_port'"
 echo $cmd
-ssh -p $ssh_port $1 "$cmd" | wireshark -k -i -
+ssh -p $ssh_port $ssh_host "$cmd" | wireshark -k -i -
