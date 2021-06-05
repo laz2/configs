@@ -92,3 +92,12 @@ export GOPATH="$GODEV_HOME"
 mkdir -p $GODEV_HOME
 add_to_path "$GODEV_HOME/bin"
 add_to_path "/usr/lib/go/bin/"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+function work-env() {
+  local env_file=$(ls $PWD/.env/ | grep -v prompt.sh | fzf)
+  if [ -n "$env_file" ]; then
+    source "$PWD/.env/$env_file"
+  fi
+}
