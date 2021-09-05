@@ -1,6 +1,6 @@
 [alias]
     st = status -s
-    pr = pull --rebase
+    pr = pull --rebase --ff-only
     pu = push
     punv = push --no-verify
     ci = commit -v

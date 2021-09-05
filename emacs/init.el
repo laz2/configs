@@ -10,6 +10,7 @@
         ("melpa" . "http://melpa.org/packages/")
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
+(require 'package)
 (dolist (p '(use-package diminish))
   (let (refreshed)
     (when (not (package-installed-p p))

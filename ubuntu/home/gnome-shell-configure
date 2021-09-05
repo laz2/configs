@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+gsettings set org.gnome.mutter.keybindings switch-monitor "['XF86Display']"
+gsettings set org.gnome.mutter overlay-key 'Super_R'
+gsettings set org.gnome.shell.extensions.dash-to-dock shortcut "['']"
+gsettings set org.gnome.shell.extensions.dash-to-dock shortcut-text ''
+gsettings set org.gnome.desktop.wm.preferences mouse-button-modifier '<Super_R>'
+gsettings set org.gnome.settings-daemon.plugins.media-keys video-out ''
+gsettings set org.gnome.desktop.wm.keybindings panel-main-menu "['']"
+gsettings set org.gnome.shell.keybindings toggle-overview "['']"

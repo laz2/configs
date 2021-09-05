@@ -5,5 +5,8 @@
         "**/.git/subtree-cache/**": true,
         "**/node_modules/*/**": true,
         "**/.gradle/*/**": true
-    }
+    },
+    "C_Cpp.default.intelliSenseMode": "gcc-x64",
+    "C_Cpp.dimInactiveRegions": false,
+    "C_Cpp.updateChannel": "Insiders"
 }
