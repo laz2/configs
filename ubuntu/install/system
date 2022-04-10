@@ -35,3 +35,6 @@ install python-dev
 
 remove unity-scope-video-remote
 remove unity-scope-musicstores
+
+gsettings set org.gnome.desktop.interface enable-animations false
+gsettings set org.gnome.shell.extensions.dash-to-dock animate-show-apps false
