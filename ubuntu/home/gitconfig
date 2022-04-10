@@ -1,3 +1,6 @@
+[core]
+    precomposeunicode = true
+    quotePath = false
 [alias]
     st = status -s
     pr = pull --rebase --ff-only
