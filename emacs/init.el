@@ -11,6 +11,7 @@
         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
 (require 'package)
+(package-initialize)
 (dolist (p '(use-package diminish))
   (let (refreshed)
     (when (not (package-installed-p p))
